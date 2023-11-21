@@ -71,7 +71,11 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "var(--font-sarabun)"],
+        sans: [
+          "var(--font-geist-sans)",
+          "var(--font-ibm-plex-sans-thai-looped)",
+          "var(--font-sarabun)",
+        ],
         mono: ["var(--font-geist-mono)"],
       },
     },

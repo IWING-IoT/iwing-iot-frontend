@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-import { Sarabun } from "next/font/google";
+import { Sarabun, IBM_Plex_Sans_Thai_Looped } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
@@ -18,6 +18,12 @@ const sarabun = Sarabun({
   variable: "--font-sarabun",
 });
 
+const ibm_plex_sans_thai_looped = IBM_Plex_Sans_Thai_Looped({
+  subsets: ["thai"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-ibm-plex-sans-thai-looped",
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -26,7 +32,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${GeistSans.variable} ${GeistMono.variable} ${sarabun.variable}`}
+      className={`${GeistSans.variable} ${GeistMono.variable} ${sarabun.variable} ${ibm_plex_sans_thai_looped.variable}`}
       suppressHydrationWarning
     >
       <body className="font-sans">

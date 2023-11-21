@@ -72,7 +72,7 @@ export default function NavContent({ handleClickLink }: SideBarProps) {
               <NavItem
                 href={"/project"}
                 label={item}
-                icon={<HomeIcon />}
+                icon={<Avvvatars value={item} size={24} borderSize={1} />}
                 key={item}
                 onClick={handleClickLink}
               />
