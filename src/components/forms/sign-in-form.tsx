@@ -44,7 +44,7 @@ export default function SignInForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex grow flex-col gap-6 self-stretch"
+        className="flex flex-1 flex-col gap-6 self-stretch"
       >
         <FormField
           control={form.control}

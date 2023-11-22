@@ -10,7 +10,7 @@ export function Header({ children, className }: HeaderProps) {
   return (
     <header
       className={cn(
-        "flex w-full justify-between border-b p-4 sm:p-6",
+        "flex w-full flex-col gap-5 border-b p-4 sm:p-6",
         className,
       )}
     >
@@ -20,7 +20,20 @@ export function Header({ children, className }: HeaderProps) {
 }
 
 export function HeaderContent({ children, className }: HeaderProps) {
-  return <div className={cn("flex flex-col gap-2", className)}>{children}</div>;
+  return (
+    <div
+      className={cn(
+        "flex flex-col justify-between gap-4 sm:flex-row",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
+export function HeaderTitleAndSupporting({ children, className }: HeaderProps) {
+  return <div className={cn("flex flex-col gap-1", className)}>{children}</div>;
 }
 
 export function HeaderTitle({ children, className }: HeaderProps) {

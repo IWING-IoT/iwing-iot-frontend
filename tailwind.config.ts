@@ -52,8 +52,8 @@ module.exports = {
         },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
+        lg: "calc(var(--radius) + 4px)",
+        md: "var(--radius)",
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
@@ -71,12 +71,11 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       fontFamily: {
-        sans: [
-          "var(--font-geist-sans)",
-          "var(--font-ibm-plex-sans-thai-looped)",
-          "var(--font-sarabun)",
-        ],
-        mono: ["var(--font-geist-mono)"],
+        sans: ["var(--font-inter)", "var(--font-sarabun)"],
+        mono: ["var(--font-roboto-mono)"],
+      },
+      height: {
+        screen: ["100vh", "100dvh"],
       },
     },
   },
