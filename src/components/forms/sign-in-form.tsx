@@ -13,6 +13,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "@/components/ui/use-toast";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -20,6 +22,7 @@ const formSchema = z.object({
 });
 
 export default function SignInForm() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -29,15 +32,22 @@ export default function SignInForm() {
     mode: "onBlur",
   });
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    const { email, password } = data;
+
+    const signInResult = await signIn("credentials", {
+      email,
+      password,
+      callbackUrl: "/home",
+      redirect: true,
     });
+
+    if (signInResult?.error) {
+      console.log(signInResult.error);
+    } else {
+      console.log(signInResult);
+      router.refresh();
+    }
   }
 
   return (

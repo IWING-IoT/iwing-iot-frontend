@@ -1,19 +1,22 @@
+"use client";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { useAtom } from "jotai";
+import { sheetAtom } from "@/store/atoms";
 
 type NavItemProps = {
   label: string;
   icon: React.ReactNode;
   href: string;
-  onClick?: () => void;
 };
 
-export default function NavItem({ label, icon, href, onClick }: NavItemProps) {
+export default function NavItem({ label, icon, href }: NavItemProps) {
+  const [open, setOpen] = useAtom(sheetAtom);
   return (
     <Button
       variant="ghost"
       className="flex flex-1 items-center justify-start gap-2 rounded-md px-3 py-2 text-muted-foreground"
-      onClick={onClick}
+      onClick={() => setOpen(false)}
       asChild
     >
       <Link

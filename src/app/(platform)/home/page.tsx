@@ -1,10 +1,8 @@
-"use client";
 import { SearchInput } from "@/components/ui/input";
 import SortDropDown from "@/components/molecules/dropdowns/project-sort-dropdown";
 import ProjectCard from "@/components/molecules/project-card";
-import { fetchProject, mockApiProject } from "@/app/_api/fetch-project";
+import { fetchProject } from "@/lib/data-fetching";
 import { formatDate } from "@/lib/utils";
-import { useSuspenseQuery } from "@tanstack/react-query";
 
 type project = {
   id: string;
@@ -14,12 +12,8 @@ type project = {
   startedAt: string;
 };
 
-export default function Home() {
-  const { data } = useSuspenseQuery({
-    queryKey: ["projectsData"],
-    queryFn: mockApiProject,
-  });
-
+export default async function Home() {
+  const { data } = await fetchProject();
   return (
     <>
       <div className="flex justify-between gap-3">

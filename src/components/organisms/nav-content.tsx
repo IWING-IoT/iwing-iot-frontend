@@ -1,34 +1,25 @@
-"use client";
-import Avvvatars from "avvvatars-react";
 import Logo from "@/components/atoms/logo";
 import {
   ArchiveIcon,
   FileCode,
   Home,
-  HomeIcon,
   Router,
   Settings,
   Users,
 } from "lucide-react";
 import { Separator } from "../ui/separator";
-import { ScrollArea } from "../ui/scroll-area";
 import NavItem from "../molecules/nav-item";
+import NavProjectList from "./nav-project-list";
+import { fetchProject } from "@/lib/data-fetching";
+import NavProfile from "./nav-profile";
+import { getServerAuthSession } from "@/lib/auth";
 
 const topItems = [
   { label: "Home", href: "/home", icon: <Home /> },
   { label: "Devices", href: "/devices", icon: <Router /> },
   { label: "Firmware", href: "firmware", icon: <FileCode /> },
 ];
-const projectItems = [
-  "Dog track",
-  "Dog track 2",
-  "Dog track 3",
-  "Dog track 4",
-  "Dog track 5",
-  "Dog track 6",
-  "Dog track 7",
-  "Dog track 8",
-];
+
 const bottomItems = [
   {
     label: "Account management",
@@ -43,11 +34,10 @@ const bottomItems = [
   { label: "Settings", href: "settings", icon: <Settings /> },
 ];
 
-type SideBarProps = {
-  handleClickLink?: () => void;
-};
-
-export default function NavContent({ handleClickLink }: SideBarProps) {
+export default async function NavContent() {
+  const { data: projectData } = await fetchProject();
+  const session = await getServerAuthSession();
+  // console.log(session);
   return (
     <div className="flex h-full flex-1 flex-col gap-6">
       <div className="pl-6 pr-6">
@@ -61,24 +51,11 @@ export default function NavContent({ handleClickLink }: SideBarProps) {
               label={item.label}
               icon={item.icon}
               key={item.label}
-              onClick={handleClickLink}
             />
           ))}
         </div>
         <Separator />
-        <ScrollArea>
-          <div className="flex flex-1 flex-col gap-1 pl-4 pr-4">
-            {projectItems.map((item) => (
-              <NavItem
-                href={"/project"}
-                label={item}
-                icon={<Avvvatars value={item} size={24} borderSize={1} />}
-                key={item}
-                onClick={handleClickLink}
-              />
-            ))}
-          </div>
-        </ScrollArea>
+        <NavProjectList projectItems={projectData} />
       </div>
       <Separator />
       <div className="flex flex-col gap-6">
@@ -89,18 +66,11 @@ export default function NavContent({ handleClickLink }: SideBarProps) {
               label={item.label}
               icon={item.icon}
               key={item.label}
-              onClick={handleClickLink}
             />
           ))}
         </div>
         <Separator />
-        <div className="flex items-center gap-4 pl-4 pr-4">
-          <Avvvatars value="Olivia Rhye" size={40} borderSize={1} />
-          <div className="flex flex-col">
-            <p className="text-sm font-semibold">Olivia Rhye</p>
-            <p className="text-sm text-muted-foreground">Admin</p>
-          </div>
-        </div>
+        {session?.user && <NavProfile user={session.user} />}
       </div>
     </div>
   );

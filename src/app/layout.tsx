@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, Roboto_Mono, Sarabun } from "next/font/google";
+import { Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import QueryClientProvider from "@/components/providers/query-client-provider";
+import JotaiProvider from "@/components/providers/jotai-provider";
 
 export const metadata: Metadata = {
   title: "IWING IoT",
@@ -22,12 +23,6 @@ const roboto_mono = Roboto_Mono({
   variable: "--font-roboto-mono",
 });
 
-const sarabun = Sarabun({
-  subsets: ["thai"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-sarabun",
-});
-
 export default function RootLayout({
   children,
 }: {
@@ -36,7 +31,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${roboto_mono.variable} ${sarabun.variable}`}
+      className={`${inter.variable} ${roboto_mono.variable}`}
       suppressHydrationWarning
     >
       <body className="font-sans">
@@ -46,7 +41,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <QueryClientProvider>{children}</QueryClientProvider>
+          <JotaiProvider>
+            <QueryClientProvider>{children}</QueryClientProvider>
+          </JotaiProvider>
           <Toaster />
         </ThemeProvider>
       </body>
