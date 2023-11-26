@@ -1,39 +1,34 @@
-import { SearchInput } from "@/components/ui/input";
 import SortDropDown from "@/components/molecules/dropdowns/project-sort-dropdown";
-import ProjectCard from "@/components/molecules/project-card";
-import { fetchProject } from "@/lib/data-fetching";
-import { formatDate } from "@/lib/utils";
+import { Search } from "@/components/atoms/search";
+import { Suspense } from "react";
+import Loading from "./loading";
+import { ProjectCardGrid } from "@/components/organisms/project-card-grid";
+import { redirect } from "next/navigation";
 
-type project = {
-  id: string;
-  name: string;
-  owner: string;
-  location: string;
-  startedAt: string;
-};
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: {
+    searchQuery?: string;
+    sortBy?: string;
+  };
+}) {
+  const searchQuery = searchParams?.searchQuery || "";
+  const sortBy = searchParams?.sortBy || "";
 
-export default async function Home() {
-  const { data } = await fetchProject();
+  if (!sortBy) {
+    redirect("/home?sortBy=ascending");
+  }
+
   return (
     <>
       <div className="flex justify-between gap-3">
-        <SearchInput
-          className="sm:w-[400px]"
-          placeholder="Search by project name"
-        />
+        <Search className="sm:w-[400px]" placeholder="Search by project name" />
         <SortDropDown />
       </div>
-      <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {(data as project[]).map((project) => (
-          <ProjectCard
-            key={project.id}
-            title={project.name}
-            owner={project.owner}
-            location={project.location}
-            startedAt={formatDate(project.startedAt)}
-          />
-        ))}
-      </div>
+      <Suspense fallback={<Loading />}>
+        <ProjectCardGrid searchQuery={searchQuery} sortBy={sortBy} />
+      </Suspense>
     </>
   );
 }

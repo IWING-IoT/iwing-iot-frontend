@@ -24,9 +24,13 @@ axiosClient.interceptors.request.use(
   },
 );
 
-export const fetchProject = async () => {
+export const fetchProject = async (searchQuery?: string, sortBy?: string) => {
   try {
-    const { data } = await axiosClient.get(`/project?sortBy=ascending`);
+    const { data } = await axiosClient.get(
+      `/project?sortBy=${sortBy ? sortBy : "ascending"}${
+        searchQuery ? `&searchQuery=${searchQuery}` : ""
+      }`,
+    );
     // console.log("data => ", data);
     return data;
   } catch (error) {

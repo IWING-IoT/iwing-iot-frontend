@@ -5,7 +5,6 @@ import {
   Header,
   HeaderActions,
   HeaderContent,
-  HeaderDescription,
   HeaderTitleAndSupporting,
   HeaderTitle,
 } from "@/components/molecules/header";

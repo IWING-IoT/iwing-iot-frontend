@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ArrowUpDown, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function SortDropDown() {
   const options = [
@@ -17,7 +17,19 @@ export default function SortDropDown() {
     { label: "Newest", value: "newest" },
     { label: "Oldest", value: "oldest" },
   ];
-  const [sort, setSort] = useState("ascending");
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const handleChangeSort = (sortBy: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (sortBy) {
+      params.set("sortBy", sortBy);
+    } else {
+      params.set("sortBy", "ascending");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  };
 
   return (
     <DropdownMenu>
@@ -29,7 +41,12 @@ export default function SortDropDown() {
           >
             <div className="flex gap-2">
               <ArrowUpDown width={20} height={20} />
-              {options.find((option) => option.value === sort)?.label}
+              {
+                options.find(
+                  (option) =>
+                    option.value === searchParams.get("sortBy")?.toString(),
+                )?.label
+              }
             </div>
             <ChevronDown width={20} height={20} />
           </Button>
@@ -39,7 +56,10 @@ export default function SortDropDown() {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuRadioGroup value={sort} onValueChange={setSort}>
+        <DropdownMenuRadioGroup
+          defaultValue={searchParams.get("sortBy")?.toString()}
+          onValueChange={handleChangeSort}
+        >
           {options.map((option) => (
             <DropdownMenuRadioItem key={option.value} value={option.value}>
               {option.label}

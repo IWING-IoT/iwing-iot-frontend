@@ -1,3 +1,5 @@
+import { ModeToggle } from "@/components/molecules/mode-toggle";
+
 export default function Settings() {
-  return <div>Settings</div>;
+  return <ModeToggle />;
 }
