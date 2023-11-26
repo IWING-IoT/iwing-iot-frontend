@@ -24,7 +24,7 @@ const topItems = [
   },
   {
     label: "Firmware",
-    href: "firmware",
+    href: "/firmware",
     icon: <FileCode />,
     permit: ["admin", "user"],
   },
@@ -33,19 +33,19 @@ const topItems = [
 const bottomItems = [
   {
     label: "Account management",
-    href: "account-management",
+    href: "/account-management",
     icon: <Users />,
     permit: ["admin"],
   },
   {
     label: "Archived projects",
-    href: "archived-projects",
+    href: "/archived-projects",
     icon: <ArchiveIcon />,
     permit: ["admin", "user"],
   },
   {
     label: "Settings",
-    href: "settings",
+    href: "/settings",
     icon: <Settings />,
     permit: ["admin", "user"],
   },
