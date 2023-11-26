@@ -2,7 +2,9 @@ import SortDropDown from "@/components/molecules/dropdowns/project-sort-dropdown
 import { Search } from "@/components/atoms/search";
 import { Suspense } from "react";
 import Loading from "./loading";
-import { ProjectCardGrid } from "@/components/organisms/project-card-grid";
+import ProjectCardGridSkeleton, {
+  ProjectCardGrid,
+} from "@/components/organisms/project-card-grid";
 import { redirect } from "next/navigation";
 
 export default async function Home({
@@ -26,7 +28,7 @@ export default async function Home({
         <Search className="sm:w-[400px]" placeholder="Search by project name" />
         <SortDropDown />
       </div>
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<ProjectCardGridSkeleton />}>
         <ProjectCardGrid searchQuery={searchQuery} sortBy={sortBy} />
       </Suspense>
     </>

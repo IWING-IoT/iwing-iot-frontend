@@ -1,5 +1,3 @@
-import { Suspense } from "react";
-import Loading from "./loading";
 import MainContainer from "@/components/templates/main-container";
 import {
   Header,
@@ -24,7 +22,7 @@ export default async function Layout({ children }: LayoutProps) {
       <Header>
         <HeaderContent>
           <HeaderTitleAndSupporting>
-            <HeaderTitle>Welcome back, {session?.user.name}!</HeaderTitle>
+            <HeaderTitle>Welcome back, {session?.user.name} 👋</HeaderTitle>
           </HeaderTitleAndSupporting>
           <HeaderActions>
             <Link href="/project/new">
@@ -36,9 +34,7 @@ export default async function Layout({ children }: LayoutProps) {
           </HeaderActions>
         </HeaderContent>
       </Header>
-      <Suspense fallback={<Loading />}>
-        <MainContainer>{children}</MainContainer>
-      </Suspense>
+      <MainContainer>{children}</MainContainer>
     </>
   );
 }

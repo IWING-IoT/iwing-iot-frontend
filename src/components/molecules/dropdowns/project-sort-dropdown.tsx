@@ -57,7 +57,7 @@ export default function SortDropDown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuRadioGroup
-          defaultValue={searchParams.get("sortBy")?.toString()}
+          value={searchParams.get("sortBy")?.toString()}
           onValueChange={handleChangeSort}
         >
           {options.map((option) => (
