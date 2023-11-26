@@ -12,17 +12,21 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "@/components/ui/use-toast";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
+import { AlertCircle, Eye, EyeOff } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
-  password: z.string().min(4).max(20),
+  password: z.string().min(8).max(20),
 });
 
 export default function SignInForm() {
   const router = useRouter();
+  const [alert, setAlert] = useState({ show: false, status: 401 });
+  const [showPassword, setShowPassword] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,57 +43,93 @@ export default function SignInForm() {
       email,
       password,
       callbackUrl: "/home",
-      redirect: true,
+      redirect: false,
     });
 
     if (signInResult?.error) {
-      console.log(signInResult.error);
+      // toast({ description: "Failed to sign in" });
+      setAlert({ show: true, status: signInResult.status });
     } else {
-      console.log(signInResult);
       router.refresh();
     }
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-1 flex-col gap-6 self-stretch"
-      >
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input type="email" placeholder="Enter your email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Enter your password"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" className="self-stretch">
-          Sign in
-        </Button>
-      </form>
-    </Form>
+    <>
+      {alert.show && (
+        <Alert variant={"destructive"}>
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle className="flex items-center gap-2">
+            {alert.status === 401
+              ? "Your email or password is incorrect"
+              : "Failed to sign in."}
+          </AlertTitle>
+          <AlertDescription>
+            {alert.status === 401
+              ? "Recheck your email and password and try again."
+              : "Don't worry! let's try signing in again."}
+          </AlertDescription>
+        </Alert>
+      )}
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-1 flex-col gap-6 self-stretch"
+        >
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="Enter your email"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter your password"
+                      {...field}
+                    />
+                    <div className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-muted-foreground">
+                      {showPassword ? (
+                        <EyeOff
+                          className="h-5 w-5"
+                          onClick={() => setShowPassword(false)}
+                        />
+                      ) : (
+                        <Eye
+                          className="h-5 w-5"
+                          onClick={() => setShowPassword(true)}
+                        />
+                      )}
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" className="self-stretch">
+            Sign in
+          </Button>
+        </form>
+      </Form>
+    </>
   );
 }

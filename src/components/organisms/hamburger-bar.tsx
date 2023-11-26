@@ -1,8 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import NavContent from "./nav-content";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useState } from "react";
 import { Menu } from "lucide-react";
 import { useAtom } from "jotai";
 import { sheetAtom } from "@/store/atoms";
