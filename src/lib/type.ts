@@ -11,3 +11,9 @@ export type TUser = {
   email: string;
   role: string;
 };
+
+export type TTemplate = {
+  id: string;
+  name: string;
+  description: string;
+};

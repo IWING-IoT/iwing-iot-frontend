@@ -15,7 +15,12 @@ import NavProfile from "./nav-profile";
 import { getServerAuthSession } from "@/lib/auth";
 
 const topItems = [
-  { label: "Home", href: "/home", icon: <Home />, permit: ["admin", "user"] },
+  {
+    label: "Home",
+    href: "/home?sortBy=ascending",
+    icon: <Home />,
+    permit: ["admin", "user"],
+  },
   {
     label: "Devices",
     href: "/devices",

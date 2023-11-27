@@ -16,7 +16,7 @@ export const NavProjectList = ({ projectItems }: NavProjectListProps) => {
       <div className="flex flex-1 flex-col gap-1 pl-4 pr-4">
         {projectItems.map((item) => (
           <NavItem
-            href={"/project"}
+            href={`/project/${item.id}`}
             label={item.name}
             icon={<Avvvatars value={item.name} size={24} borderSize={1} />}
             key={item.id}

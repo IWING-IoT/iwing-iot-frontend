@@ -42,7 +42,7 @@ export default function SignInForm() {
     const signInResult = await signIn("credentials", {
       email,
       password,
-      callbackUrl: "/home",
+      callbackUrl: "/home?sortBy=ascending",
       redirect: false,
     });
 

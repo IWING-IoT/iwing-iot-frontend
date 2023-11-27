@@ -1,13 +1,25 @@
 import SortDropDown from "@/components/molecules/dropdowns/project-sort-dropdown";
 import { Search } from "@/components/atoms/search";
-import { Suspense } from "react";
-import Loading from "./loading";
-import ProjectCardGridSkeleton, {
-  ProjectCardGrid,
-} from "@/components/organisms/project-card-grid";
 import { redirect } from "next/navigation";
+import { fetchProject } from "@/lib/data-fetching";
+import { TProject } from "@/lib/type";
+import ProjectCard from "@/components/molecules/project-card";
+import { formatDate } from "@/lib/utils";
+import {
+  EmptyState,
+  EmptyStateAction,
+  EmptyStateDescription,
+  EmptyStateImage,
+  EmptyStateTextContent,
+  EmptyStateTitle,
+} from "@/components/molecules/empty-state";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Plus } from "lucide-react";
+import ProjectIllustration from "@/components/atoms/illustrations/project-illustration";
+import NotFoundIllustration from "@/components/atoms/illustrations/not-found-illustration";
 
-export default function Home({
+export default async function Home({
   searchParams,
 }: {
   searchParams?: {
@@ -17,20 +29,72 @@ export default function Home({
 }) {
   const searchQuery = searchParams?.searchQuery || "";
   const sortBy = searchParams?.sortBy || "";
-
   if (!sortBy) {
     redirect("/home?sortBy=ascending");
   }
-
-  return (
-    <>
-      <div className="flex justify-between gap-3">
-        <Search className="sm:w-[400px]" placeholder="Search by project name" />
-        <SortDropDown />
-      </div>
-      <Suspense fallback={<ProjectCardGridSkeleton />}>
-        <ProjectCardGrid searchQuery={searchQuery} sortBy={sortBy} />
-      </Suspense>
-    </>
+  const { data }: { data: TProject[] } = await fetchProject(
+    searchQuery,
+    sortBy,
   );
+  if (data.length === 0 && !searchQuery) {
+    return (
+      <EmptyState>
+        <EmptyStateImage>
+          <ProjectIllustration />
+        </EmptyStateImage>
+        <EmptyStateTextContent>
+          <EmptyStateTitle>No projects yet?</EmptyStateTitle>
+          <EmptyStateDescription>
+            Start by creating your first one now!
+          </EmptyStateDescription>
+        </EmptyStateTextContent>
+        <EmptyStateAction>
+          <Button asChild>
+            <Link href="/project/new">
+              <Plus className="mr-2 h-5 w-5" />
+              New project
+            </Link>
+          </Button>
+        </EmptyStateAction>
+      </EmptyState>
+    );
+  } else {
+    return (
+      <>
+        <div className="flex justify-between gap-3">
+          <Search
+            className="sm:w-[400px]"
+            placeholder="Search by project name"
+          />
+          <SortDropDown />
+        </div>
+        {data.length !== 0 ? (
+          <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {data.map((project: TProject) => (
+              <ProjectCard
+                key={project.id}
+                id={project.id}
+                title={project.name}
+                owner={project.owner}
+                location={project.location}
+                startedAt={formatDate(project.startedAt)}
+              />
+            ))}
+          </div>
+        ) : (
+          <EmptyState>
+            <EmptyStateImage>
+              <NotFoundIllustration />
+            </EmptyStateImage>
+            <EmptyStateTextContent>
+              <EmptyStateTitle>No projects found</EmptyStateTitle>
+              <EmptyStateDescription>
+                Your search did not match any project.
+              </EmptyStateDescription>
+            </EmptyStateTextContent>
+          </EmptyState>
+        )}
+      </>
+    );
+  }
 }

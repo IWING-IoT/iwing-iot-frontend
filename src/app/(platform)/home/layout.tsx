@@ -25,12 +25,12 @@ export default async function Layout({ children }: LayoutProps) {
             <HeaderTitle>Welcome back, {session?.user.name} 👋</HeaderTitle>
           </HeaderTitleAndSupporting>
           <HeaderActions>
-            <Link href="/project/new">
-              <Button>
+            <Button asChild>
+              <Link href="/project/new">
                 <Plus className="mr-2 h-5 w-5" />
                 New project
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </HeaderActions>
         </HeaderContent>
       </Header>

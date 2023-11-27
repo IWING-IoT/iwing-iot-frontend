@@ -37,3 +37,13 @@ export const fetchProject = async (searchQuery?: string, sortBy?: string) => {
     throw error;
   }
 };
+
+export const fetchTemplate = async () => {
+  try {
+    const { data } = await axiosClient.get("/template");
+    // console.log("data => ", data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
