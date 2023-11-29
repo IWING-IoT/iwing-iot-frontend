@@ -38,7 +38,9 @@ export function HeaderTitleAndSupporting({ children, className }: HeaderProps) {
 
 export function HeaderTitle({ children, className }: HeaderProps) {
   return (
-    <h1 className={cn("text-2xl font-semibold", className)}>{children}</h1>
+    <h1 className={cn("text-2xl font-semibold sm:text-3xl", className)}>
+      {children}
+    </h1>
   );
 }
 
