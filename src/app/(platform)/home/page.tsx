@@ -76,7 +76,7 @@ export default async function Home({
                 id={project.id}
                 title={project.name}
                 owner={project.owner}
-                location={project.location}
+                location={project.location.en_name}
                 startedAt={formatDate(project.startedAt)}
               />
             ))}

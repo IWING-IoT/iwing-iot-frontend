@@ -26,6 +26,7 @@ export const Search = ({ className, placeholder }: SearchProps) => {
     <SearchInput
       className={className}
       placeholder={placeholder}
+      id="search"
       onChange={(e) => {
         handleSearch(e.target.value);
       }}

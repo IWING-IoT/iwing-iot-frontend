@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import QueryClientProvider from "@/components/providers/query-client-provider";
 import JotaiProvider from "@/components/providers/jotai-provider";
+import { NextAuthProvider } from "@/components/providers/nextauth-provider";
 
 export const metadata: Metadata = {
   title: "IWING IoT",
@@ -15,12 +16,14 @@ const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-inter",
+  display: "swap",
 });
 
 const roboto_mono = Roboto_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-roboto-mono",
+  display: "swap",
 });
 
 export default function RootLayout({
@@ -41,10 +44,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <JotaiProvider>
-            <QueryClientProvider>{children}</QueryClientProvider>
-          </JotaiProvider>
-          <Toaster />
+          <NextAuthProvider>
+            <JotaiProvider>
+              <QueryClientProvider>{children}</QueryClientProvider>
+            </JotaiProvider>
+            <Toaster />
+          </NextAuthProvider>
         </ThemeProvider>
       </body>
     </html>

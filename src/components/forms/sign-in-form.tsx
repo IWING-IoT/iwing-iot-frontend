@@ -81,11 +81,14 @@ export default function SignInForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel htmlFor="email">Email</FormLabel>
                 <FormControl>
                   <Input
                     type="email"
+                    id="email"
                     placeholder="Enter your email"
+                    autoComplete="email"
+                    autoFocus
                     {...field}
                   />
                 </FormControl>
@@ -98,12 +101,14 @@ export default function SignInForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel htmlFor="password">Password</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
                       type={showPassword ? "text" : "password"}
+                      id="password"
                       placeholder="Enter your password"
+                      autoComplete="current-password"
                       {...field}
                     />
                     <div className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-muted-foreground">
