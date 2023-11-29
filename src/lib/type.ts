@@ -1,8 +1,10 @@
+import { ISODateString } from "next-auth";
+
 export type TProject = {
   id: string;
   name: string;
   owner: string;
-  location: string;
+  location: TLocation;
   startedAt: string;
 };
 
@@ -15,5 +17,19 @@ export type TUser = {
 export type TTemplate = {
   id: string;
   name: string;
+  description: string;
+};
+
+export type TLocation = {
+  id: string;
+  en_name: string;
+  th_name: string;
+};
+
+export type TProjectDetails = {
+  template: string;
+  name: string;
+  location: string;
+  startedAt: string;
   description: string;
 };
