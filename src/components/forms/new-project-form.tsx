@@ -1,5 +1,10 @@
 "use client";
-import { THttpError, TLocation, TProjectDetails, TTemplate } from "@/lib/type";
+import {
+  THttpError,
+  TLocation,
+  TCreateProjectDetails,
+  TTemplate,
+} from "@/lib/type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -74,7 +79,7 @@ export default function NewProjectForm({
   });
 
   const createProject = useMutation({
-    mutationFn: (data: TProjectDetails) => postData("/project", data),
+    mutationFn: (data: TCreateProjectDetails) => postData("/project", data),
     onError: (error: THttpError) => {
       // console.log(error.response.data.message);
       toast({

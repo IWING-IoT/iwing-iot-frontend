@@ -26,7 +26,7 @@ export type TLocation = {
   th_name: string;
 };
 
-export type TProjectDetails = {
+export type TCreateProjectDetails = {
   template: string;
   name: string;
   location: string;
@@ -40,4 +40,15 @@ export type THttpError = Error & {
       message: string;
     };
   };
+};
+
+export type TProjectDetails = {
+  location: {
+    th_name: string;
+    en_name: string;
+  };
+  name: string;
+  ownerName: string;
+  startedAt: string;
+  isArchived: boolean;
 };
