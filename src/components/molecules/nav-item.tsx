@@ -15,7 +15,7 @@ export default function NavItem({ label, icon, href }: NavItemProps) {
   return (
     <Button
       variant="ghost"
-      className="flex flex-1 items-center justify-start gap-2 rounded-md px-3 py-2 text-muted-foreground"
+      className="justify-start gap-2 rounded-md px-3 py-2 text-muted-foreground"
       onClick={() => setOpen(false)}
       asChild
     >
@@ -23,8 +23,8 @@ export default function NavItem({ label, icon, href }: NavItemProps) {
         href={href}
         className="flex flex-1 items-center justify-start gap-3"
       >
-        {icon}
-        <div className="text-base font-medium">{label}</div>
+        <div>{icon}</div>
+        <p className="truncate text-base font-medium">{label}</p>
       </Link>
     </Button>
   );

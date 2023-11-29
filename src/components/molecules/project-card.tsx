@@ -46,7 +46,9 @@ export default function ProjectCard({
       <Link href={`project/${id}`}>
         <Card>
           <CardHeader>
-            <CardTitle className="text-xl">{title}</CardTitle>
+            <CardTitle className="truncate text-xl hover:underline">
+              {title}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col gap-4 text-muted-foreground">

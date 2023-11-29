@@ -61,7 +61,7 @@ export default async function NavContent() {
   const session = await getServerAuthSession();
   // console.log(session);
   return (
-    <div className="flex h-full flex-1 flex-col gap-6">
+    <div className="flex h-full w-full flex-1 flex-col gap-6">
       <div className="pl-6 pr-6">
         <Logo />
       </div>

@@ -12,7 +12,7 @@ type NavProjectListProps = {
 
 export const NavProjectList = ({ projectItems }: NavProjectListProps) => {
   return (
-    <ScrollArea>
+    <ScrollArea className="[&>div>div]:!block">
       <div className="flex flex-1 flex-col gap-1 pl-4 pr-4">
         {projectItems.map((item) => (
           <NavItem
