@@ -33,3 +33,11 @@ export type TProjectDetails = {
   startedAt: string;
   description: string;
 };
+
+export type THttpError = Error & {
+  response: {
+    data: {
+      message: string;
+    };
+  };
+};

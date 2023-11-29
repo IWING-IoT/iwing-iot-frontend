@@ -1,11 +1,12 @@
 "use client";
-import { TLocation, TProjectDetails, TTemplate } from "@/lib/type";
+import { THttpError, TLocation, TProjectDetails, TTemplate } from "@/lib/type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -57,7 +58,7 @@ export default function NewProjectForm({
   // อย่าลืมแก้
   const formSchema = z.object({
     template: z.enum(["Other", ...templateNames]),
-    name: z.string().min(1).max(100),
+    name: z.string().min(1).max(100, { message: "Character limit exceeded" }),
     location: z.enum(["Other", ...locationNames]),
     startedAt: z.date(),
     description: z.string(),
@@ -69,23 +70,23 @@ export default function NewProjectForm({
       name: "",
       description: "",
     },
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   const createProject = useMutation({
     mutationFn: (data: TProjectDetails) => postData("/project", data),
-    onError: (error) => {
-      console.log(error);
+    onError: (error: THttpError) => {
+      // console.log(error.response.data.message);
       toast({
         title: "Unable to create project",
-        description: error.message,
+        description: error.response.data.message,
       });
     },
     onSuccess: () => {
       router.push("/home?sortBy=ascending");
       router.refresh();
       toast({
-        title: "Project created",
+        title: "Project created successfully!",
       });
     },
   });
@@ -154,6 +155,7 @@ export default function NewProjectForm({
                 <Input id="name" placeholder="Enter project name" {...field} />
               </FormControl>
               <FormMessage />
+              <FormDescription>Max 100 characters</FormDescription>
             </FormItem>
           )}
         />
@@ -268,7 +270,7 @@ export default function NewProjectForm({
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Create</Button>
       </form>
     </Form>
   );
