@@ -1,10 +1,9 @@
 "use client";
-
 import React from "react";
 import { ScrollArea } from "../ui/scroll-area";
 import NavItem from "../molecules/nav-item";
-import Avvvatars from "avvvatars-react";
 import { TProject } from "@/lib/type";
+import CustomAvatar from "../atoms/custom-avatar";
 
 type NavProjectListProps = {
   projectItems: TProject[];
@@ -18,7 +17,7 @@ export const NavProjectList = ({ projectItems }: NavProjectListProps) => {
           <NavItem
             href={`/project/${item.id}`}
             label={item.name}
-            icon={<Avvvatars value={item.name} size={24} borderSize={1} />}
+            icon={<CustomAvatar value={item.name} size={24} />}
             key={item.id}
           />
         ))}
