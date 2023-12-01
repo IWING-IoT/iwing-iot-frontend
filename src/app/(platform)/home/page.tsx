@@ -102,7 +102,7 @@ export default async function Home({
                 <NotFoundIllustration />
               </EmptyStateImage>
               <EmptyStateTextContent>
-                <EmptyStateTitle>No projects found</EmptyStateTitle>
+                <EmptyStateTitle>No projects found.</EmptyStateTitle>
                 <EmptyStateDescription>
                   Your search did not match any project.
                 </EmptyStateDescription>

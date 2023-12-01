@@ -177,8 +177,8 @@ export default function NewProjectForm({
                       variant="outline"
                       role="combobox"
                       className={cn(
-                        "justify-between p-3 font-medium",
-                        !field.value && "font-normal text-muted-foreground",
+                        "justify-between p-3 font-normal",
+                        !field.value && "text-muted-foreground",
                       )}
                     >
                       {field.value
