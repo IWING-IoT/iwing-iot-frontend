@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Roboto_Mono } from "next/font/google";
+import { Inter, Roboto_Mono, Noto_Sans_Thai } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
@@ -26,6 +26,13 @@ const roboto_mono = Roboto_Mono({
   display: "swap",
 });
 
+const noto_sans_thai = Noto_Sans_Thai({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-noto-sans-thai",
+  display: "swap",
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -34,7 +41,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${roboto_mono.variable}`}
+      className={`${inter.variable} ${roboto_mono.variable} ${noto_sans_thai.variable}`}
       suppressHydrationWarning
     >
       <body className="font-sans">
