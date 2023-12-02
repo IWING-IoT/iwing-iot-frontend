@@ -15,14 +15,5 @@ export default withAuth(function middleware() {}, {
 });
 
 export const config = {
-  matcher: [
-    "/home",
-    "/project/:path*",
-    "/devices/:path*",
-    "/firmware/:path*",
-    "/account-management",
-    "/archived-projects/:path*",
-    "/settings",
-    '/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)',
-  ],
+  matcher: "/((?!api|static|.*\\..*|_next).*)",
 };
