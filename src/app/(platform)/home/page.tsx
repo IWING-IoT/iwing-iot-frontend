@@ -65,7 +65,7 @@ export default async function Home({
           </EmptyStateTextContent>
           <EmptyStateAction>
             <Button asChild>
-              <Link href="/project/new">
+              <Link href="/new">
                 <Plus className="mr-2 h-5 w-5" />
                 New project
               </Link>
