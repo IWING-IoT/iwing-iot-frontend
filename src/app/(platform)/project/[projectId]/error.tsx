@@ -20,9 +20,9 @@ export default function Error() {
         <NotFoundIllustration />
       </EmptyStateImage>
       <EmptyStateTextContent>
-        <EmptyStateTitle>Sorry, this project doesn't exist.</EmptyStateTitle>
+        <EmptyStateTitle>This project doesn't exist.</EmptyStateTitle>
         <EmptyStateDescription>
-          Let's go back to the home page.
+          Don't worry! Let's go back home.
         </EmptyStateDescription>
       </EmptyStateTextContent>
       <EmptyStateAction>
