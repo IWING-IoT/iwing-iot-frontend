@@ -3,6 +3,8 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
 } from "@/components/molecules/breadcrumbs";
+import { DeploymentDropdown } from "@/components/molecules/dropdowns/deployment-dropdown";
+import { ProjectMoreDropdown } from "@/components/molecules/dropdowns/project-more-dropdowm";
 import {
   Header,
   HeaderActions,
@@ -38,8 +40,8 @@ export default async function Project({ params }: ProjectProps) {
             <HeaderTitle>{data.name}</HeaderTitle>
           </HeaderTitleAndSupporting>
           <HeaderActions>
-            <Button>Deployment</Button>
-            <Button>Deployment</Button>
+            <DeploymentDropdown />
+            <ProjectMoreDropdown />
           </HeaderActions>
         </HeaderContent>
       </Header>
