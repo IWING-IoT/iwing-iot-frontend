@@ -43,7 +43,7 @@ export default function ProjectCard({
     );
   else {
     return (
-      <Link href={`project/${id}`}>
+      <Link href={`/${id}/dashboard`}>
         <Card className="hover:shadow-md">
           <CardHeader>
             <CardTitle className="truncate text-xl hover:underline">

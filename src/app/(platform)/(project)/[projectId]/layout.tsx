@@ -17,10 +17,11 @@ import { Button } from "@/components/ui/button";
 import { fetchData } from "@/lib/data-fetching";
 import { TProjectDetails } from "@/lib/type";
 
-type ProjectProps = {
+type LayoutProps = {
   params: { projectId: string };
+  children: React.ReactNode;
 };
-export default async function Project({ params }: ProjectProps) {
+export default async function Layout({ params, children }: LayoutProps) {
   const { data }: { data: TProjectDetails } = await fetchData(
     `/project/${params.projectId}`,
   );
@@ -28,13 +29,13 @@ export default async function Project({ params }: ProjectProps) {
     <>
       <Header>
         {/* <Breadcrumb>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/home?sortBy=ascending">Home</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink isCurrentPage>{data.name}</BreadcrumbLink>
-          </BreadcrumbItem>
-        </Breadcrumb> */}
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/home?sortBy=ascending">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem isCurrentPage>
+              <BreadcrumbLink isCurrentPage>{data.name}</BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb> */}
         <HeaderContent>
           <HeaderTitleAndSupporting>
             <HeaderTitle>{data.name}</HeaderTitle>
@@ -45,9 +46,7 @@ export default async function Project({ params }: ProjectProps) {
           </HeaderActions>
         </HeaderContent>
       </Header>
-      <MainContainer>
-        <h1>Project</h1>
-      </MainContainer>
+      <MainContainer>{children}</MainContainer>
     </>
   );
 }
