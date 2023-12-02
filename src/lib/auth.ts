@@ -84,7 +84,7 @@ export const authOptions: NextAuthOptions = {
       }
       return baseUrl;
     },
-    jwt({ token, user }: { token: JWT; user: User }) {
+    jwt({ token, user }) {
       // console.log("------------jwt begin---------------");
       // console.log("token => ", token);
       // console.log("user => ", user);

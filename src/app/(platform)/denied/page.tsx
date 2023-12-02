@@ -1,3 +1,4 @@
+import AlertIllustration from "@/components/atoms/illustrations/alert-illustration";
 import NotFoundIllustration from "@/components/atoms/illustrations/not-found-illustration";
 import {
   EmptyState,
@@ -11,20 +12,18 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-export default function NotFound() {
+export default function Denied() {
   return (
     <div className="flex h-screen">
       <EmptyState>
         <EmptyStateImage>
-          <NotFoundIllustration />
+          <AlertIllustration />
         </EmptyStateImage>
         <EmptyStateTextContent>
           <EmptyStateTitle>
-            The page you're looking for doesn't exist.
+            You don't have permission to access this page.
           </EmptyStateTitle>
-          <EmptyStateDescription>
-            Don't worry! Let's go back home.
-          </EmptyStateDescription>
+          <EmptyStateDescription>Let's go back home.</EmptyStateDescription>
         </EmptyStateTextContent>
         <EmptyStateAction>
           <Button asChild>
