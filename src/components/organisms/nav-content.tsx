@@ -57,8 +57,8 @@ const bottomItems = [
 ];
 
 export default async function NavContent() {
-  const { data: projectData } = await fetchProject();
   const session = await getServerAuthSession();
+  const { data: projectData } = await fetchProject();
   // console.log(session);
   return (
     <div className="flex h-full w-full flex-1 flex-col gap-6">

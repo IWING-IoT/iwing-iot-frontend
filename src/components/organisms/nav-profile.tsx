@@ -28,7 +28,7 @@ const NavProfile = ({ user }: NavProfileProps) => {
         className="text-muted-foreground"
         onClick={() => signOut({ callbackUrl: `/signin` })}
       >
-        <LogOut size={20} />
+        <LogOut className="h-5 w-5" />
       </Button>
     </div>
   );

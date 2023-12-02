@@ -40,7 +40,7 @@ export default function SortDropDown() {
             variant="outline"
           >
             <div className="flex gap-2">
-              <ArrowUpDown width={20} height={20} />
+              <ArrowUpDown className="h-5 w-5" />
               {
                 options.find(
                   (option) =>
@@ -48,14 +48,14 @@ export default function SortDropDown() {
                 )?.label
               }
             </div>
-            <ChevronDown width={20} height={20} />
+            <ChevronDown className="h-5 w-5" />
           </Button>
           <Button className="sm:hidden" variant="outline" size="icon">
-            <ArrowUpDown width={20} height={20} />
+            <ArrowUpDown className="h-5 w-5" />
           </Button>
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent className="w-60" align="end">
         <DropdownMenuRadioGroup
           value={searchParams.get("sortBy")?.toString()}
           onValueChange={handleChangeSort}
