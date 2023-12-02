@@ -1,6 +1,7 @@
 "use client";
 import { SearchInput } from "../ui/input";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useDebouncedCallback } from "use-debounce";
 
 type SearchProps = {
   className?: string;
@@ -12,7 +13,7 @@ export const Search = ({ className, placeholder }: SearchProps) => {
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const handleSearch = (searchQuery: string) => {
+  const handleSearch = useDebouncedCallback((searchQuery: string) => {
     const params = new URLSearchParams(searchParams);
     if (searchQuery) {
       params.set("searchQuery", searchQuery);
@@ -20,7 +21,7 @@ export const Search = ({ className, placeholder }: SearchProps) => {
       params.delete("searchQuery");
     }
     replace(`${pathname}?${params.toString()}`);
-  };
+  }, 300);
 
   return (
     <SearchInput
