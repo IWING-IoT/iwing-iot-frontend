@@ -29,7 +29,7 @@ export default async function NewProject() {
           <Button variant={"link"} className="p-0" asChild>
             <Link href="/home?sortBy=ascending">
               <ArrowLeft className="mr-1.5 h-5 w-5" />
-              Back
+              Back to home
             </Link>
           </Button>
           <HeaderTitle>Create new project</HeaderTitle>

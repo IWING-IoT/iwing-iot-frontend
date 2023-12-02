@@ -53,5 +53,5 @@ export function HeaderDescription({ children, className }: HeaderProps) {
 }
 
 export function HeaderActions({ children, className }: HeaderProps) {
-  return <div className={cn("flex gap-2", className)}>{children}</div>;
+  return <div className={cn("flex gap-3", className)}>{children}</div>;
 }
