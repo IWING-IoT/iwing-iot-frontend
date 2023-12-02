@@ -32,7 +32,7 @@ export const NavTabs = ({ tabs }: NavTabsProps) => {
           </p>
           {pathname === item.href && (
             <motion.div
-              className="border border-primary dark:border-foreground"
+              className="h-[2px] rounded-full bg-primary dark:bg-foreground"
               layoutId="underline"
             />
           )}
