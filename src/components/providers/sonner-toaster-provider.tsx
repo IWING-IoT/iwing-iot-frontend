@@ -7,7 +7,7 @@ function SonnerToasterProvider() {
   const theme = ["light", "dark", "system"].includes(resolvedTheme as string)
     ? (resolvedTheme as "light" | "dark" | "system")
     : undefined;
-  return <Toaster richColors theme={theme} />;
+  return <Toaster richColors theme={theme} closeButton />;
 }
 
 export default SonnerToasterProvider;

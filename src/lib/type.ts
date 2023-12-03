@@ -50,6 +50,7 @@ export type TProjectDetails = {
   startedAt: string;
   isArchived: boolean;
   activePhaseId: string | null;
+  description: string;
 };
 
 export type TPhaseDetails = {
