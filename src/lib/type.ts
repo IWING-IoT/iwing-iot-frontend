@@ -22,7 +22,7 @@ export type TTemplate = {
 };
 
 export type TLocation = {
-  id?: string;
+  id: string;
   en_name: string;
   th_name: string;
 };
