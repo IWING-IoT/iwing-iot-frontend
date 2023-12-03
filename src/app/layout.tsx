@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Roboto_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
@@ -19,10 +19,10 @@ const inter = Inter({
   display: "swap",
 });
 
-const roboto_mono = Roboto_Mono({
+const jetbrains_mono = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-roboto-mono",
+  variable: "--font-jetbrains-mono",
   display: "swap",
 });
 
@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${roboto_mono.variable}`}
+      className={`${inter.variable} ${jetbrains_mono.variable}`}
       suppressHydrationWarning
     >
       <body className="font-sans">

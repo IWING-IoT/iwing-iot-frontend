@@ -76,7 +76,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ["var(--font-inter)"],
-        mono: ["var(--font-roboto-mono)"],
+        mono: ["var(--font-jetbrains-mono)"],
       },
       height: {
         screen: ["100vh", "100dvh"],
