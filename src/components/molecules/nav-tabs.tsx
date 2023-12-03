@@ -14,7 +14,7 @@ export const NavTabs = ({ tabs }: NavTabsProps) => {
   const pathname = usePathname().split("/").at(-1);
 
   return (
-    <div className="flex gap-3">
+    <div className="mb-[-1px] flex gap-3">
       {tabs.map((item) => (
         <Link
           key={item.href}
@@ -30,7 +30,7 @@ export const NavTabs = ({ tabs }: NavTabsProps) => {
           </p>
           {pathname === item.href && (
             <motion.div
-              className="bg-tabs-active h-[2px] rounded-full"
+              className="bg-tabs-active h-[3px] rounded-full"
               layoutId="underline"
             />
           )}
