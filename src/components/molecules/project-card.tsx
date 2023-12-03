@@ -4,7 +4,7 @@ import { Calendar, MapPin, User } from "lucide-react";
 import Link from "next/link";
 
 type ProjectCardProps = {
-  id?: string;
+  href?: string;
   title?: string;
   owner?: string;
   location?: string;
@@ -13,7 +13,7 @@ type ProjectCardProps = {
 };
 
 export default function ProjectCard({
-  id,
+  href,
   title,
   owner,
   location,
@@ -43,7 +43,7 @@ export default function ProjectCard({
     );
   else {
     return (
-      <Link href={`/${id}/dashboard`}>
+      <Link href={href ?? ""}>
         <Card className="hover:shadow-md">
           <CardHeader>
             <CardTitle className="truncate text-xl hover:underline">

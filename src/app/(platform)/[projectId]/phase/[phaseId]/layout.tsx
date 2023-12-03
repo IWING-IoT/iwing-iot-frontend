@@ -16,7 +16,7 @@ import { NavTabs } from "@/components/molecules/nav-tabs";
 import MainContainer from "@/components/templates/main-container";
 import { Button } from "@/components/ui/button";
 import { fetchData } from "@/lib/data-fetching";
-import { TProjectDetails } from "@/lib/type";
+import { TPhaseDetails, TProjectDetails } from "@/lib/type";
 
 const tabs = [
   { label: "Dashboard", href: "dashboard" },
@@ -26,13 +26,17 @@ const tabs = [
 ];
 
 type LayoutProps = {
-  params: { projectId: string };
+  params: { projectId: string; phaseId: string };
   children: React.ReactNode;
 };
 
 export default async function Layout({ params, children }: LayoutProps) {
-  const { data }: { data: TProjectDetails } = await fetchData(
+  // console.log("params", params);
+  const { data: projectData }: { data: TProjectDetails } = await fetchData(
     `/project/${params.projectId}`,
+  );
+  const { data: phaseData }: { data: TPhaseDetails } = await fetchData(
+    `/phase/${params.phaseId}`,
   );
   return (
     <>
@@ -47,11 +51,13 @@ export default async function Layout({ params, children }: LayoutProps) {
           </Breadcrumb> */}
         <HeaderContent>
           <HeaderTitleAndSupporting>
-            <HeaderTitle>{data.name}</HeaderTitle>
+            <HeaderTitle>
+              {projectData.name} ({phaseData.name})
+            </HeaderTitle>
           </HeaderTitleAndSupporting>
           <HeaderActions>
             <DeploymentDropdown />
-            <ProjectMoreDropdown />
+            <ProjectMoreDropdown projectId={params.projectId} />
           </HeaderActions>
         </HeaderContent>
         <NavTabs tabs={tabs} />

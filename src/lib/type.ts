@@ -6,6 +6,7 @@ export type TProject = {
   owner: string;
   location: TLocation;
   startedAt: string;
+  activePhaseId: string | null;
 };
 
 export type TUser = {
@@ -21,7 +22,7 @@ export type TTemplate = {
 };
 
 export type TLocation = {
-  id: string;
+  id?: string;
   en_name: string;
   th_name: string;
 };
@@ -43,12 +44,18 @@ export type THttpError = Error & {
 };
 
 export type TProjectDetails = {
-  location: {
-    th_name: string;
-    en_name: string;
-  };
+  location: TLocation;
   name: string;
   ownerName: string;
   startedAt: string;
   isArchived: boolean;
+  activePhaseId: string | null;
+};
+
+export type TPhaseDetails = {
+  _id: string;
+  name: string;
+  ownerName: string;
+  startedAt: string;
+  endedAt: string | null;
 };

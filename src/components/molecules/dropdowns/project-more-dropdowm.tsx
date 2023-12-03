@@ -16,8 +16,15 @@ import {
   UserPlus,
   Users,
 } from "lucide-react";
+import Link from "next/link";
 
-export const ProjectMoreDropdown = () => {
+type ProjectMoreDropdownProps = {
+  projectId: string;
+};
+
+export const ProjectMoreDropdown = ({
+  projectId,
+}: ProjectMoreDropdownProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -35,9 +42,11 @@ export const ProjectMoreDropdown = () => {
           Edit
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Users className="h-4 w-4" />
-          Collaborators
+        <DropdownMenuItem asChild>
+          <Link href={`/${projectId}/collaborators`}>
+            <Users className="h-4 w-4" />
+            Collaborators
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <UserPlus className="h-4 w-4" />

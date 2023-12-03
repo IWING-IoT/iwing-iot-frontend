@@ -88,7 +88,11 @@ export default async function Home({
               {data.map((project: TProject) => (
                 <ProjectCard
                   key={project.id}
-                  id={project.id}
+                  href={
+                    project.activePhaseId
+                      ? `/${project.id}/phase/${project.activePhaseId}/dashboard`
+                      : `/${project.id}/phase`
+                  }
                   title={project.name}
                   owner={project.owner}
                   location={project.location.en_name}
