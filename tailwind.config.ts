@@ -50,6 +50,10 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        tabs: {
+          DEFAULT: "hsl(var(--tabs))",
+          active: "hsl(var(--tabs-active))",
+        },
       },
       borderRadius: {
         lg: "calc(var(--radius) + 4px)",
