@@ -3,13 +3,7 @@ import {
   ProjectInfoDialogTrigger,
 } from "@/components/organisms/dialogs/project-info-dialog";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,18 +11,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { fetchData } from "@/lib/data-fetching";
 import { TProjectDetails } from "@/lib/type";
 import {
   Archive,
-  Calendar,
-  Info,
   List,
   MoreHorizontal,
   Pen,
-  Pin,
   Trash2,
-  User,
   UserPlus,
   Users,
 } from "lucide-react";
@@ -36,14 +25,13 @@ import Link from "next/link";
 
 type ProjectMoreDropdownProps = {
   projectId: string;
+  projectData: TProjectDetails;
 };
 
 export const ProjectMoreDropdown = async ({
   projectId,
+  projectData,
 }: ProjectMoreDropdownProps) => {
-  const { data: projectData }: { data: TProjectDetails } = await fetchData(
-    `/project/${projectId}`,
-  );
   return (
     <Dialog>
       <DropdownMenu modal={false}>

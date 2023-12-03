@@ -57,7 +57,10 @@ export default async function Layout({ params, children }: LayoutProps) {
           </HeaderTitleAndSupporting>
           <HeaderActions>
             <DeploymentDropdown />
-            <ProjectMoreDropdown projectId={params.projectId} />
+            <ProjectMoreDropdown
+              projectId={params.projectId}
+              projectData={projectData}
+            />
           </HeaderActions>
         </HeaderContent>
         <NavTabs tabs={tabs} />
