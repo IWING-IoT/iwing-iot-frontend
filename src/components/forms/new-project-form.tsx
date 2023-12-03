@@ -19,7 +19,7 @@ import {
 } from "../ui/form";
 import { RadioGroup } from "../ui/radio-group";
 import { Button } from "../ui/button";
-import { toast } from "../ui/use-toast";
+import { toast } from "sonner";
 import {
   CustomRadioItem,
   CustomRadioItemContainer,
@@ -82,17 +82,14 @@ export default function NewProjectForm({
     mutationFn: (data: TCreateProjectDetails) => postData("/project", data),
     onError: (error: THttpError) => {
       // console.log(error.response.data.message);
-      toast({
-        title: "Unable to create project",
+      toast.error("Unable to create project", {
         description: error.response.data.message,
       });
     },
     onSuccess: () => {
       router.push("/home?sortBy=ascending");
       router.refresh();
-      toast({
-        title: "Project created successfully!",
-      });
+      toast.success("Project created successfully!");
     },
   });
 
@@ -276,6 +273,12 @@ export default function NewProjectForm({
           )}
         />
         <Button type="submit">Create</Button>
+        <Button
+          type="button"
+          onClick={() => toast.success("Project created successfully!")}
+        >
+          Test
+        </Button>
       </form>
     </Form>
   );
