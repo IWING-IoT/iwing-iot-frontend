@@ -43,7 +43,7 @@ export const ProjectMoreDropdown = ({
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href={`/${projectId}/collaborators`}>
+          <Link href={`/project/${projectId}/collaborators`}>
             <Users className="h-4 w-4" />
             Collaborators
           </Link>
