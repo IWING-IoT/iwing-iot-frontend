@@ -60,11 +60,11 @@ export default function NewProjectForm({
   // console.log(templateNames);
 
   const router = useRouter();
-  // อย่าลืมแก้
+
   const formSchema = z.object({
-    template: z.enum(["Other", ...templateNames]),
+    template: z.string(),
     name: z.string().min(1).max(100, { message: "Character limit exceeded" }),
-    location: z.enum(["Other", ...locationNames]),
+    location: z.string(),
     startedAt: z.date(),
     description: z.string(),
   });
@@ -273,12 +273,6 @@ export default function NewProjectForm({
           )}
         />
         <Button type="submit">Create</Button>
-        <Button
-          type="button"
-          onClick={() => toast.success("Project created successfully!")}
-        >
-          Test
-        </Button>
       </form>
     </Form>
   );
