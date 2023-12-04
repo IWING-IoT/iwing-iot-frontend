@@ -1,4 +1,4 @@
-export const LoadingIndicator = () => {
+export function LoadingIndicator() {
   return (
     <div className="flex h-full items-center justify-center space-x-2">
       <span className="sr-only">Loading...</span>
@@ -7,4 +7,4 @@ export const LoadingIndicator = () => {
       <div className="h-4 w-4 animate-bounce rounded-full bg-primary" />
     </div>
   );
-};
+}

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Logo() {
+export function Logo() {
   return (
     <Link href={"/home"} className="flex items-center gap-3">
       <Image src={"/logo.svg"} width={32} height={32} alt="logo" />

@@ -1,6 +1,6 @@
-import NewProjectForm from "@/components/forms/new-project-form";
+import { NewProjectForm } from "@/components/forms/new-project-form";
 import { HeaderTitle } from "@/components/molecules/header";
-import MainContainer from "@/components/templates/main-container";
+import { MainContainer } from "@/components/templates/main-container";
 import { Button } from "@/components/ui/button";
 import { fetchData } from "@/lib/data-fetching";
 import { TLocation, TTemplate } from "@/lib/type";

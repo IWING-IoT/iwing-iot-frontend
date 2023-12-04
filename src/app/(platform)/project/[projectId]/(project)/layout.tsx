@@ -1,4 +1,3 @@
-import MainContainer from "@/components/templates/main-container";
 import { fetchData } from "@/lib/data-fetching";
 import { TProjectDetails } from "@/lib/type";
 import {
@@ -8,6 +7,7 @@ import {
   HeaderTitleAndSupporting,
 } from "@/components/molecules/header";
 import { NavTabs } from "@/components/molecules/nav-tabs";
+import { MainContainer } from "@/components/templates/main-container";
 
 type PhaseProps = {
   params: { projectId: string };

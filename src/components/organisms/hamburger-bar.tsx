@@ -9,7 +9,7 @@ type HamburgerBarProps = {
   children?: React.ReactNode;
 };
 
-export default function HamburgerBar({ children }: HamburgerBarProps) {
+export function HamburgerBar({ children }: HamburgerBarProps) {
   const [open, setOpen] = useAtom(sheetAtom);
 
   return (

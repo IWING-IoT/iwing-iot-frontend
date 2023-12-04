@@ -1,5 +1,3 @@
-import { ISODateString } from "next-auth";
-
 export type TProject = {
   id: string;
   name: string;
@@ -64,6 +62,6 @@ export type TPhaseDetails = {
   name: string;
   owner: string;
   isActive: boolean;
-  startedAt: "2023-11-22T10:35:00.172Z";
-  endedAt: "2023-11-22T11:28:50.433Z";
+  startedAt: string;
+  endedAt: string;
 };

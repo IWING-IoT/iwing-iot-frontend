@@ -10,7 +10,7 @@ type NavItemProps = {
   href: string;
 };
 
-export default function NavItem({ label, icon, href }: NavItemProps) {
+export function NavItem({ label, icon, href }: NavItemProps) {
   const [open, setOpen] = useAtom(sheetAtom);
   return (
     <Button

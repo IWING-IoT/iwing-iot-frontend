@@ -39,7 +39,7 @@ type UserAccountFormProps = {
   submitLabel: string;
 };
 
-function UserAccountForm({ submitLabel }: UserAccountFormProps) {
+export function UserAccountForm({ submitLabel }: UserAccountFormProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
@@ -195,5 +195,3 @@ function UserAccountForm({ submitLabel }: UserAccountFormProps) {
     </Form>
   );
 }
-
-export default UserAccountForm;

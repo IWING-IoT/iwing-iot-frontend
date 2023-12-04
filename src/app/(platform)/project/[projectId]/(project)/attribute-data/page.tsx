@@ -1,7 +1,5 @@
 import React from "react";
 
-function AttributeData() {
+export default function AttributeData() {
   return <div>AttributeData</div>;
 }
-
-export default AttributeData;

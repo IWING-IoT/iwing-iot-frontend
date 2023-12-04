@@ -14,7 +14,12 @@ type FormDialogProps = {
   classNames?: string;
 };
 
-const FormDialog = ({ children, title, form, classNames }: FormDialogProps) => {
+export function FormDialog({
+  children,
+  title,
+  form,
+  classNames,
+}: FormDialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -26,6 +31,4 @@ const FormDialog = ({ children, title, form, classNames }: FormDialogProps) => {
       </DialogContent>
     </Dialog>
   );
-};
-
-export default FormDialog;
+}

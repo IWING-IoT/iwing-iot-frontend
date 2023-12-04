@@ -1,10 +1,7 @@
-import SortDropDown from "@/components/molecules/dropdowns/project-sort-dropdown";
 import { Search } from "@/components/atoms/search";
 import { redirect } from "next/navigation";
 import { fetchProject } from "@/lib/data-fetching";
 import { TProject } from "@/lib/type";
-import ProjectAndDeploymentCard from "@/components/molecules/project-and-deployment-card";
-import { formatDate } from "@/lib/utils";
 import {
   EmptyState,
   EmptyStateAction,
@@ -16,9 +13,6 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import ProjectIllustration from "@/components/atoms/illustrations/project-illustration";
-import NotFoundIllustration from "@/components/atoms/illustrations/not-found-illustration";
-import MainContainer from "@/components/templates/main-container";
 import {
   Header,
   HeaderActions,
@@ -28,6 +22,11 @@ import {
 } from "@/components/molecules/header";
 import { getServerAuthSession } from "@/lib/auth";
 import { CardGrid } from "@/components/templates/card-grid";
+import { NotFoundIllustration } from "@/components/atoms/illustrations/not-found-illustration";
+import { ProjectIllustration } from "@/components/atoms/illustrations/project-illustration";
+import { SortDropDown } from "@/components/molecules/dropdowns/project-sort-dropdown";
+import { ProjectAndDeploymentCard } from "@/components/molecules/project-and-deployment-card";
+import { MainContainer } from "@/components/templates/main-container";
 
 type HomeProps = {
   searchParams?: {

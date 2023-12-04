@@ -14,7 +14,7 @@ type ProjectAndDeploymentCardProps = {
   isActive?: boolean;
 };
 
-export default function ProjectAndDeploymentCard({
+export function ProjectAndDeploymentCard({
   href,
   title,
   owner,

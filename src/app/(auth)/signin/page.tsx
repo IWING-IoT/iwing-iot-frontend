@@ -1,5 +1,5 @@
-import SignInForm from "@/components/forms/sign-in-form";
-import Logo from "@/components/atoms/logo";
+import { Logo } from "@/components/atoms/logo";
+import { SignInForm } from "@/components/forms/sign-in-form";
 import { getServerAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 

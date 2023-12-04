@@ -11,7 +11,7 @@ type NavTabsProps = {
   layoutId: string;
 };
 
-export const NavTabs = ({ tabs, layoutId }: NavTabsProps) => {
+export function NavTabs({ tabs, layoutId }: NavTabsProps) {
   const pathname = usePathname().split("/").at(-1);
 
   return (
@@ -41,4 +41,4 @@ export const NavTabs = ({ tabs, layoutId }: NavTabsProps) => {
       ))}
     </div>
   );
-};
+}

@@ -14,11 +14,11 @@ type QueryClientProviderProps = {
   children: React.ReactNode;
 };
 
-const QueryClientProvider = ({ children }: QueryClientProviderProps) => (
-  <ReactQueryClientProvider client={queryClient}>
-    {children}
-    <ReactQueryDevtools initialIsOpen={false} />
-  </ReactQueryClientProvider>
-);
-
-export default QueryClientProvider;
+export function QueryClientProvider({ children }: QueryClientProviderProps) {
+  return (
+    <ReactQueryClientProvider client={queryClient}>
+      {children}
+      <ReactQueryDevtools initialIsOpen={false} />
+    </ReactQueryClientProvider>
+  );
+}

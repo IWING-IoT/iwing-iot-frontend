@@ -1,5 +1,5 @@
-import HamburgerBar from "./hamburger-bar";
-import Logo from "@/components/atoms/logo";
+import { Logo } from "../atoms/logo";
+import { HamburgerBar } from "./hamburger-bar";
 import NavContent from "./nav-content";
 
 export default function TopBar() {

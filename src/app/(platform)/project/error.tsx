@@ -1,6 +1,6 @@
 "use client";
 
-import SorryIllustration from "@/components/atoms/illustrations/sorry-illustration";
+import { SorryIllustration } from "@/components/atoms/illustrations/sorry-illustration";
 import {
   EmptyState,
   EmptyStateAction,

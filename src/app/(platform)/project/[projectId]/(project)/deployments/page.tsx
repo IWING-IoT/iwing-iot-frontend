@@ -1,8 +1,7 @@
-import ProjectAndDeploymentCard from "@/components/molecules/project-and-deployment-card";
+import { ProjectAndDeploymentCard } from "@/components/molecules/project-and-deployment-card";
 import { CardGrid } from "@/components/templates/card-grid";
 import { fetchData } from "@/lib/data-fetching";
 import { TPhaseDetails, TProjectDetails } from "@/lib/type";
-import { formatDate } from "@/lib/utils";
 
 type PhaseProps = {
   params: { projectId: string };

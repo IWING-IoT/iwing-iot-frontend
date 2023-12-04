@@ -13,8 +13,7 @@ import {
   HeaderTitleAndSupporting,
 } from "@/components/molecules/header";
 import { NavTabs } from "@/components/molecules/nav-tabs";
-import MainContainer from "@/components/templates/main-container";
-import { Button } from "@/components/ui/button";
+import { MainContainer } from "@/components/templates/main-container";
 import { fetchData } from "@/lib/data-fetching";
 import { TPhaseDetails, TProjectDetails } from "@/lib/type";
 

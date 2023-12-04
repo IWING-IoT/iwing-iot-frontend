@@ -1,4 +1,3 @@
-import Logo from "@/components/atoms/logo";
 import {
   ArchiveIcon,
   FileCode,
@@ -8,11 +7,12 @@ import {
   Users,
 } from "lucide-react";
 import { Separator } from "../ui/separator";
-import NavItem from "../molecules/nav-item";
-import NavProjectList from "./nav-project-list";
 import { fetchProject } from "@/lib/data-fetching";
-import NavProfile from "./nav-profile";
 import { getServerAuthSession } from "@/lib/auth";
+import { Logo } from "../atoms/logo";
+import { NavItem } from "../molecules/nav-item";
+import { NavProfile } from "./nav-profile";
+import { NavProjectList } from "./nav-project-list";
 
 const topItems = [
   {

@@ -10,7 +10,7 @@ import {
 import { ArrowUpDown, ChevronDown } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-export default function SortDropDown() {
+export function SortDropDown() {
   const options = [
     { label: "A to Z", value: "ascending" },
     { label: "Z to A", value: "descending" },
