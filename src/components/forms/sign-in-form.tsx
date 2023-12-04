@@ -20,7 +20,7 @@ import { AlertCircle, Eye, EyeOff } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
-  password: z.string().min(8).max(20),
+  password: z.string().min(8).max(30),
 });
 
 export default function SignInForm() {

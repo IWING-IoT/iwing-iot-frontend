@@ -19,7 +19,7 @@ import {
 } from "../ui/form";
 import { RadioGroup } from "../ui/radio-group";
 import { Button } from "../ui/button";
-import { toast } from "../ui/use-toast";
+import { toast } from "sonner";
 import {
   CustomRadioItem,
   CustomRadioItemContainer,
@@ -60,11 +60,11 @@ export default function NewProjectForm({
   // console.log(templateNames);
 
   const router = useRouter();
-  // อย่าลืมแก้
+
   const formSchema = z.object({
-    template: z.enum(["Other", ...templateNames]),
+    template: z.string(),
     name: z.string().min(1).max(100, { message: "Character limit exceeded" }),
-    location: z.enum(["Other", ...locationNames]),
+    location: z.string(),
     startedAt: z.date(),
     description: z.string(),
   });
@@ -82,17 +82,14 @@ export default function NewProjectForm({
     mutationFn: (data: TCreateProjectDetails) => postData("/project", data),
     onError: (error: THttpError) => {
       // console.log(error.response.data.message);
-      toast({
-        title: "Unable to create project",
+      toast.error("Unable to create project", {
         description: error.response.data.message,
       });
     },
     onSuccess: () => {
       router.push("/home?sortBy=ascending");
       router.refresh();
-      toast({
-        title: "Project created successfully!",
-      });
+      toast.success("Project created successfully");
     },
   });
 

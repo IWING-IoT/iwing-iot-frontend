@@ -13,12 +13,16 @@ export const NavProjectList = ({ projectItems }: NavProjectListProps) => {
   return (
     <ScrollArea className="[&>div>div]:!block">
       <div className="flex flex-1 flex-col gap-1 pl-4 pr-4">
-        {projectItems.map((item) => (
+        {projectItems.map((project) => (
           <NavItem
-            href={`/${item.id}/dashboard`}
-            label={item.name}
-            icon={<CustomAvatar value={item.name} size={24} />}
-            key={item.id}
+            href={
+              project.activePhaseId
+                ? `/project/${project.id}/phase/${project.activePhaseId}/dashboard`
+                : `/project/${project.id}/phase`
+            }
+            label={project.name}
+            icon={<CustomAvatar value={project.name} size={24} />}
+            key={project.id}
           />
         ))}
       </div>

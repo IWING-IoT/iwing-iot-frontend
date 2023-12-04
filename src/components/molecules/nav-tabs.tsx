@@ -14,7 +14,7 @@ export const NavTabs = ({ tabs }: NavTabsProps) => {
   const pathname = usePathname().split("/").at(-1);
 
   return (
-    <div className="flex gap-3">
+    <div className="mb-[-1px] flex gap-3">
       {tabs.map((item) => (
         <Link
           key={item.href}
@@ -23,16 +23,14 @@ export const NavTabs = ({ tabs }: NavTabsProps) => {
         >
           <p
             className={`px-1 font-medium ${
-              pathname === item.href
-                ? "text-primary dark:text-foreground"
-                : "text-muted-foreground"
+              pathname === item.href ? "text-tabs-active" : "text-tabs"
             }`}
           >
             {item.label}
           </p>
           {pathname === item.href && (
             <motion.div
-              className="h-[2px] rounded-full bg-primary dark:bg-foreground"
+              className="bg-tabs-active h-[3px] rounded-full"
               layoutId="underline"
             />
           )}

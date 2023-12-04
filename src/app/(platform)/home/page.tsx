@@ -65,7 +65,7 @@ export default async function Home({
           </EmptyStateTextContent>
           <EmptyStateAction>
             <Button asChild>
-              <Link href="/new">
+              <Link href="/project/new">
                 <Plus className="mr-2 h-5 w-5" />
                 New project
               </Link>
@@ -88,7 +88,11 @@ export default async function Home({
               {data.map((project: TProject) => (
                 <ProjectCard
                   key={project.id}
-                  id={project.id}
+                  href={
+                    project.activePhaseId
+                      ? `/project/${project.id}/phase/${project.activePhaseId}/dashboard`
+                      : `/project/${project.id}/phase`
+                  }
                   title={project.name}
                   owner={project.owner}
                   location={project.location.en_name}
@@ -123,7 +127,7 @@ export default async function Home({
           </HeaderTitleAndSupporting>
           <HeaderActions>
             <Button asChild>
-              <Link href="/new">
+              <Link href="/project/new">
                 <Plus className="mr-2 h-5 w-5" />
                 New project
               </Link>

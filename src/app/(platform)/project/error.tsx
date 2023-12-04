@@ -1,4 +1,6 @@
-import UnauthorizedIllustration from "@/components/atoms/illustrations/unauthorized-illustration";
+"use client";
+
+import SorryIllustration from "@/components/atoms/illustrations/sorry-illustration";
 import {
   EmptyState,
   EmptyStateAction,
@@ -8,27 +10,37 @@ import {
   EmptyStateTitle,
 } from "@/components/molecules/empty-state";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, RotateCcw } from "lucide-react";
 import Link from "next/link";
 
-export default function Denied() {
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
   return (
     <EmptyState>
       <EmptyStateImage>
-        <UnauthorizedIllustration />
+        <SorryIllustration />
       </EmptyStateImage>
       <EmptyStateTextContent>
         <EmptyStateTitle>
-          You don't have permission to access this page.
+          We encountered an issue while trying to retrieve this project.
         </EmptyStateTitle>
-        <EmptyStateDescription>Let's go back home.</EmptyStateDescription>
+        <EmptyStateDescription>(Error: {error.message})</EmptyStateDescription>
       </EmptyStateTextContent>
       <EmptyStateAction>
-        <Button asChild>
+        <Button variant={"outline"} asChild>
           <Link href="/home?sortBy=ascending">
             <ArrowLeft className="mr-2 h-5 w-5" />
             Back home
           </Link>
+        </Button>
+        <Button onClick={() => reset()}>
+          <RotateCcw className="mr-2 h-5 w-5" />
+          Try again
         </Button>
       </EmptyStateAction>
     </EmptyState>

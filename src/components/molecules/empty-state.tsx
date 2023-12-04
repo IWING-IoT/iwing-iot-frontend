@@ -3,21 +3,19 @@ type EmptyStateProps = {
 };
 
 export const EmptyStateImage = ({ children }: EmptyStateProps) => {
-  return <div className="w-48 text-foreground">{children}</div>;
+  return <div className="w-60 text-primary">{children}</div>;
 };
 
 export const EmptyState = ({ children }: EmptyStateProps) => {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center">
+    <div className="flex flex-1 flex-col items-center justify-center gap-6">
       {children}
     </div>
   );
 };
 
 export const EmptyStateTextContent = ({ children }: EmptyStateProps) => {
-  return (
-    <div className="mb-6 flex flex-col items-center gap-2">{children}</div>
-  );
+  return <div className="flex flex-col items-center gap-2">{children}</div>;
 };
 
 export const EmptyStateTitle = ({ children }: EmptyStateProps) => {
