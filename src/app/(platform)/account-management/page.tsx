@@ -1,3 +1,5 @@
+import { DataTable } from "@/components/data-table/data-table";
+import UserAccountForm from "@/components/forms/user-account-form";
 import {
   Header,
   HeaderActions,
@@ -6,11 +8,30 @@ import {
   HeaderTitle,
   HeaderTitleAndSupporting,
 } from "@/components/molecules/header";
+import FormDialog from "@/components/organisms/dialogs/form-dialog";
 import MainContainer from "@/components/templates/main-container";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import {
+  TUserAccount,
+  columns,
+} from "@/components/columns/user-account-columns";
 
 export default function AccountManagement() {
+  const data: TUserAccount[] = [
+    {
+      id: "1",
+      name: "John Doe",
+      email: "jd@email.com",
+      role: "admin",
+    },
+    {
+      id: "2",
+      name: "Jane Doe",
+      email: "jd2@email.com",
+      role: "user",
+    },
+  ];
   return (
     <>
       <Header>
@@ -22,15 +43,17 @@ export default function AccountManagement() {
             </HeaderDescription>
           </HeaderTitleAndSupporting>
           <HeaderActions>
-            <Button>
-              <Plus className="mr-2 h-5 w-5" />
-              New account
-            </Button>
+            <FormDialog form={<UserAccountForm />} title="Create new account">
+              <Button>
+                <Plus className="mr-2 h-5 w-5" />
+                New account
+              </Button>
+            </FormDialog>
           </HeaderActions>
         </HeaderContent>
       </Header>
       <MainContainer>
-        <h1>Account Management</h1>
+        <DataTable columns={columns} data={data} />
       </MainContainer>
     </>
   );
