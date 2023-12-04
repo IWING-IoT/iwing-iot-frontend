@@ -89,7 +89,7 @@ export default function NewProjectForm({
     onSuccess: () => {
       router.push("/home?sortBy=ascending");
       router.refresh();
-      toast.success("Project created successfully!");
+      toast.success("Project created successfully");
     },
   });
 

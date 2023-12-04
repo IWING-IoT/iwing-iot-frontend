@@ -3,12 +3,15 @@ import { HeaderTitle } from "@/components/molecules/header";
 import MainContainer from "@/components/templates/main-container";
 import { Button } from "@/components/ui/button";
 import { fetchData } from "@/lib/data-fetching";
+import { TLocation, TTemplate } from "@/lib/type";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 export default async function NewProject() {
-  const { data: templateData } = await fetchData("/template");
-  const { data: locationData } = await fetchData("/location");
+  const { data: templateData }: { data: TTemplate[] } =
+    await fetchData("/template");
+  const { data: locationData }: { data: TLocation[] } =
+    await fetchData("/location");
   // console.log(locationData);
   // const locationData = [
   //   {
