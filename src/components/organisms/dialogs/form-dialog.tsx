@@ -17,7 +17,7 @@ type FormDialogProps = {
 const FormDialog = ({ children, title, form, classNames }: FormDialogProps) => {
   return (
     <Dialog>
-      <DialogTrigger>{children}</DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className={cn(classNames)}>
         <DialogHeader className="mb-4">
           <DialogTitle>{title}</DialogTitle>

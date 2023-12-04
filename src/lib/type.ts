@@ -53,17 +53,18 @@ export type TProjectDetails = {
   description: string;
 };
 
-export type TPhaseDetails = {
-  _id: string;
-  name: string;
-  ownerName: string;
-  startedAt: string;
-  endedAt: string | null;
-};
-
 export type TCreateUserAccountDetails = {
   name: string;
   email: string;
   password: string;
   role: string;
+};
+
+export type TPhaseDetails = {
+  id: string;
+  name: string;
+  owner: string;
+  isActive: boolean;
+  startedAt: "2023-11-22T10:35:00.172Z";
+  endedAt: "2023-11-22T11:28:50.433Z";
 };

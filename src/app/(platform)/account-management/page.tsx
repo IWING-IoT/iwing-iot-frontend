@@ -16,22 +16,10 @@ import {
   TUserAccount,
   columns,
 } from "@/components/columns/user-account-columns";
+import { fetchData } from "@/lib/data-fetching";
 
-export default function AccountManagement() {
-  const data: TUserAccount[] = [
-    {
-      id: "1",
-      name: "John Doe",
-      email: "jd@email.com",
-      role: "admin",
-    },
-    {
-      id: "2",
-      name: "Jane Doe",
-      email: "jd2@email.com",
-      role: "user",
-    },
-  ];
+export default async function AccountManagement() {
+  const { data }: { data: TUserAccount[] } = await fetchData("/admin/account");
   return (
     <>
       <Header>

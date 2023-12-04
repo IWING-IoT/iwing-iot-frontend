@@ -3,7 +3,7 @@ import { Search } from "@/components/atoms/search";
 import { redirect } from "next/navigation";
 import { fetchProject } from "@/lib/data-fetching";
 import { TProject } from "@/lib/type";
-import ProjectCard from "@/components/molecules/project-card";
+import ProjectAndPhaseCard from "@/components/molecules/project-and-phase-card";
 import { formatDate } from "@/lib/utils";
 import {
   EmptyState,
@@ -86,13 +86,9 @@ export default async function Home({
           {data.length !== 0 ? (
             <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 xl:grid-cols-3">
               {data.map((project: TProject) => (
-                <ProjectCard
+                <ProjectAndPhaseCard
                   key={project.id}
-                  href={
-                    project.activePhaseId
-                      ? `/project/${project.id}/phase/${project.activePhaseId}/dashboard`
-                      : `/project/${project.id}/phase`
-                  }
+                  href={`/project/${project.id}/deployments`}
                   title={project.name}
                   owner={project.owner}
                   location={project.location.en_name}

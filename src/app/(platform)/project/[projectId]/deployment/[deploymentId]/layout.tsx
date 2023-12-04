@@ -26,17 +26,14 @@ const tabs = [
 ];
 
 type LayoutProps = {
-  params: { projectId: string; phaseId: string };
+  params: { deploymentId: string };
   children: React.ReactNode;
 };
 
 export default async function Layout({ params, children }: LayoutProps) {
   // console.log("params", params);
-  const { data: projectData }: { data: TProjectDetails } = await fetchData(
-    `/project/${params.projectId}`,
-  );
   const { data: phaseData }: { data: TPhaseDetails } = await fetchData(
-    `/phase/${params.phaseId}`,
+    `/phase/${params.deploymentId}`,
   );
   return (
     <>
@@ -51,17 +48,8 @@ export default async function Layout({ params, children }: LayoutProps) {
           </Breadcrumb> */}
         <HeaderContent>
           <HeaderTitleAndSupporting>
-            <HeaderTitle>
-              {projectData.name} ({phaseData.name})
-            </HeaderTitle>
+            <HeaderTitle>{phaseData.name}</HeaderTitle>
           </HeaderTitleAndSupporting>
-          <HeaderActions>
-            <DeploymentDropdown />
-            <ProjectMoreDropdown
-              projectId={params.projectId}
-              projectData={projectData}
-            />
-          </HeaderActions>
         </HeaderContent>
         <NavTabs tabs={tabs} />
       </Header>

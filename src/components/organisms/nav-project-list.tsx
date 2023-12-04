@@ -17,8 +17,8 @@ export const NavProjectList = ({ projectItems }: NavProjectListProps) => {
           <NavItem
             href={
               project.activePhaseId
-                ? `/project/${project.id}/phase/${project.activePhaseId}/dashboard`
-                : `/project/${project.id}/phase`
+                ? `/project/${project.id}/deployment/${project.activePhaseId}/dashboard`
+                : `/project/${project.id}/deployment`
             }
             label={project.name}
             icon={<CustomAvatar value={project.name} size={24} />}
