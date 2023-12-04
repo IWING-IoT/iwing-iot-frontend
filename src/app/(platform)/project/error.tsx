@@ -1,6 +1,6 @@
 "use client";
 
-import AlertIllustration from "@/components/atoms/illustrations/alert-illustration";
+import SorryIllustration from "@/components/atoms/illustrations/sorry-illustration";
 import {
   EmptyState,
   EmptyStateAction,
@@ -23,7 +23,7 @@ export default function Error({
   return (
     <EmptyState>
       <EmptyStateImage>
-        <AlertIllustration />
+        <SorryIllustration />
       </EmptyStateImage>
       <EmptyStateTextContent>
         <EmptyStateTitle>

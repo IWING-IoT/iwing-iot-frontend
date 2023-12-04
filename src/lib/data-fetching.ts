@@ -55,7 +55,8 @@ export const fetchProject = async (searchQuery?: string, sortBy?: string) => {
         searchQuery ? `&searchQuery=${searchQuery}` : ""
       }`,
     );
-    // console.log("data => ", data);
+    // console.log("data => ", data);\
+    // throw new Error("test");
     return data;
   } catch (error) {
     throw error;

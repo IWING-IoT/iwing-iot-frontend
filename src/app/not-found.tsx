@@ -1,4 +1,4 @@
-import NotFoundIllustration from "@/components/atoms/illustrations/not-found-illustration";
+import NotFound404Illustration from "@/components/atoms/illustrations/notfound-404-illustration";
 import {
   EmptyState,
   EmptyStateAction,
@@ -16,7 +16,7 @@ export default function NotFound() {
     <div className="flex h-screen">
       <EmptyState>
         <EmptyStateImage>
-          <NotFoundIllustration />
+          <NotFound404Illustration />
         </EmptyStateImage>
         <EmptyStateTextContent>
           <EmptyStateTitle>
