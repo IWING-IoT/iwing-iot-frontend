@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import {
   TUserAccount,
-  columns,
+  userAccountColumns,
 } from "@/components/columns/user-account-columns";
 import { fetchData } from "@/lib/data-fetching";
 import { UserAccountForm } from "@/components/forms/user-account-form";
@@ -44,7 +44,7 @@ export default async function AccountManagement() {
         </HeaderContent>
       </Header>
       <MainContainer>
-        <DataTable columns={columns} data={data} />
+        <DataTable columns={userAccountColumns} data={data} />
       </MainContainer>
     </>
   );

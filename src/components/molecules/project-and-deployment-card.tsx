@@ -35,18 +35,18 @@ export function ProjectAndDeploymentCard({
         <CardContent>
           <div className="flex flex-col gap-4 text-muted-foreground">
             <div className="flex gap-2">
-              <User />
-              <span>{owner}</span>
+              <User className="shrink-0" />
+              <span className="truncate">{owner}</span>
             </div>
             {location && (
               <div className="flex gap-2">
-                <MapPin />
-                <span>{location}</span>
+                <MapPin className="shrink-0" />
+                <span className="truncate">{location}</span>
               </div>
             )}
             <div className="flex gap-2">
-              <Calendar />
-              <span>
+              <Calendar className="shrink-0" />
+              <span className="truncate">
                 {endedAt
                   ? `${formatDate(startedAt)} - ${formatDate(endedAt)}`
                   : `${formatDate(startedAt)}`}
