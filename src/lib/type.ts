@@ -60,3 +60,10 @@ export type TPhaseDetails = {
   startedAt: string;
   endedAt: string | null;
 };
+
+export type TCreateUserAccountDetails = {
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+};
