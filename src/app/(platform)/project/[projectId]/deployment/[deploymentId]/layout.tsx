@@ -26,32 +26,37 @@ const tabs = [
 ];
 
 type LayoutProps = {
-  params: { deploymentId: string };
+  params: { projectId: string; deploymentId: string };
   children: React.ReactNode;
 };
 
 export default async function Layout({ params, children }: LayoutProps) {
   // console.log("params", params);
+  const { data: projectData }: { data: TProjectDetails } = await fetchData(
+    `/project/${params.projectId}`,
+  );
   const { data: phaseData }: { data: TPhaseDetails } = await fetchData(
     `/phase/${params.deploymentId}`,
   );
   return (
     <>
       <Header className="pb-0 sm:pb-0">
-        {/* <Breadcrumb>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/home?sortBy=ascending">Home</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink isCurrentPage>{data.name}</BreadcrumbLink>
-            </BreadcrumbItem>
-          </Breadcrumb> */}
+        <Breadcrumb>
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/project/${params.projectId}/deployments`}>
+              {projectData.name}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbItem isCurrentPage>
+            <BreadcrumbLink isCurrentPage>{phaseData.name}</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
         <HeaderContent>
           <HeaderTitleAndSupporting>
             <HeaderTitle>{phaseData.name}</HeaderTitle>
           </HeaderTitleAndSupporting>
         </HeaderContent>
-        <NavTabs tabs={tabs} />
+        <NavTabs tabs={tabs} layoutId="deployment" />
       </Header>
       <MainContainer>{children}</MainContainer>
     </>

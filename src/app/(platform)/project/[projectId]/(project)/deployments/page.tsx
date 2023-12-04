@@ -1,4 +1,5 @@
-import ProjectAndPhaseCard from "@/components/molecules/project-and-phase-card";
+import ProjectAndDeploymentCard from "@/components/molecules/project-and-deployment-card";
+import { CardGrid } from "@/components/templates/card-grid";
 import { fetchData } from "@/lib/data-fetching";
 import { TPhaseDetails, TProjectDetails } from "@/lib/type";
 import { formatDate } from "@/lib/utils";
@@ -14,25 +15,22 @@ const tabs = [
 ];
 
 export default async function Phase({ params }: PhaseProps) {
-  const { data: projectData }: { data: TProjectDetails } = await fetchData(
-    `/project/${params.projectId}`,
-  );
   const { data: phaseData }: { data: TPhaseDetails[] } = await fetchData(
     `/project/${params.projectId}/phase?type=all`,
   );
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <CardGrid>
       {phaseData.map((phase) => (
-        <ProjectAndPhaseCard
+        <ProjectAndDeploymentCard
           key={phase.id}
           href={`/project/${params.projectId}/deployment/${phase.id}/dashboard`}
           title={phase.name}
           owner={phase.owner}
-          startedAt={formatDate(phase.startedAt)}
-          endedAt={phase.endedAt ? formatDate(phase.endedAt) : undefined}
+          startedAt={phase.startedAt}
+          endedAt={phase.endedAt}
           isActive={phase.isActive}
         />
       ))}
-    </div>
+    </CardGrid>
   );
 }

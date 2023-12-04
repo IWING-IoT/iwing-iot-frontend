@@ -6,7 +6,6 @@ export type TProject = {
   owner: string;
   location: TLocation;
   startedAt: string;
-  activePhaseId: string | null;
 };
 
 export type TUser = {

@@ -31,7 +31,10 @@ export default async function AccountManagement() {
             </HeaderDescription>
           </HeaderTitleAndSupporting>
           <HeaderActions>
-            <FormDialog form={<UserAccountForm />} title="Create new account">
+            <FormDialog
+              form={<UserAccountForm submitLabel="Create" />}
+              title="Create new account"
+            >
               <Button>
                 <Plus className="mr-2 h-5 w-5" />
                 New account

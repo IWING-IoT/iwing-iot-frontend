@@ -1,9 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, MapPin, User } from "lucide-react";
+import { Calendar, Dot, MapPin, User } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
+import { formatDate } from "@/lib/utils";
 
-type ProjectAndPhaseCardProps = {
+type ProjectAndDeploymentCardProps = {
   href: string;
   title: string;
   owner: string;
@@ -13,7 +14,7 @@ type ProjectAndPhaseCardProps = {
   isActive?: boolean;
 };
 
-export default function ProjectAndPhaseCard({
+export default function ProjectAndDeploymentCard({
   href,
   title,
   owner,
@@ -21,11 +22,11 @@ export default function ProjectAndPhaseCard({
   startedAt,
   endedAt,
   isActive,
-}: ProjectAndPhaseCardProps) {
+}: ProjectAndDeploymentCardProps) {
   return (
-    <Link href={href ?? ""}>
+    <Link href={href}>
       <Card className="hover:shadow-md">
-        <CardHeader className="flex-row gap-2">
+        <CardHeader className="flex-row items-center gap-2">
           <CardTitle className="truncate text-xl hover:underline">
             {title}
           </CardTitle>
@@ -46,7 +47,9 @@ export default function ProjectAndPhaseCard({
             <div className="flex gap-2">
               <Calendar />
               <span>
-                {endedAt ? `${startedAt} - ${endedAt}` : `${startedAt}`}
+                {endedAt
+                  ? `${formatDate(startedAt)} - ${formatDate(endedAt)}`
+                  : `${formatDate(startedAt)}`}
               </span>
             </div>
           </div>

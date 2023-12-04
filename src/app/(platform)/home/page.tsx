@@ -3,7 +3,7 @@ import { Search } from "@/components/atoms/search";
 import { redirect } from "next/navigation";
 import { fetchProject } from "@/lib/data-fetching";
 import { TProject } from "@/lib/type";
-import ProjectAndPhaseCard from "@/components/molecules/project-and-phase-card";
+import ProjectAndDeploymentCard from "@/components/molecules/project-and-deployment-card";
 import { formatDate } from "@/lib/utils";
 import {
   EmptyState,
@@ -27,15 +27,16 @@ import {
   HeaderTitle,
 } from "@/components/molecules/header";
 import { getServerAuthSession } from "@/lib/auth";
+import { CardGrid } from "@/components/templates/card-grid";
 
-export default async function Home({
-  searchParams,
-}: {
+type HomeProps = {
   searchParams?: {
     searchQuery?: string;
     sortBy?: string;
   };
-}) {
+};
+
+export default async function Home({ searchParams }: HomeProps) {
   const searchQuery = searchParams?.searchQuery || "";
   const sortBy = searchParams?.sortBy || "";
 
@@ -84,18 +85,18 @@ export default async function Home({
             <SortDropDown />
           </div>
           {data.length !== 0 ? (
-            <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <CardGrid>
               {data.map((project: TProject) => (
-                <ProjectAndPhaseCard
+                <ProjectAndDeploymentCard
                   key={project.id}
                   href={`/project/${project.id}/deployments`}
                   title={project.name}
                   owner={project.owner}
                   location={project.location.en_name}
-                  startedAt={formatDate(project.startedAt)}
+                  startedAt={project.startedAt}
                 />
               ))}
-            </div>
+            </CardGrid>
           ) : (
             <EmptyState>
               <EmptyStateImage>

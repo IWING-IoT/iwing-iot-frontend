@@ -32,7 +32,7 @@ export default async function Layout({ params, children }: PhaseProps) {
             <HeaderTitle>{projectData.name}</HeaderTitle>
           </HeaderTitleAndSupporting>
         </HeaderContent>
-        <NavTabs tabs={tabs} />
+        <NavTabs tabs={tabs} layoutId="project" />
       </Header>
       <MainContainer>{children}</MainContainer>
     </>

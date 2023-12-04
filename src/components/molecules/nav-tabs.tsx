@@ -8,13 +8,14 @@ type NavTabsProps = {
     label: string;
     href: string;
   }[];
+  layoutId: string;
 };
 
-export const NavTabs = ({ tabs }: NavTabsProps) => {
+export const NavTabs = ({ tabs, layoutId }: NavTabsProps) => {
   const pathname = usePathname().split("/").at(-1);
 
   return (
-    <div className="mb-[-1px] flex gap-3">
+    <div className="mb-[-1px] flex gap-3 overflow-x-auto whitespace-nowrap">
       {tabs.map((item) => (
         <Link
           key={item.href}
@@ -23,15 +24,17 @@ export const NavTabs = ({ tabs }: NavTabsProps) => {
         >
           <p
             className={`px-1 font-medium ${
-              pathname === item.href ? "text-tabs-active" : "text-tabs"
+              pathname === item.href
+                ? "text-primary dark:text-foreground"
+                : "text-muted-foreground"
             }`}
           >
             {item.label}
           </p>
           {pathname === item.href && (
             <motion.div
-              className="bg-tabs-active h-[3px] rounded-full"
-              layoutId="underline"
+              className="h-[3px] rounded-full bg-primary"
+              layoutId={layoutId}
             />
           )}
         </Link>

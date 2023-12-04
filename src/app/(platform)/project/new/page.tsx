@@ -10,21 +10,10 @@ import Link from "next/link";
 export default async function NewProject() {
   const { data: templateData }: { data: TTemplate[] } =
     await fetchData("/template");
+
   const { data: locationData }: { data: TLocation[] } =
     await fetchData("/location");
-  // console.log(locationData);
-  // const locationData = [
-  //   {
-  //     id: "65661758e5c4c90dcedb1310",
-  //     th_name: "สวี, ชุมพร",
-  //     en_name: "Sawi, Chumphon",
-  //   },
-  //   {
-  //     id: "65661759e5c4c90dcedb1312",
-  //     th_name: "เมืองชุมพร, ชุมพร",
-  //     en_name: "Mueang Chumphon, Chumphon",
-  //   },
-  // ];
+
   return (
     <div className="flex flex-1 justify-center">
       <MainContainer className="flex max-w-xl flex-1 gap-5">
