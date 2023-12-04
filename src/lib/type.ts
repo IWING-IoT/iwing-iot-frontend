@@ -28,7 +28,7 @@ export type TLocation = {
 };
 
 export type TCreateProjectDetails = {
-  template: string;
+  template?: string;
   name: string;
   location: string;
   startedAt: string;

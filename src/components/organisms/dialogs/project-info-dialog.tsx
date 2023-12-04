@@ -1,12 +1,10 @@
 import {
-  Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { fetchData } from "@/lib/data-fetching";
 import { TProjectDetails } from "@/lib/type";
 import { formatDate } from "@/lib/utils";
 import { Calendar, Info, MapPin, User } from "lucide-react";
