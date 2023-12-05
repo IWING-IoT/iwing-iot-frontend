@@ -91,6 +91,34 @@ export function UserAccountForm({ submitLabel }: UserAccountFormProps) {
       >
         <FormField
           control={form.control}
+          name="role"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Select role</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex flex-col space-y-1"
+                >
+                  <CustomRadioItem value={"admin"}>
+                    <CustomRadioItemContainer>
+                      <CustomRadioItemLabel>Admin</CustomRadioItemLabel>
+                    </CustomRadioItemContainer>
+                  </CustomRadioItem>
+                  <CustomRadioItem value={"user"}>
+                    <CustomRadioItemContainer>
+                      <CustomRadioItemLabel>User</CustomRadioItemLabel>
+                    </CustomRadioItemContainer>
+                  </CustomRadioItem>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem>
@@ -155,34 +183,6 @@ export function UserAccountForm({ submitLabel }: UserAccountFormProps) {
                     )}
                   </div>
                 </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="role"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Select template</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex flex-col space-y-1"
-                >
-                  <CustomRadioItem value={"admin"}>
-                    <CustomRadioItemContainer>
-                      <CustomRadioItemLabel>Admin</CustomRadioItemLabel>
-                    </CustomRadioItemContainer>
-                  </CustomRadioItem>
-                  <CustomRadioItem value={"user"}>
-                    <CustomRadioItemContainer>
-                      <CustomRadioItemLabel>User</CustomRadioItemLabel>
-                    </CustomRadioItemContainer>
-                  </CustomRadioItem>
-                </RadioGroup>
               </FormControl>
               <FormMessage />
             </FormItem>
