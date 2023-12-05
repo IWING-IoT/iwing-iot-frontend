@@ -30,9 +30,7 @@ export default function Error({
           <EmptyStateTitle>
             Sorry, we've run into an issue on our end.
           </EmptyStateTitle>
-          <EmptyStateDescription>
-            (Error: {error.message})
-          </EmptyStateDescription>
+          <EmptyStateDescription>(Error: {error.digest})</EmptyStateDescription>
         </EmptyStateTextContent>
         <EmptyStateAction>
           <Button variant={"outline"} asChild>

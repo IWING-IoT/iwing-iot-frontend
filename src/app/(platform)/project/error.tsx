@@ -29,7 +29,7 @@ export default function Error({
         <EmptyStateTitle>
           We encountered an issue while trying to retrieve this project.
         </EmptyStateTitle>
-        <EmptyStateDescription>(Error: {error.message})</EmptyStateDescription>
+        <EmptyStateDescription>(Error: {error.digest})</EmptyStateDescription>
       </EmptyStateTextContent>
       <EmptyStateAction>
         <Button variant={"outline"} asChild>
