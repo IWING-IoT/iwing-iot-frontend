@@ -9,7 +9,7 @@ export type TUserAccount = {
   role: "admin" | "user";
 };
 
-export const columns: ColumnDef<TUserAccount>[] = [
+export const userAccountColumns: ColumnDef<TUserAccount>[] = [
   {
     accessorKey: "name",
     header: "Name",

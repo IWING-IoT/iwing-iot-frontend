@@ -6,7 +6,7 @@ import {
   HeaderTitle,
   HeaderTitleAndSupporting,
 } from "@/components/molecules/header";
-import MainContainer from "@/components/templates/main-container";
+import { MainContainer } from "@/components/templates/main-container";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 

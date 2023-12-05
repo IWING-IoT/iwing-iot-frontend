@@ -35,7 +35,11 @@ const formSchema = z.object({
   role: z.enum(["admin", "user"]),
 });
 
-function UserAccountForm() {
+type UserAccountFormProps = {
+  submitLabel: string;
+};
+
+export function UserAccountForm({ submitLabel }: UserAccountFormProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
@@ -185,11 +189,9 @@ function UserAccountForm() {
           )}
         />
         <DialogFooter>
-          <Button type="submit">Create</Button>
+          <Button type="submit">{submitLabel}</Button>
         </DialogFooter>
       </form>
     </Form>
   );
 }
-
-export default UserAccountForm;

@@ -1,4 +1,4 @@
-import UnauthorizedIllustration from "@/components/atoms/illustrations/unauthorized-illustration";
+import { UnauthorizedIllustration } from "@/components/atoms/illustrations/unauthorized-illustration";
 import {
   EmptyState,
   EmptyStateAction,

@@ -120,7 +120,7 @@ export const BreadcrumbLink = React.forwardRef<
   return (
     <Comp
       className={cn(
-        "text-sm font-medium underline-offset-4 transition-colors aria-[current]:opacity-60 [&:not([aria-current])]:hover:underline",
+        "text-sm font-medium text-muted-foreground underline-offset-4 transition-colors aria-[current]:text-primary aria-[current]:dark:text-foreground [&:not([aria-current])]:hover:underline",
         className,
       )}
       aria-current={isCurrentPage ? "page" : undefined}

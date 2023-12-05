@@ -4,13 +4,13 @@ import { Button } from "../ui/button";
 import { TUser } from "@/lib/type";
 import { signOut } from "next-auth/react";
 import { LogOut } from "lucide-react";
-import CustomAvatar from "../atoms/custom-avatar";
+import { CustomAvatar } from "../atoms/custom-avatar";
 
 type NavProfileProps = {
   user: TUser;
 };
 
-const NavProfile = ({ user }: NavProfileProps) => {
+export function NavProfile({ user }: NavProfileProps) {
   return (
     <div className="flex items-center justify-between pl-4 pr-4">
       <div className="flex items-center gap-4">
@@ -32,6 +32,4 @@ const NavProfile = ({ user }: NavProfileProps) => {
       </Button>
     </div>
   );
-};
-
-export default NavProfile;
+}

@@ -1,12 +1,9 @@
-import { ISODateString } from "next-auth";
-
 export type TProject = {
   id: string;
   name: string;
   owner: string;
   location: TLocation;
   startedAt: string;
-  activePhaseId: string | null;
 };
 
 export type TUser = {
@@ -53,17 +50,18 @@ export type TProjectDetails = {
   description: string;
 };
 
-export type TPhaseDetails = {
-  _id: string;
-  name: string;
-  ownerName: string;
-  startedAt: string;
-  endedAt: string | null;
-};
-
 export type TCreateUserAccountDetails = {
   name: string;
   email: string;
   password: string;
   role: string;
+};
+
+export type TPhaseDetails = {
+  id: string;
+  name: string;
+  owner: string;
+  isActive: boolean;
+  startedAt: string;
+  endedAt: string;
 };

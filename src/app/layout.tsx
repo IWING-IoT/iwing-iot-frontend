@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import QueryClientProvider from "@/components/providers/query-client-provider";
-import JotaiProvider from "@/components/providers/jotai-provider";
 import { NextAuthProvider } from "@/components/providers/nextauth-provider";
-import SonnerToasterProvider from "@/components/providers/sonner-toaster-provider";
+import { JotaiProvider } from "@/components/providers/jotai-provider";
+import { SonnerToasterProvider } from "@/components/providers/sonner-toaster-provider";
+import { QueryClientProvider } from "@/components/providers/query-client-provider";
 
 export const metadata: Metadata = {
   title: "IWING IoT",

@@ -51,10 +51,7 @@ type NewProjectFormProps = {
   location: TLocation[];
 };
 
-export default function NewProjectForm({
-  template,
-  location,
-}: NewProjectFormProps) {
+export function NewProjectForm({ template, location }: NewProjectFormProps) {
   const templateNames = template.map((template) => template.id);
   const locationNames = location.map((location) => location.id);
   // console.log(templateNames);

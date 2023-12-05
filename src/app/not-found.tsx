@@ -1,4 +1,4 @@
-import NotFound404Illustration from "@/components/atoms/illustrations/notfound-404-illustration";
+import { NotFound404Illustration } from "@/components/atoms/illustrations/notfound-404-illustration";
 import {
   EmptyState,
   EmptyStateAction,

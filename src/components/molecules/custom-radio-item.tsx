@@ -6,7 +6,7 @@ type CustomRadioItemProps = {
   children?: React.ReactNode;
 };
 
-export const CustomRadioItem = ({ value, children }: CustomRadioItemProps) => {
+export function CustomRadioItem({ value, children }: CustomRadioItemProps) {
   return (
     <FormItem className="flex flex-1 items-center space-x-3 space-y-0">
       <FormLabel className="flex flex-1 cursor-pointer gap-2 rounded-xl border bg-popover p-4 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 peer-data-[state=checked]:border-2 peer-data-[state=checked]:border-primary peer-data-[state=checked]:p-[15px] [&:has([data-state=checked])]:border-2 [&:has([data-state=checked])]:border-primary [&:has([data-state=checked])]:p-[15px]">
@@ -20,7 +20,7 @@ export const CustomRadioItem = ({ value, children }: CustomRadioItemProps) => {
       </FormLabel>
     </FormItem>
   );
-};
+}
 
 export const CustomRadioItemContainer = ({
   children,

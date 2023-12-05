@@ -5,7 +5,7 @@ type CustomAvatarProps = {
   size: number;
 };
 
-export default function CustomAvatar({ value, size }: CustomAvatarProps) {
+export function CustomAvatar({ value, size }: CustomAvatarProps) {
   return (
     <div
       style={{ height: `${size}px`, width: `${size}px` }}

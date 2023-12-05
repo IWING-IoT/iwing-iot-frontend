@@ -13,8 +13,7 @@ import {
   HeaderTitleAndSupporting,
 } from "@/components/molecules/header";
 import { NavTabs } from "@/components/molecules/nav-tabs";
-import MainContainer from "@/components/templates/main-container";
-import { Button } from "@/components/ui/button";
+import { MainContainer } from "@/components/templates/main-container";
 import { fetchData } from "@/lib/data-fetching";
 import { TPhaseDetails, TProjectDetails } from "@/lib/type";
 
@@ -26,7 +25,7 @@ const tabs = [
 ];
 
 type LayoutProps = {
-  params: { projectId: string; phaseId: string };
+  params: { projectId: string; deploymentId: string };
   children: React.ReactNode;
 };
 
@@ -36,34 +35,27 @@ export default async function Layout({ params, children }: LayoutProps) {
     `/project/${params.projectId}`,
   );
   const { data: phaseData }: { data: TPhaseDetails } = await fetchData(
-    `/phase/${params.phaseId}`,
+    `/phase/${params.deploymentId}`,
   );
   return (
     <>
       <Header className="pb-0 sm:pb-0">
-        {/* <Breadcrumb>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/home?sortBy=ascending">Home</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink isCurrentPage>{data.name}</BreadcrumbLink>
-            </BreadcrumbItem>
-          </Breadcrumb> */}
+        <Breadcrumb>
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/project/${params.projectId}/deployments`}>
+              {projectData.name}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbItem isCurrentPage>
+            <BreadcrumbLink isCurrentPage>{phaseData.name}</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
         <HeaderContent>
           <HeaderTitleAndSupporting>
-            <HeaderTitle>
-              {projectData.name} ({phaseData.name})
-            </HeaderTitle>
+            <HeaderTitle>{phaseData.name}</HeaderTitle>
           </HeaderTitleAndSupporting>
-          <HeaderActions>
-            <DeploymentDropdown />
-            <ProjectMoreDropdown
-              projectId={params.projectId}
-              projectData={projectData}
-            />
-          </HeaderActions>
         </HeaderContent>
-        <NavTabs tabs={tabs} />
+        <NavTabs tabs={tabs} layoutId="deployment" />
       </Header>
       <MainContainer>{children}</MainContainer>
     </>

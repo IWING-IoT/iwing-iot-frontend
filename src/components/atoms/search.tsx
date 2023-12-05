@@ -8,7 +8,7 @@ type SearchProps = {
   placeholder?: string;
 };
 
-export const Search = ({ className, placeholder }: SearchProps) => {
+export function Search({ className, placeholder }: SearchProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -34,4 +34,4 @@ export const Search = ({ className, placeholder }: SearchProps) => {
       defaultValue={searchParams.get("searchQuery")?.toString()}
     />
   );
-};
+}

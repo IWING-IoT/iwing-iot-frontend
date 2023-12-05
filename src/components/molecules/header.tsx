@@ -10,7 +10,7 @@ export function Header({ children, className }: HeaderProps) {
   return (
     <header
       className={cn(
-        "flex w-full flex-col gap-5 border-b p-4 sm:p-6",
+        "flex w-full flex-col gap-5 border-b px-4 py-6 sm:p-6",
         className,
       )}
     >

@@ -1,10 +1,7 @@
-import SortDropDown from "@/components/molecules/dropdowns/project-sort-dropdown";
 import { Search } from "@/components/atoms/search";
 import { redirect } from "next/navigation";
 import { fetchProject } from "@/lib/data-fetching";
 import { TProject } from "@/lib/type";
-import ProjectCard from "@/components/molecules/project-card";
-import { formatDate } from "@/lib/utils";
 import {
   EmptyState,
   EmptyStateAction,
@@ -16,9 +13,6 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import ProjectIllustration from "@/components/atoms/illustrations/project-illustration";
-import NotFoundIllustration from "@/components/atoms/illustrations/not-found-illustration";
-import MainContainer from "@/components/templates/main-container";
 import {
   Header,
   HeaderActions,
@@ -27,15 +21,21 @@ import {
   HeaderTitle,
 } from "@/components/molecules/header";
 import { getServerAuthSession } from "@/lib/auth";
+import { CardGrid } from "@/components/templates/card-grid";
+import { NotFoundIllustration } from "@/components/atoms/illustrations/not-found-illustration";
+import { ProjectIllustration } from "@/components/atoms/illustrations/project-illustration";
+import { SortDropDown } from "@/components/molecules/dropdowns/project-sort-dropdown";
+import { ProjectAndDeploymentCard } from "@/components/molecules/project-and-deployment-card";
+import { MainContainer } from "@/components/templates/main-container";
 
-export default async function Home({
-  searchParams,
-}: {
+type HomeProps = {
   searchParams?: {
     searchQuery?: string;
     sortBy?: string;
   };
-}) {
+};
+
+export default async function Home({ searchParams }: HomeProps) {
   const searchQuery = searchParams?.searchQuery || "";
   const sortBy = searchParams?.sortBy || "";
 
@@ -84,22 +84,18 @@ export default async function Home({
             <SortDropDown />
           </div>
           {data.length !== 0 ? (
-            <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <CardGrid>
               {data.map((project: TProject) => (
-                <ProjectCard
+                <ProjectAndDeploymentCard
                   key={project.id}
-                  href={
-                    project.activePhaseId
-                      ? `/project/${project.id}/phase/${project.activePhaseId}/dashboard`
-                      : `/project/${project.id}/phase`
-                  }
+                  href={`/project/${project.id}/deployments`}
                   title={project.name}
                   owner={project.owner}
                   location={project.location.en_name}
-                  startedAt={formatDate(project.startedAt)}
+                  startedAt={project.startedAt}
                 />
               ))}
-            </div>
+            </CardGrid>
           ) : (
             <EmptyState>
               <EmptyStateImage>

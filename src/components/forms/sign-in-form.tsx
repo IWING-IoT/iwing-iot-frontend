@@ -23,7 +23,7 @@ const formSchema = z.object({
   password: z.string().min(8).max(30),
 });
 
-export default function SignInForm() {
+export function SignInForm() {
   const router = useRouter();
   const [alert, setAlert] = useState({ show: false, status: 401 });
   const [showPassword, setShowPassword] = useState(false);

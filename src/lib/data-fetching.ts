@@ -48,7 +48,7 @@ clientAxios.interceptors.request.use(
   },
 );
 
-export const fetchProject = async (searchQuery?: string, sortBy?: string) => {
+export async function fetchProject(searchQuery?: string, sortBy?: string) {
   try {
     const { data } = await serverAxios.get(
       `/project?sortBy=${sortBy ? sortBy : "ascending"}${
@@ -61,9 +61,9 @@ export const fetchProject = async (searchQuery?: string, sortBy?: string) => {
   } catch (error) {
     throw error;
   }
-};
+}
 
-export const fetchData = async (path: string) => {
+export async function fetchData(path: string) {
   try {
     const { data } = await serverAxios.get(path);
     // console.log("data => ", data);
@@ -71,9 +71,9 @@ export const fetchData = async (path: string) => {
   } catch (error) {
     throw error;
   }
-};
+}
 
-export const postData = async (path: string, body: any) => {
+export async function postData(path: string, body: any) {
   try {
     const { data } = await clientAxios.post(path, body);
     // console.log("data => ", data);
@@ -81,4 +81,4 @@ export const postData = async (path: string, body: any) => {
   } catch (error) {
     throw error;
   }
-};
+}

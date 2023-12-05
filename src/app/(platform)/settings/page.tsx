@@ -4,8 +4,8 @@ import {
   HeaderTitle,
   HeaderTitleAndSupporting,
 } from "@/components/molecules/header";
-import MainContainer from "@/components/templates/main-container";
 import { ModeToggle } from "@/components/molecules/mode-toggle";
+import { MainContainer } from "@/components/templates/main-container";
 
 export default function Settings() {
   return (
