@@ -3,7 +3,7 @@ type SectionHeaderProps = {
 };
 
 export function SectionHeader({ children }: SectionHeaderProps) {
-  return <div className="flex gap-4">{children}</div>;
+  return <div className="min-h-10 flex items-center gap-4">{children}</div>;
 }
 
 export function SectionHeaderTextContent({ children }: SectionHeaderProps) {
