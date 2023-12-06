@@ -167,7 +167,7 @@ export function NewProjectForm({ template, location }: NewProjectFormProps) {
                       variant="outline"
                       role="combobox"
                       className={cn(
-                        "justify-between p-3 font-normal",
+                        "justify-between p-3 text-base font-normal sm:text-sm",
                         !field.value && "text-muted-foreground",
                       )}
                     >
@@ -226,7 +226,7 @@ export function NewProjectForm({ template, location }: NewProjectFormProps) {
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "pl-3 text-left font-normal",
+                        "pl-3 text-left text-base font-normal sm:text-sm",
                         !field.value && "text-muted-foreground",
                       )}
                     >

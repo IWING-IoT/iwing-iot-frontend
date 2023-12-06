@@ -23,14 +23,12 @@ import { toast } from "sonner";
 import { DialogFooter } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { useMutation } from "@tanstack/react-query";
-import {
-  THttpError,
-  TInviteCollaborators,
-  TInviteCollaboratorsError,
-} from "@/lib/type";
+import { THttpError, TInviteCollaborators } from "@/lib/type";
 import { postData } from "@/lib/data-fetching";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
+import { showDialogAtom } from "@/store/atoms";
+import { CodeBlock } from "../templates/code-block";
 
 const formSchema = z.object({
   permission: z.enum(["655cf84bad42c1839d57648c", "655cf8d3ad42c1839d576491"]),
@@ -68,6 +66,7 @@ export function InviteCollaboratorsForm({
     mode: "onBlur",
   });
   const [tags, setTags] = useState<Tag[]>([]);
+  const [showDialog, setShowDialog] = useAtom(showDialogAtom);
 
   const { setValue } = form;
 
@@ -85,14 +84,21 @@ export function InviteCollaboratorsForm({
       document.dispatchEvent(escEvent);
       router.refresh();
       if (response.invalidCollaborator.length > 0) {
-        const invalidCollaborators = response.invalidCollaborator
-          .map(
-            (collab: TInviteCollaboratorsError) =>
-              `${collab.email} (${collab.reason})`,
-          )
-          .join(", ");
         toast.error("Some collaborators were not invited", {
-          description: `Including ${invalidCollaborators}`,
+          action: {
+            label: "Details",
+            onClick: () =>
+              setShowDialog({
+                show: true,
+                title: "Error details",
+                children: (
+                  <CodeBlock
+                    code={JSON.stringify(response, null, 2)}
+                    language="json"
+                  />
+                ),
+              }),
+          },
         });
       } else {
         toast.success("Collaborators invited successfully");
@@ -105,19 +111,8 @@ export function InviteCollaboratorsForm({
       email: email.text,
       permission: data.permission,
     }));
-
-    // toast("You submitted the following values:", {
-    //   description: (
-    //     <pre className="mt-2 w-[340px] overflow-scroll rounded-md bg-slate-950 p-4 font-mono">
-    //       <code className="text-white">
-    //         {JSON.stringify(inviteCollaboratorsData, null, 2)}
-    //       </code>
-    //     </pre>
-    //   ),
-    // });
     inviteCollaborators.mutate(inviteCollaboratorsData);
   }
-
   return (
     <Form {...form}>
       <form

@@ -70,8 +70,3 @@ export type TInviteCollaborators = {
   email: string;
   permission: string;
 }[];
-
-export type TInviteCollaboratorsError = {
-  email: string;
-  reason: string;
-};

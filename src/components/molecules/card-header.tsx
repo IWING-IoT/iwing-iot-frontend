@@ -15,7 +15,7 @@ export function CardHeaderTextContent({ children }: CardHeaderProps) {
 }
 
 export function CardHeaderTitle({ children }: CardHeaderProps) {
-  return <h2 className="text-lg font-semibold">{children}</h2>;
+  return <h2 className="text-xl font-semibold sm:text-2xl">{children}</h2>;
 }
 
 export function CardHeaderDescription({ children }: CardHeaderProps) {

@@ -7,6 +7,7 @@ import { JotaiProvider } from "@/components/providers/jotai-provider";
 import { SonnerToasterProvider } from "@/components/providers/sonner-toaster-provider";
 import { QueryClientProvider } from "@/components/providers/query-client-provider";
 import { DrawerWrapper } from "@/components/atoms/drawer-wrapper";
+import { ShowDialog } from "@/components/organisms/dialogs/show-dialog";
 
 export const metadata: Metadata = {
   title: "IWING IoT",
@@ -51,6 +52,7 @@ export default function RootLayout({
                 <DrawerWrapper>{children}</DrawerWrapper>
               </QueryClientProvider>
               <SonnerToasterProvider />
+              <ShowDialog />
             </JotaiProvider>
           </NextAuthProvider>
         </ThemeProvider>
