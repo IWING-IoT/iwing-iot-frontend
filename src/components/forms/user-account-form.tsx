@@ -28,16 +28,16 @@ import { THttpError, TCreateUserAccountDetails } from "@/lib/type";
 import { postData } from "@/lib/data-fetching";
 import { useRouter } from "next/navigation";
 
+type UserAccountFormProps = {
+  submitLabel: string;
+};
+
 const formSchema = z.object({
   name: z.string().min(1),
   email: z.string().email({ message: "Please enter a valid email address" }),
   password: z.string().min(8).max(30),
   role: z.enum(["admin", "user"]),
 });
-
-type UserAccountFormProps = {
-  submitLabel: string;
-};
 
 export function UserAccountForm({ submitLabel }: UserAccountFormProps) {
   const [showPassword, setShowPassword] = useState(false);
@@ -67,8 +67,8 @@ export function UserAccountForm({ submitLabel }: UserAccountFormProps) {
       // Close dialog
       const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
       document.dispatchEvent(escEvent);
-      toast.success("Account created successfully");
       router.refresh();
+      toast.success("Account created successfully");
     },
   });
 
@@ -98,7 +98,6 @@ export function UserAccountForm({ submitLabel }: UserAccountFormProps) {
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
                   className="flex flex-col space-y-1"
                 >
                   <CustomRadioItem value={"admin"}>

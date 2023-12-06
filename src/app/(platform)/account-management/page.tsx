@@ -15,8 +15,9 @@ import {
 } from "@/components/columns/user-account-columns";
 import { fetchData } from "@/lib/data-fetching";
 import { UserAccountForm } from "@/components/forms/user-account-form";
-import { FormDialog } from "@/components/organisms/dialogs/form-dialog";
 import { MainContainer } from "@/components/templates/main-container";
+import { TableWrapper } from "@/components/templates/table-wrapper";
+import { DialogWithContent } from "@/components/organisms/dialogs/dialog-with-content";
 
 export default async function AccountManagement() {
   const { data }: { data: TUserAccount[] } = await fetchData("/admin/account");
@@ -31,20 +32,22 @@ export default async function AccountManagement() {
             </HeaderDescription>
           </HeaderTitleAndSupporting>
           <HeaderActions>
-            <FormDialog
-              form={<UserAccountForm submitLabel="Create" />}
+            <DialogWithContent
+              content={<UserAccountForm submitLabel="Create" />}
               title="Create new account"
             >
               <Button>
                 <Plus className="mr-2 h-5 w-5" />
                 New account
               </Button>
-            </FormDialog>
+            </DialogWithContent>
           </HeaderActions>
         </HeaderContent>
       </Header>
       <MainContainer>
-        <DataTable columns={userAccountColumns} data={data} />
+        <TableWrapper>
+          <DataTable columns={userAccountColumns} data={data} />
+        </TableWrapper>
       </MainContainer>
     </>
   );

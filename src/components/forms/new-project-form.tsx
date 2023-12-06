@@ -51,20 +51,16 @@ type NewProjectFormProps = {
   location: TLocation[];
 };
 
+const formSchema = z.object({
+  template: z.string(),
+  name: z.string().min(1).max(100, { message: "Character limit exceeded" }),
+  location: z.string(),
+  startedAt: z.date(),
+  description: z.string(),
+});
+
 export function NewProjectForm({ template, location }: NewProjectFormProps) {
-  const templateNames = template.map((template) => template.id);
-  const locationNames = location.map((location) => location.id);
-  // console.log(templateNames);
-
   const router = useRouter();
-
-  const formSchema = z.object({
-    template: z.string(),
-    name: z.string().min(1).max(100, { message: "Character limit exceeded" }),
-    location: z.string(),
-    startedAt: z.date(),
-    description: z.string(),
-  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

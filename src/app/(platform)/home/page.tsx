@@ -66,7 +66,7 @@ export default async function Home({ searchParams }: HomeProps) {
           <EmptyStateAction>
             <Button asChild>
               <Link href="/project/new">
-                <Plus className="mr-2 h-5 w-5" />
+                <Plus className="mr-1.5 h-5 w-5" />
                 New project
               </Link>
             </Button>
@@ -124,7 +124,7 @@ export default async function Home({ searchParams }: HomeProps) {
           <HeaderActions>
             <Button asChild>
               <Link href="/project/new">
-                <Plus className="mr-2 h-5 w-5" />
+                <Plus className="mr-1.5 h-5 w-5" />
                 New project
               </Link>
             </Button>
