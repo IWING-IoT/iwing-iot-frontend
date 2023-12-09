@@ -12,32 +12,23 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { TProjectDetails } from "@/lib/type";
-import {
-  Archive,
-  List,
-  MoreHorizontal,
-  Pen,
-  Trash2,
-  UserPlus,
-  Users,
-} from "lucide-react";
-import Link from "next/link";
+import { Archive, ChevronDown, Pen, Trash2 } from "lucide-react";
 
 type ProjectMoreDropdownProps = {
   projectId: string;
   projectData: TProjectDetails;
 };
 
-export const ProjectMoreDropdown = async ({
+export async function ProjectDropdown({
   projectId,
   projectData,
-}: ProjectMoreDropdownProps) => {
+}: ProjectMoreDropdownProps) {
   return (
     <Dialog>
-      <DropdownMenu modal={false}>
+      <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant={"outline"} size={"icon"}>
-            <MoreHorizontal className="h-5 w-5" />
+          <Button variant={"ghost"} size={"icon"}>
+            <ChevronDown className="h-6 w-6" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-60" align="end">
@@ -46,22 +37,6 @@ export const ProjectMoreDropdown = async ({
           <DropdownMenuItem>
             <Pen className="h-4 w-4" />
             Edit
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem asChild>
-            <Link href={`/project/${projectId}/collaborators`}>
-              <Users className="h-4 w-4" />
-              Collaborators
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <UserPlus className="h-4 w-4" />
-            Invite collaborators
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <List className="h-4 w-4" />
-            Attribute data
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
@@ -77,4 +52,4 @@ export const ProjectMoreDropdown = async ({
       <ProjectInfoDialogContent projectData={projectData} />
     </Dialog>
   );
-};
+}

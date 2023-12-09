@@ -70,3 +70,9 @@ export type TInviteCollaborators = {
   email: string;
   permission: string;
 }[];
+
+export type TDeploymentDetails = {
+  name: string;
+  startedAt: string;
+  description: string;
+};
