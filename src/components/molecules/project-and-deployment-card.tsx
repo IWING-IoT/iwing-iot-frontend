@@ -36,17 +36,17 @@ export function ProjectAndDeploymentCard({
           <div className="flex flex-col gap-4 text-muted-foreground">
             <div className="flex gap-2">
               <User className="shrink-0" />
-              <span className="truncate">{owner}</span>
+              <span>{owner}</span>
             </div>
             {location && (
               <div className="flex gap-2">
                 <MapPin className="shrink-0" />
-                <span className="truncate">{location}</span>
+                <span>{location}</span>
               </div>
             )}
             <div className="flex gap-2">
               <Calendar className="shrink-0" />
-              <span className="truncate">
+              <span>
                 {endedAt
                   ? `${formatDate(startedAt)} - ${formatDate(endedAt)}`
                   : `${formatDate(startedAt)}`}

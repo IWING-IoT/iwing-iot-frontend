@@ -14,6 +14,8 @@ type ProjectInfoDialogProps = {
   projectData: TProjectDetails;
 };
 
+// Separate the trigger and the content of the dialog because of radix ui's bug
+
 export function ProjectInfoDialogTrigger() {
   return (
     <DialogTrigger asChild>

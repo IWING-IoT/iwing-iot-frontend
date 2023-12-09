@@ -3,8 +3,6 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
 } from "@/components/molecules/breadcrumbs";
-import { DeploymentDropdown } from "@/components/molecules/dropdowns/deployment-dropdown";
-import { ProjectMoreDropdown } from "@/components/molecules/dropdowns/project-more-dropdowm";
 import {
   Header,
   HeaderActions,

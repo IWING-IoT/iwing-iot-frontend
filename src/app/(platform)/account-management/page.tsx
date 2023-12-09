@@ -37,7 +37,7 @@ export default async function AccountManagement() {
               title="Create new account"
             >
               <Button>
-                <Plus className="mr-2 h-5 w-5" />
+                <Plus className="mr-1.5 h-5 w-5" />
                 New account
               </Button>
             </DialogWithContent>
