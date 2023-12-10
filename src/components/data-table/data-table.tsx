@@ -4,6 +4,8 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -15,6 +17,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  EmptyState,
+  EmptyStateDescription,
+  EmptyStateImage,
+  EmptyStateTextContent,
+  EmptyStateTitle,
+} from "../molecules/empty-state";
+import { NotFoundIllustration } from "../atoms/illustrations/not-found-illustration";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -29,6 +39,8 @@ export function DataTable<TData, TValue>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
   });
 
   return (
@@ -67,8 +79,18 @@ export function DataTable<TData, TValue>({
           ))
         ) : (
           <TableRow>
-            <TableCell colSpan={columns.length} className="h-24 text-center">
-              No results.
+            <TableCell colSpan={columns.length}>
+              <EmptyState>
+                <EmptyStateImage>
+                  <NotFoundIllustration />
+                </EmptyStateImage>
+                <EmptyStateTextContent>
+                  <EmptyStateTitle>No results were found</EmptyStateTitle>
+                  <EmptyStateDescription>
+                    Try different keywords or remove search filters.
+                  </EmptyStateDescription>
+                </EmptyStateTextContent>
+              </EmptyState>
             </TableCell>
           </TableRow>
         )}
