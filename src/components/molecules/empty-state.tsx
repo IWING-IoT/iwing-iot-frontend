@@ -8,7 +8,7 @@ export function EmptyStateImage({ children }: EmptyStateProps) {
 
 export function EmptyState({ children }: EmptyStateProps) {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-6">
+    <div className="m-4 flex flex-1 flex-col items-center justify-center gap-6">
       {children}
     </div>
   );
@@ -19,7 +19,11 @@ export function EmptyStateTextContent({ children }: EmptyStateProps) {
 }
 
 export function EmptyStateTitle({ children }: EmptyStateProps) {
-  return <h2 className="text-xl font-semibold text-foreground">{children}</h2>;
+  return (
+    <h2 className="text-center text-xl font-semibold text-foreground">
+      {children}
+    </h2>
+  );
 }
 
 export function EmptyStateDescription({ children }: EmptyStateProps) {

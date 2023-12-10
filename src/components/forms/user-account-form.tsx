@@ -24,22 +24,22 @@ import {
 import { DialogFooter } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { useMutation } from "@tanstack/react-query";
-import { THttpError, TCreateUserAccountDetails } from "@/lib/type";
+import { THttpError, TUserAccountDetails } from "@/lib/type";
 import { postData } from "@/lib/data-fetching";
 import { useRouter } from "next/navigation";
 
-const formSchema = z.object({
-  name: z.string().min(1),
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  password: z.string().min(8).max(30),
-  role: z.enum(["admin", "user"]),
-});
-
 type UserAccountFormProps = {
-  submitLabel: string;
+  type: "create" | "edit";
+  userData?: Omit<TUserAccountDetails, "password">;
 };
 
-export function UserAccountForm({ submitLabel }: UserAccountFormProps) {
+export function UserAccountForm({ type, userData }: UserAccountFormProps) {
+  const formSchema = z.object({
+    name: z.string().min(1),
+    email: z.string().email({ message: "Please enter a valid email address" }),
+    password: z.string().min(8).max(30),
+    role: z.enum(["admin", "user"]),
+  });
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
@@ -47,16 +47,16 @@ export function UserAccountForm({ submitLabel }: UserAccountFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      email: "",
+      role: userData ? userData.role : undefined,
+      name: userData ? userData.name : "",
+      email: userData ? userData.email : "",
       password: "",
     },
     mode: "onBlur",
   });
 
   const createAccount = useMutation({
-    mutationFn: (data: TCreateUserAccountDetails) =>
-      postData("/admin/account", data),
+    mutationFn: (data: TUserAccountDetails) => postData("/admin/account", data),
     onError: (error: THttpError) => {
       // console.log(error.response.data.message);
       toast.error("Unable to create account", {
@@ -67,20 +67,24 @@ export function UserAccountForm({ submitLabel }: UserAccountFormProps) {
       // Close dialog
       const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
       document.dispatchEvent(escEvent);
-      toast.success("Account created successfully");
       router.refresh();
+      toast.success("Account created successfully");
     },
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    // toast("You submitted the following values:", {
-    //   description: (
-    //     <pre className="mt-2 w-[340px] overflow-scroll rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   ),
-    // });
-    createAccount.mutate(data);
+    if (type === "create") {
+      createAccount.mutate(data);
+    } else {
+      // Edit account
+      toast("You submitted the following values:", {
+        description: (
+          <pre className="mt-2 w-[340px] overflow-scroll rounded-md bg-slate-950 p-4">
+            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        ),
+      });
+    }
   }
 
   return (
@@ -98,8 +102,8 @@ export function UserAccountForm({ submitLabel }: UserAccountFormProps) {
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
                   className="flex flex-col space-y-1"
+                  defaultValue={field.value}
                 >
                   <CustomRadioItem value={"admin"}>
                     <CustomRadioItemContainer>
@@ -189,7 +193,9 @@ export function UserAccountForm({ submitLabel }: UserAccountFormProps) {
           )}
         />
         <DialogFooter>
-          <Button type="submit">{submitLabel}</Button>
+          <Button type="submit">
+            {type === "create" ? "Create" : "Save changes"}
+          </Button>
         </DialogFooter>
       </form>
     </Form>

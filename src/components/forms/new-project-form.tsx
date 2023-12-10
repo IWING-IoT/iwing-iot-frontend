@@ -51,20 +51,16 @@ type NewProjectFormProps = {
   location: TLocation[];
 };
 
+const formSchema = z.object({
+  template: z.string(),
+  name: z.string().min(1).max(100, { message: "Character limit exceeded" }),
+  location: z.string(),
+  startedAt: z.date(),
+  description: z.string(),
+});
+
 export function NewProjectForm({ template, location }: NewProjectFormProps) {
-  const templateNames = template.map((template) => template.id);
-  const locationNames = location.map((location) => location.id);
-  // console.log(templateNames);
-
   const router = useRouter();
-
-  const formSchema = z.object({
-    template: z.string(),
-    name: z.string().min(1).max(100, { message: "Character limit exceeded" }),
-    location: z.string(),
-    startedAt: z.date(),
-    description: z.string(),
-  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -171,7 +167,7 @@ export function NewProjectForm({ template, location }: NewProjectFormProps) {
                       variant="outline"
                       role="combobox"
                       className={cn(
-                        "justify-between p-3 font-normal",
+                        "justify-between p-3 text-base font-normal sm:text-sm",
                         !field.value && "text-muted-foreground",
                       )}
                     >
@@ -230,7 +226,7 @@ export function NewProjectForm({ template, location }: NewProjectFormProps) {
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "pl-3 text-left font-normal",
+                        "pl-3 text-left text-base font-normal sm:text-sm",
                         !field.value && "text-muted-foreground",
                       )}
                     >

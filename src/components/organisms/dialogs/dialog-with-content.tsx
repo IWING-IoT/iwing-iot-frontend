@@ -14,19 +14,19 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 
-type FormDialogProps = {
+type DialogWithContentProps = {
   children: React.ReactNode;
   title: string;
-  form: React.ReactNode;
+  content: React.ReactNode;
   classNames?: string;
 };
 
-export function FormDialog({
+export function DialogWithContent({
   children,
   title,
-  form,
+  content,
   classNames,
-}: FormDialogProps) {
+}: DialogWithContentProps) {
   return (
     <>
       <Dialog>
@@ -37,7 +37,7 @@ export function FormDialog({
           <DialogHeader className="mb-4">
             <DialogTitle>{title}</DialogTitle>
           </DialogHeader>
-          {form}
+          {content}
         </DialogContent>
       </Dialog>
       <Drawer>
@@ -48,7 +48,7 @@ export function FormDialog({
           <DrawerHeader>
             <DrawerTitle>{title}</DrawerTitle>
           </DrawerHeader>
-          <div className="overflow-y-auto p-4">{form}</div>
+          <div className="overflow-y-auto p-4">{content}</div>
         </DrawerContent>
       </Drawer>
     </>

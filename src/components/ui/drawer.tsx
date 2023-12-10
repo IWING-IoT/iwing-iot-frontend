@@ -71,6 +71,26 @@ const DrawerTitle = React.forwardRef<
 ));
 DrawerTitle.displayName = DrawerPrimitive.Title.displayName;
 
+const DrawerDescription = React.forwardRef<
+  React.ElementRef<typeof DrawerPrimitive.Description>,
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>
+>(({ className, ...props }, ref) => (
+  <DrawerPrimitive.Description
+    ref={ref}
+    className={cn("text-sm text-muted-foreground", className)}
+    {...props}
+  />
+));
+DrawerDescription.displayName = DrawerPrimitive.Description.displayName;
+
+const DrawerFooter = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={cn("flex flex-col-reverse gap-3", className)} {...props} />
+);
+DrawerFooter.displayName = "DrawerFooter";
+
 export {
   Drawer,
   DrawerTrigger,
@@ -79,4 +99,6 @@ export {
   DrawerHeader,
   DrawerClose,
   DrawerTitle,
+  DrawerDescription,
+  DrawerFooter,
 };

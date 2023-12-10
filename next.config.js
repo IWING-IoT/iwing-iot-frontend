@@ -7,6 +7,11 @@ const nextConfig = {
     BASE_URL: process.env.BASE_URL,
     TOKEN: process.env.TOKEN,
   },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
 };
 
 module.exports = nextConfig;

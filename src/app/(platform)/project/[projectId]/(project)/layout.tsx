@@ -8,8 +8,9 @@ import {
 } from "@/components/molecules/header";
 import { NavTabs } from "@/components/molecules/nav-tabs";
 import { MainContainer } from "@/components/templates/main-container";
+import { ProjectDropdown } from "@/components/molecules/dropdowns/project-dropdowm";
 
-type PhaseProps = {
+type ProjectProps = {
   params: { projectId: string };
   children: React.ReactNode;
 };
@@ -20,7 +21,7 @@ const tabs = [
   { label: "Attribute data", href: "attribute-data" },
 ];
 
-export default async function Layout({ params, children }: PhaseProps) {
+export default async function Layout({ params, children }: ProjectProps) {
   const { data: projectData }: { data: TProjectDetails } = await fetchData(
     `/project/${params.projectId}`,
   );
@@ -29,7 +30,13 @@ export default async function Layout({ params, children }: PhaseProps) {
       <Header className="pb-0 sm:pb-0">
         <HeaderContent>
           <HeaderTitleAndSupporting>
-            <HeaderTitle>{projectData.name}</HeaderTitle>
+            <div className="flex gap-2">
+              <HeaderTitle>{projectData.name}</HeaderTitle>
+              <ProjectDropdown
+                projectId={params.projectId}
+                projectData={projectData}
+              />
+            </div>
           </HeaderTitleAndSupporting>
         </HeaderContent>
         <NavTabs tabs={tabs} layoutId="project" />

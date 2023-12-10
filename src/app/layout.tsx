@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Anuphan } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { NextAuthProvider } from "@/components/providers/nextauth-provider";
@@ -7,6 +7,7 @@ import { JotaiProvider } from "@/components/providers/jotai-provider";
 import { SonnerToasterProvider } from "@/components/providers/sonner-toaster-provider";
 import { QueryClientProvider } from "@/components/providers/query-client-provider";
 import { DrawerWrapper } from "@/components/atoms/drawer-wrapper";
+import { ShowDialog } from "@/components/organisms/dialogs/show-dialog";
 
 export const metadata: Metadata = {
   title: "IWING IoT",
@@ -27,6 +28,13 @@ const jetbrains_mono = JetBrains_Mono({
   display: "swap",
 });
 
+const anuphan = Anuphan({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-anuphan",
+  display: "swap",
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -35,7 +43,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrains_mono.variable}`}
+      className={`${inter.variable} ${jetbrains_mono.variable} ${anuphan.variable}`}
       suppressHydrationWarning
     >
       <body className="font-sans">
@@ -51,6 +59,7 @@ export default function RootLayout({
                 <DrawerWrapper>{children}</DrawerWrapper>
               </QueryClientProvider>
               <SonnerToasterProvider />
+              <ShowDialog />
             </JotaiProvider>
           </NextAuthProvider>
         </ThemeProvider>
