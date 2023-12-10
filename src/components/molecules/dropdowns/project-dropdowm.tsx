@@ -27,20 +27,24 @@ export async function ProjectDropdown({
     <Dialog>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant={"ghost"} size={"icon"}>
-            <ChevronDown className="h-6 w-6" />
+          <Button
+            variant={"ghost"}
+            size={"icon"}
+            className="h-8 w-8 sm:h-10 sm:w-10"
+          >
+            <ChevronDown className="h-5 w-5 sm:h-6 sm:w-6" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-60" align="end">
           {/* Project info modal trigger */}
           <ProjectInfoDialogTrigger />
           <DropdownMenuItem>
-            <Pen className="h-4 w-4" />
+            <Pen className="h-4 w-4 text-muted-foreground" />
             Edit
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <Archive className="h-4 w-4" />
+            <Archive className="h-4 w-4 text-muted-foreground" />
             Archive
           </DropdownMenuItem>
           <DropdownMenuItem className="text-destructive data-[highlighted]:text-destructive">

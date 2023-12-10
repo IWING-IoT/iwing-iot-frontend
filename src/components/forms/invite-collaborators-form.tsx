@@ -31,7 +31,7 @@ import { showDialogAtom } from "@/store/atoms";
 import { CodeBlock } from "../templates/code-block";
 
 const formSchema = z.object({
-  permission: z.enum(["655cf84bad42c1839d57648c", "655cf8d3ad42c1839d576491"]),
+  permission: z.enum(["can_edit", "can_view"]),
   email: z
     .array(
       z.object({
@@ -130,12 +130,12 @@ export function InviteCollaboratorsForm({
                   onValueChange={field.onChange}
                   className="flex flex-col space-y-1"
                 >
-                  <CustomRadioItem value={"655cf84bad42c1839d57648c"}>
+                  <CustomRadioItem value={"can_edit"}>
                     <CustomRadioItemContainer>
                       <CustomRadioItemLabel>Can edit</CustomRadioItemLabel>
                     </CustomRadioItemContainer>
                   </CustomRadioItem>
-                  <CustomRadioItem value={"655cf8d3ad42c1839d576491"}>
+                  <CustomRadioItem value={"can_view"}>
                     <CustomRadioItemContainer>
                       <CustomRadioItemLabel>Can view</CustomRadioItemLabel>
                     </CustomRadioItemContainer>

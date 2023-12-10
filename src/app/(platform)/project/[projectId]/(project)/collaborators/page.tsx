@@ -1,7 +1,4 @@
-import {
-  TCollaborators,
-  collaboratorsColumns,
-} from "@/components/columns/collaborators-columns";
+import { collaboratorsColumns } from "@/components/columns/collaborators-columns";
 import { DataTable } from "@/components/data-table/data-table";
 import { InviteCollaboratorsForm } from "@/components/forms/invite-collaborators-form";
 import {
@@ -15,6 +12,7 @@ import { DialogWithContent } from "@/components/organisms/dialogs/dialog-with-co
 import { TableWrapper } from "@/components/templates/table-wrapper";
 import { Button } from "@/components/ui/button";
 import { fetchData } from "@/lib/data-fetching";
+import { TCollaborators } from "@/lib/type";
 import { UserPlus } from "lucide-react";
 
 type CollaboratorsProps = {

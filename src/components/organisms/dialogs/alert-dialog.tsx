@@ -69,6 +69,7 @@ export function AlertDialog({
               <DialogClose asChild>{submitButton}</DialogClose>
             ) : (
               <Button
+                className="flex-1"
                 onClick={onClickSubmit}
                 variant={variant === "error" ? "destructive" : "default"}
               >
@@ -97,9 +98,10 @@ export function AlertDialog({
               <Button variant={"outline"}>Cancel</Button>
             </DrawerClose>
             {submitButton ? (
-              submitButton
+              <DrawerClose asChild>{submitButton}</DrawerClose>
             ) : (
               <Button
+                className="flex-1"
                 onClick={onClickSubmit}
                 variant={variant === "error" ? "destructive" : "default"}
               >

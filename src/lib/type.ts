@@ -50,11 +50,11 @@ export type TProjectDetails = {
   description: string;
 };
 
-export type TCreateUserAccountDetails = {
+export type TUserAccountDetails = {
   name: string;
   email: string;
   password: string;
-  role: string;
+  role: "admin" | "user";
 };
 
 export type TPhaseDetails = {
@@ -70,6 +70,14 @@ export type TInviteCollaborators = {
   email: string;
   permission: string;
 }[];
+
+export type TCollaborators = {
+  id: string;
+  name: string;
+  email: string;
+  permission: "owner" | "can_edit" | "can_view";
+  permissionId: "655cf84bad42c1839d57648c" | "655cf8d3ad42c1839d576491";
+};
 
 export type TDeploymentDetails = {
   name: string;
