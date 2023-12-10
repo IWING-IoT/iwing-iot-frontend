@@ -82,3 +82,23 @@ export async function postData(path: string, body: any) {
     throw error;
   }
 }
+
+export async function patchData(path: string, body: any) {
+  try {
+    const { data } = await clientAxios.patch(path, body);
+    // console.log("data => ", data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deleteData(path: string) {
+  try {
+    const { data } = await clientAxios.delete(path);
+    // console.log("data => ", data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
