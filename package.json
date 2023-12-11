@@ -34,7 +34,6 @@
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
     "framer-motion": "^10.16.12",
-    "geist": "^1.1.0",
     "jotai": "^2.5.1",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.292.0",
