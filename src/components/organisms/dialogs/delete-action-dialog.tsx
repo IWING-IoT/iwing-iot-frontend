@@ -12,8 +12,9 @@ type DeleteActionDialogProps = {
   children: React.ReactNode;
   title: string;
   description: string;
-  action: "removeCollaborator";
+  action: "removeCollaborator" | "deleteProject";
   id: string;
+  onOpenChange?: (open: boolean) => void;
 };
 
 export function DeleteActionDialog({
@@ -22,6 +23,7 @@ export function DeleteActionDialog({
   description,
   action,
   id,
+  onOpenChange,
 }: DeleteActionDialogProps) {
   const router = useRouter();
 
@@ -44,6 +46,24 @@ export function DeleteActionDialog({
     },
   });
 
+  const deleteProject = useMutation({
+    mutationFn: () => deleteData(`/project/${id}/deleted`),
+    onError: (error: THttpError) => {
+      const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
+      document.dispatchEvent(escEvent);
+      toast.error("Unable to delete this project", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
+      document.dispatchEvent(escEvent);
+      router.push("/home?sortBy=ascending");
+      router.refresh();
+      toast.success("Project deleted successfully");
+    },
+  });
+
   let submitLabel;
   if (action === "removeCollaborator") {
     submitLabel = "Remove";
@@ -57,6 +77,8 @@ export function DeleteActionDialog({
       case "removeCollaborator":
         removeCollaborator.mutate();
         break;
+      case "deleteProject":
+        deleteProject.mutate();
       default:
         break;
     }
@@ -77,6 +99,7 @@ export function DeleteActionDialog({
           {submitLabel}
         </Button>
       }
+      onOpenChange={onOpenChange}
     >
       {children}
     </AlertDialog>
