@@ -1,6 +1,5 @@
 import { Search } from "@/components/atoms/search";
 import { redirect } from "next/navigation";
-import { fetchProject } from "@/lib/data-fetching";
 import { TProject } from "@/lib/type";
 import {
   EmptyState,
@@ -29,6 +28,7 @@ import { ProjectAndDeploymentCard } from "@/components/molecules/project-and-dep
 import { MainContainer } from "@/components/templates/main-container";
 import { Suspense } from "react";
 import { CardGridSkeleton } from "@/components/skeleton/card-skeleton";
+import { fetchData } from "@/lib/data-fetching";
 
 type RenderProjectProps = {
   searchQuery?: string;
@@ -36,9 +36,16 @@ type RenderProjectProps = {
 };
 
 async function RenderProject({ searchQuery, sortBy }: RenderProjectProps) {
-  const { data }: { data: TProject[] } = await fetchProject(
-    searchQuery,
-    sortBy,
+  const queryParams = [];
+  if (searchQuery) {
+    queryParams.push({ key: "searchQuery", value: searchQuery });
+  }
+  if (sortBy) {
+    queryParams.push({ key: "sortBy", value: sortBy });
+  }
+  const { data }: { data: TProject[] } = await fetchData(
+    "/project",
+    queryParams,
   );
   if (data.length === 0 && !searchQuery) {
     return (

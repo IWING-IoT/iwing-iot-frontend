@@ -48,24 +48,16 @@ clientAxios.interceptors.request.use(
   },
 );
 
-export async function fetchProject(searchQuery?: string, sortBy?: string) {
+export async function fetchData(
+  path: string,
+  params?: { key: string; value: string }[],
+) {
   try {
     const { data } = await serverAxios.get(
-      `/project?sortBy=${sortBy ? sortBy : "ascending"}${
-        searchQuery ? `&searchQuery=${searchQuery}` : ""
-      }`,
+      path +
+        "?" +
+        params?.map((param) => `${param.key}=${param.value}`).join("&"),
     );
-    // console.log("data => ", data);\
-    // throw new Error("test");
-    return data;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function fetchData(path: string) {
-  try {
-    const { data } = await serverAxios.get(path);
     // console.log("data => ", data);
     return data;
   } catch (error) {

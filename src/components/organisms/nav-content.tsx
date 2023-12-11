@@ -7,17 +7,17 @@ import {
   Users,
 } from "lucide-react";
 import { Separator } from "../ui/separator";
-import { fetchProject } from "@/lib/data-fetching";
 import { getServerAuthSession } from "@/lib/auth";
 import { Logo } from "../atoms/logo";
 import { NavItem } from "../molecules/nav-item";
 import { NavProfile } from "./nav-profile";
 import { NavProjectList } from "./nav-project-list";
+import { fetchData } from "@/lib/data-fetching";
 
 const topItems = [
   {
     label: "Home",
-    href: "/home?sortBy=ascending",
+    href: "/home",
     icon: <Home />,
     permit: ["admin", "user"],
   },
@@ -58,7 +58,9 @@ const bottomItems = [
 
 export default async function NavContent() {
   const session = await getServerAuthSession();
-  const { data: projectData } = await fetchProject();
+  const { data: projectData } = await fetchData("/project", [
+    { key: "sortBy", value: "ascending" },
+  ]);
   // console.log(session);
   return (
     <div className="flex h-full w-full flex-1 flex-col gap-6">
