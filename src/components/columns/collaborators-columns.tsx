@@ -60,6 +60,7 @@ export const collaboratorsColumns: ColumnDef<TCollaborators>[] = [
           <DialogWithContent
             title={`Edit ${user.name}'s permission`}
             content={<EditPermissionForm collaboratorData={user} />}
+            className="h-fit"
           >
             <Button type="button" variant={"ghost"} size={"icon"}>
               <Pen className="h-5 w-5 text-muted-foreground" />

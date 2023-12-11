@@ -27,7 +27,7 @@ type AlertDialogProps = {
   variant: "brand" | "error" | "success" | "warning";
   title: string;
   description: string;
-  classNames?: string;
+  className?: string;
   submitButton?: React.ReactNode;
   onClickSubmit?: () => void;
   submitButtonLabel?: string;
@@ -39,7 +39,7 @@ export function AlertDialog({
   variant,
   title,
   description,
-  classNames,
+  className,
   submitButton,
   onClickSubmit,
   submitButtonLabel,
@@ -51,7 +51,7 @@ export function AlertDialog({
         <DialogTrigger className="hidden sm:inline-flex" asChild>
           {children}
         </DialogTrigger>
-        <DialogContent className={cn("w-[400px]", classNames)}>
+        <DialogContent className={cn("w-[400px]", className)}>
           <DialogHeader className="gap-4">
             <FeatureIcon icon={icon} variant={variant} />
             <div className="flex flex-col gap-1">
@@ -83,7 +83,7 @@ export function AlertDialog({
         <DrawerTrigger className="sm:hidden" asChild>
           {children}
         </DrawerTrigger>
-        <DrawerContent className={cn(classNames, "h-fit p-4")}>
+        <DrawerContent className={cn(className, "h-fit p-4")}>
           <DrawerHeader className="gap-3 border-none text-left">
             <FeatureIcon icon={icon} variant={variant} />
             <div className="flex flex-col gap-1">
