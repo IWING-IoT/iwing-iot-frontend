@@ -80,7 +80,7 @@ export function NewProjectForm({ template, location }: NewProjectFormProps) {
       });
     },
     onSuccess: () => {
-      router.push("/home?sortBy=ascending");
+      router.push("/home");
       router.refresh();
       toast.success("Project created successfully");
     },

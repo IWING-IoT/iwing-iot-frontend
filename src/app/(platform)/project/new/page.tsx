@@ -19,7 +19,7 @@ export default async function NewProject() {
       <MainContainer className="flex max-w-xl flex-1 gap-5">
         <div>
           <Button variant={"link"} className="p-0" asChild>
-            <Link href="/home?sortBy=ascending">
+            <Link href="/home">
               <ArrowLeft className="mr-1.5 h-5 w-5" />
               Back to home
             </Link>

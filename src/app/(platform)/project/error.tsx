@@ -33,7 +33,7 @@ export default function Error({
       </EmptyStateTextContent>
       <EmptyStateAction>
         <Button variant={"outline"} asChild>
-          <Link href="/home?sortBy=ascending">
+          <Link href="/home">
             <ArrowLeft className="mr-2 h-5 w-5" />
             Back home
           </Link>

@@ -48,7 +48,7 @@ export function PatchActionDialog({
     onSuccess: () => {
       const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
       document.dispatchEvent(escEvent);
-      router.push("/home?sortBy=ascending");
+      router.push("/home");
       router.refresh();
       toast.success("Project archived successfully");
     },
