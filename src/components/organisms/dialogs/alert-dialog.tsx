@@ -32,6 +32,7 @@ type AlertDialogProps = {
   onClickSubmit?: () => void;
   submitButtonLabel?: string;
   icon: React.ReactNode;
+  onOpenChange?: (open: boolean) => void;
 };
 
 export function AlertDialog({
@@ -44,15 +45,16 @@ export function AlertDialog({
   onClickSubmit,
   submitButtonLabel,
   icon,
+  onOpenChange,
 }: AlertDialogProps) {
   return (
     <>
-      <Dialog>
-        <DialogTrigger className="hidden sm:inline-flex" asChild>
+      <Dialog onOpenChange={onOpenChange}>
+        <DialogTrigger className="hidden sm:flex" asChild>
           {children}
         </DialogTrigger>
         <DialogContent className={cn("w-[400px]", className)}>
-          <DialogHeader className="gap-4">
+          <DialogHeader className="gap-2.5">
             <FeatureIcon icon={icon} variant={variant} />
             <div className="flex flex-col gap-1">
               <DialogTitle>{title}</DialogTitle>
@@ -79,7 +81,7 @@ export function AlertDialog({
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      <Drawer>
+      <Drawer onOpenChange={onOpenChange}>
         <DrawerTrigger className="sm:hidden" asChild>
           {children}
         </DrawerTrigger>

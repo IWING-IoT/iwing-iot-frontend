@@ -19,6 +19,7 @@ type DialogWithContentProps = {
   title: string;
   content: React.ReactNode;
   className?: string;
+  onOpenChange?: (open: boolean) => void;
 };
 
 export function DialogWithContent({
@@ -26,21 +27,22 @@ export function DialogWithContent({
   title,
   content,
   className,
+  onOpenChange,
 }: DialogWithContentProps) {
   return (
     <>
-      <Dialog>
-        <DialogTrigger className="hidden sm:inline-flex" asChild>
+      <Dialog onOpenChange={onOpenChange}>
+        <DialogTrigger className="hidden sm:flex" asChild>
           {children}
         </DialogTrigger>
         <DialogContent className={cn(className)}>
-          <DialogHeader className="mb-4">
+          <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
           </DialogHeader>
           {content}
         </DialogContent>
       </Dialog>
-      <Drawer>
+      <Drawer onOpenChange={onOpenChange}>
         <DrawerTrigger className="sm:hidden" asChild>
           {children}
         </DrawerTrigger>
