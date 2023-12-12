@@ -87,7 +87,10 @@ export default async function Deployment({ params }: PhaseProps) {
               <Restricted to="edit">
                 <SectionHeaderAction>
                   <Button type="button" className="flex-1" asChild>
-                    <Link href={"deployment/new"}>Continue</Link>
+                    <Link href={"deployment/new"}>
+                      <Plus className="mr-2 h-5 w-5" />
+                      New deployment
+                    </Link>
                   </Button>
                 </SectionHeaderAction>
               </Restricted>
@@ -120,7 +123,7 @@ export default async function Deployment({ params }: PhaseProps) {
                   <SectionHeaderAction>
                     <Button type="button" asChild>
                       <Link href={"deployment/new"}>
-                        <Plus className="mr-1.5 h-5 w-5" />
+                        <Plus className="mr-2 h-5 w-5" />
                         New deployment
                       </Link>
                     </Button>
