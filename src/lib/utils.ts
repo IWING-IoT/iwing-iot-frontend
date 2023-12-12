@@ -17,3 +17,9 @@ export function getValidChildren(children: React.ReactNode) {
     React.isValidElement(child),
   ) as React.ReactElement[];
 }
+
+export const permission = {
+  can_view: ["view"],
+  can_edit: ["view", "edit"],
+  owner: ["view", "edit", "delete"],
+};

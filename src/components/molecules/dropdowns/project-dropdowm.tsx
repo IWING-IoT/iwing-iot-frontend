@@ -2,6 +2,7 @@
 import { DeleteActionDialog } from "@/components/organisms/dialogs/delete-action-dialog";
 import { DialogWithContent } from "@/components/organisms/dialogs/dialog-with-content";
 import { PatchActionDialog } from "@/components/organisms/dialogs/patch-action-dialog";
+import Restricted from "@/components/providers/permission-provider/restricted";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -88,40 +89,44 @@ export function ProjectDropdown({
             Project info
           </DropdownMenuItem>
         </DialogWithContent>
-        <DropdownMenuItem>
-          <Pen className="h-4 w-4 text-muted-foreground" />
-          Edit
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <PatchActionDialog
-          variant="warning"
-          icon={<Archive />}
-          title="Archive this project"
-          description="You will no longer be able to make any changes to this project."
-          action="archiveProject"
-          id={projectId}
-          onOpenChange={onOpenChange}
-        >
-          <DropdownMenuItem onSelect={onSelect}>
-            <Archive className="h-4 w-4 text-muted-foreground" />
-            Archive
+        <Restricted to="edit">
+          <DropdownMenuItem>
+            <Pen className="h-4 w-4 text-muted-foreground" />
+            Edit
           </DropdownMenuItem>
-        </PatchActionDialog>
-        <DeleteActionDialog
-          title="Delete this project"
-          description="Are you sure you want to delete this project? This action is irreversible and will result in permanent loss of all associated data."
-          action="deleteProject"
-          id={projectId}
-          onOpenChange={onOpenChange}
-        >
-          <DropdownMenuItem
-            className="text-destructive data-[highlighted]:text-destructive"
-            onSelect={onSelect}
+        </Restricted>
+        <Restricted to="delete">
+          <DropdownMenuSeparator />
+          <PatchActionDialog
+            variant="warning"
+            icon={<Archive />}
+            title="Archive this project"
+            description="You will no longer be able to make any changes to this project."
+            action="archiveProject"
+            id={projectId}
+            onOpenChange={onOpenChange}
           >
-            <Trash2 className="h-4 w-4" />
-            Delete
-          </DropdownMenuItem>
-        </DeleteActionDialog>
+            <DropdownMenuItem onSelect={onSelect}>
+              <Archive className="h-4 w-4 text-muted-foreground" />
+              Archive
+            </DropdownMenuItem>
+          </PatchActionDialog>
+          <DeleteActionDialog
+            title="Delete this project"
+            description="Are you sure you want to delete this project? This action is irreversible and will result in permanent loss of all associated data."
+            action="deleteProject"
+            id={projectId}
+            onOpenChange={onOpenChange}
+          >
+            <DropdownMenuItem
+              className="text-destructive data-[highlighted]:text-destructive"
+              onSelect={onSelect}
+            >
+              <Trash2 className="h-4 w-4" />
+              Delete
+            </DropdownMenuItem>
+          </DeleteActionDialog>
+        </Restricted>
       </DropdownMenuContent>
     </DropdownMenu>
   );

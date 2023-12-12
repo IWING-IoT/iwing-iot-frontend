@@ -9,6 +9,7 @@ import {
   CardHeaderTitle,
 } from "@/components/molecules/card-header";
 import { DialogWithContent } from "@/components/organisms/dialogs/dialog-with-content";
+import Restricted from "@/components/providers/permission-provider/restricted";
 import { TableWrapper } from "@/components/templates/table-wrapper";
 import { Button } from "@/components/ui/button";
 import { fetchData } from "@/lib/data-fetching";
@@ -34,17 +35,19 @@ export default async function Collaborators({ params }: CollaboratorsProps) {
             View and manage all collaborators involved in this project.
           </CardHeaderDescription>
         </CardHeaderTextContent>
-        <CardHeaderActions>
-          <DialogWithContent
-            content={<InviteCollaboratorsForm projectId={params.projectId} />}
-            title="Invite collaborators"
-          >
-            <Button>
-              <UserPlus className="mr-1.5 h-5 w-5" />
-              Invite collaborators
-            </Button>
-          </DialogWithContent>
-        </CardHeaderActions>
+        <Restricted to="edit">
+          <CardHeaderActions>
+            <DialogWithContent
+              content={<InviteCollaboratorsForm projectId={params.projectId} />}
+              title="Invite collaborators"
+            >
+              <Button>
+                <UserPlus className="mr-1.5 h-5 w-5" />
+                Invite collaborators
+              </Button>
+            </DialogWithContent>
+          </CardHeaderActions>
+        </Restricted>
       </CardHeader>
       <DataTable columns={collaboratorsColumns} data={data} />
     </TableWrapper>

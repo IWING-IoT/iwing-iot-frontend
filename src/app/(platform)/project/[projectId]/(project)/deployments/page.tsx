@@ -14,12 +14,12 @@ import {
   SectionHeaderTextContent,
   SectionHeaderTitle,
 } from "@/components/molecules/section-header";
-import { AlertDialog } from "@/components/organisms/dialogs/alert-dialog";
+import Restricted from "@/components/providers/permission-provider/restricted";
 import { CardGrid } from "@/components/templates/card-grid";
 import { Button } from "@/components/ui/button";
 import { fetchData } from "@/lib/data-fetching";
 import { TPhaseDetails } from "@/lib/type";
-import { AlertCircle, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import Link from "next/link";
 
 type PhaseProps = {
@@ -41,49 +41,38 @@ export default async function Deployment({ params }: PhaseProps) {
   const finishedPhase = phaseData.filter((phase) => phase.isActive === false);
   // const finishedPhase = [];
 
-  function CreateDeploymentWarningDialog() {
-    return (
-      <AlertDialog
-        variant="warning"
-        icon={<AlertCircle />}
-        title={"You have an active deployment"}
-        description={
-          "Create new deployment will mark the current deployment as finished. Continue anyway?"
-        }
-        submitButton={
-          <Button type="button" className="flex-1" asChild>
-            <Link href={"deployment/new"}>Continue</Link>
-          </Button>
-        }
-      >
-        <Button type="button">
-          <Plus className="mr-1.5 h-5 w-5" />
-          New deployment
-        </Button>
-      </AlertDialog>
-    );
-  }
-
   if (phaseData.length === 0) {
     return (
       <EmptyState>
         <EmptyStateImage>
           <ProjectIllustration />
         </EmptyStateImage>
-        <EmptyStateTextContent>
-          <EmptyStateTitle>No deployments yet?</EmptyStateTitle>
-          <EmptyStateDescription>
-            Start by creating your first one now!
-          </EmptyStateDescription>
-        </EmptyStateTextContent>
-        <EmptyStateAction>
-          <Button type="button" asChild>
-            <Link href={"deployment/new"}>
-              <Plus className="mr-1.5 h-5 w-5" />
-              New deployment
-            </Link>
-          </Button>
-        </EmptyStateAction>
+        <Restricted
+          to="edit"
+          fallback={
+            <EmptyStateTextContent>
+              <EmptyStateTitle>No deployments yet</EmptyStateTitle>
+              <EmptyStateDescription>
+                You don't have permission to create new deployments
+              </EmptyStateDescription>
+            </EmptyStateTextContent>
+          }
+        >
+          <EmptyStateTextContent>
+            <EmptyStateTitle>No deployments yet?</EmptyStateTitle>
+            <EmptyStateDescription>
+              Start by creating your first one now!
+            </EmptyStateDescription>
+          </EmptyStateTextContent>
+          <EmptyStateAction>
+            <Button type="button" asChild>
+              <Link href={"deployment/new"}>
+                <Plus className="mr-1.5 h-5 w-5" />
+                New deployment
+              </Link>
+            </Button>
+          </EmptyStateAction>
+        </Restricted>
       </EmptyState>
     );
   } else {
@@ -95,9 +84,13 @@ export default async function Deployment({ params }: PhaseProps) {
               <SectionHeaderTextContent>
                 <SectionHeaderTitle>Active</SectionHeaderTitle>
               </SectionHeaderTextContent>
-              <SectionHeaderAction>
-                <CreateDeploymentWarningDialog />
-              </SectionHeaderAction>
+              <Restricted to="edit">
+                <SectionHeaderAction>
+                  <Button type="button" className="flex-1" asChild>
+                    <Link href={"deployment/new"}>Continue</Link>
+                  </Button>
+                </SectionHeaderAction>
+              </Restricted>
             </SectionHeader>
             <CardGrid>
               {phaseData
@@ -122,16 +115,18 @@ export default async function Deployment({ params }: PhaseProps) {
               <SectionHeaderTextContent>
                 <SectionHeaderTitle>Finished</SectionHeaderTitle>
               </SectionHeaderTextContent>
-              {activePhase.length === 0 && (
-                <SectionHeaderAction>
-                  <Button type="button" asChild>
-                    <Link href={"deployment/new"}>
-                      <Plus className="mr-1.5 h-5 w-5" />
-                      New deployment
-                    </Link>
-                  </Button>
-                </SectionHeaderAction>
-              )}
+              <Restricted to="edit">
+                {activePhase.length === 0 && (
+                  <SectionHeaderAction>
+                    <Button type="button" asChild>
+                      <Link href={"deployment/new"}>
+                        <Plus className="mr-1.5 h-5 w-5" />
+                        New deployment
+                      </Link>
+                    </Button>
+                  </SectionHeaderAction>
+                )}
+              </Restricted>
             </SectionHeader>
             <CardGrid>
               {phaseData

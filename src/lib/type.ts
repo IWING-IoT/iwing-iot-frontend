@@ -48,6 +48,7 @@ export type TProjectDetails = {
   isArchived: boolean;
   activePhaseId: string | null;
   description: string;
+  permission: TUserPermission;
 };
 
 export type TUserAccountDetails = {
@@ -84,3 +85,7 @@ export type TDeploymentDetails = {
   startedAt: string;
   description: string;
 };
+
+export type TUserPermission = "can_view" | "can_edit" | "owner";
+
+export type TPermission = "view" | "create" | "edit" | "delete";
