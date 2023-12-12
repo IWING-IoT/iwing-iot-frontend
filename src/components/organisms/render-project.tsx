@@ -35,7 +35,7 @@ export async function RenderProject({
     queryParams.push({ key: "sortBy", value: sortBy });
   }
   if (type === "archived-projects") {
-    queryParams.push({ key: "type", value: "archived" });
+    queryParams.push({ key: "status", value: "archived" });
   }
 
   const { data }: { data: TProject[] } = await fetchData(
