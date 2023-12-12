@@ -53,12 +53,17 @@ export async function fetchData(
   params?: { key: string; value: string }[],
 ) {
   try {
-    const { data } = await serverAxios.get(
-      path +
-        "?" +
-        params?.map((param) => `${param.key}=${param.value}`).join("&"),
-    );
-    // console.log("data => ", data);
+    let response;
+    if (params) {
+      response = await serverAxios.get(
+        path +
+          "?" +
+          params?.map((param) => `${param.key}=${param.value}`).join("&"),
+      );
+    } else {
+      response = await serverAxios.get(path);
+    }
+    const { data } = response;
     return data;
   } catch (error) {
     throw error;
