@@ -12,10 +12,14 @@ export default async function Layout({ params, children }: LayoutProps) {
   const { data: projectData }: { data: TProjectDetails } = await fetchData(
     `/project/${params.projectId}`,
   );
+  let permissions;
+  if (projectData.isArchived === true) {
+    permissions = permission.archived;
+  } else {
+    permissions = permission[projectData.permission];
+  }
   return (
-    <PermissionProvider
-      permissions={permission[projectData.permission] as TPermission[]}
-    >
+    <PermissionProvider permissions={permissions}>
       {children}
     </PermissionProvider>
   );

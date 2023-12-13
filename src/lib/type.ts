@@ -2,7 +2,7 @@ export type TProject = {
   id: string;
   name: string;
   owner: string;
-  location: TLocation;
+  location: string;
   startedAt: string;
 };
 
@@ -16,12 +16,6 @@ export type TTemplate = {
   id: string;
   name: string;
   description: string;
-};
-
-export type TLocation = {
-  id: string;
-  en_name: string;
-  th_name: string;
 };
 
 export type TCreateProjectDetails = {
@@ -41,7 +35,7 @@ export type THttpError = Error & {
 };
 
 export type TProjectDetails = {
-  location: TLocation;
+  location: string;
   name: string;
   ownerName: string;
   startedAt: string;

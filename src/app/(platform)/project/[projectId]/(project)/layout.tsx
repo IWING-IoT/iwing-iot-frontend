@@ -9,6 +9,7 @@ import {
 import { NavTabs } from "@/components/molecules/nav-tabs";
 import { MainContainer } from "@/components/templates/main-container";
 import { ProjectDropdown } from "@/components/molecules/dropdowns/project-dropdowm";
+import { Info } from "lucide-react";
 
 type ProjectProps = {
   params: { projectId: string };
@@ -41,6 +42,12 @@ export default async function Layout({ params, children }: ProjectProps) {
         </HeaderContent>
         <NavTabs tabs={tabs} layoutId="project" />
       </Header>
+      {projectData.isArchived && (
+        <div className="flex items-center gap-2 border-b px-6 py-4 text-sm text-muted-foreground">
+          <Info className="h-4 w-4" />
+          This project has been archived. You can't make any changes to it.
+        </div>
+      )}
       <MainContainer>{children}</MainContainer>
     </>
   );

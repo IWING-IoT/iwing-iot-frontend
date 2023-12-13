@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { format, parseISO } from "date-fns";
 import React from "react";
+import { TPermission } from "./type";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -18,7 +19,8 @@ export function getValidChildren(children: React.ReactNode) {
   ) as React.ReactElement[];
 }
 
-export const permission = {
+export const permission: Record<string, TPermission[]> = {
+  archived: ["view"],
   can_view: ["view"],
   can_edit: ["view", "edit"],
   owner: ["view", "edit", "delete"],

@@ -1,5 +1,5 @@
 "use client";
-import { THttpError, TCreateProjectDetails, TTemplate } from "@/lib/type";
+import { THttpError, TCreateProjectDetails, TProjectDetails } from "@/lib/type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -12,64 +12,61 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { RadioGroup } from "../ui/radio-group";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
-import {
-  CustomRadioItem,
-  CustomRadioItemContainer,
-  CustomRadioItemDescription,
-  CustomRadioItemLabel,
-} from "../molecules/custom-radio-item";
-import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { Textarea } from "../ui/textarea";
 import { useMutation } from "@tanstack/react-query";
-import { postData } from "@/lib/data-fetching";
+import { patchData } from "@/lib/data-fetching";
 import { useRouter } from "next/navigation";
 
-type NewProjectFormProps = {
-  template: TTemplate[];
+type EditProjectFormProps = {
+  projectId: string;
+  projectData: TProjectDetails;
 };
 
 const formSchema = z.object({
-  template: z.string(),
   name: z.string().min(1).max(100, { message: "Character limit exceeded" }),
   location: z.string().min(1),
   startedAt: z.date(),
   description: z.string(),
 });
 
-export function NewProjectForm({ template }: NewProjectFormProps) {
+export function EditProjectForm({
+  projectId,
+  projectData,
+}: EditProjectFormProps) {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      location: "",
-      description: "",
+      name: projectData.name,
+      location: projectData.location,
+      startedAt: parseISO(projectData.startedAt),
+      description: projectData.description,
     },
     mode: "onChange",
   });
 
-  const createProject = useMutation({
-    mutationFn: (data: TCreateProjectDetails) => postData("/project", data),
+  const editProject = useMutation({
+    mutationFn: (data: Omit<TCreateProjectDetails, "template">) =>
+      patchData(`/project/${projectId}`, data),
     onError: (error: THttpError) => {
       // console.log(error.response.data.message);
-      toast.error("Unable to create project", {
+      toast.error("Unable to save changes", {
         description: error.response.data.message,
       });
     },
     onSuccess: () => {
-      router.push("/home");
+      router.push(`/project/${projectId}/deployments`);
       router.refresh();
-      toast.success("Project created successfully");
+      toast.success("Changes saved successfully");
     },
   });
 
@@ -86,7 +83,7 @@ export function NewProjectForm({ template }: NewProjectFormProps) {
       ...data,
       startedAt: data.startedAt.toISOString(),
     };
-    createProject.mutate(createProjectData);
+    editProject.mutate(createProjectData);
   }
   // const { data: session, status } = useSession();
   // console.log(session);
@@ -96,37 +93,6 @@ export function NewProjectForm({ template }: NewProjectFormProps) {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-1 flex-col space-y-6"
       >
-        <FormField
-          control={form.control}
-          name="template"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Select template</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex flex-col space-y-1"
-                >
-                  {template.map((template) => (
-                    <CustomRadioItem key={template.id} value={template.id}>
-                      <CustomRadioItemContainer>
-                        <CustomRadioItemLabel>
-                          {template.name}
-                        </CustomRadioItemLabel>
-                        <CustomRadioItemDescription>
-                          {template.description}
-                        </CustomRadioItemDescription>
-                      </CustomRadioItemContainer>
-                    </CustomRadioItem>
-                  ))}
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Separator />
         <FormField
           control={form.control}
           name="name"
@@ -205,7 +171,7 @@ export function NewProjectForm({ template }: NewProjectFormProps) {
             </FormItem>
           )}
         />
-        <Button type="submit">Create</Button>
+        <Button type="submit">Save changes</Button>
       </form>
     </Form>
   );

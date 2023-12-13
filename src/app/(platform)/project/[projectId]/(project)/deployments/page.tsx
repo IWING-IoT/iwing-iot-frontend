@@ -52,9 +52,6 @@ export default async function Deployment({ params }: PhaseProps) {
           fallback={
             <EmptyStateTextContent>
               <EmptyStateTitle>No deployments yet</EmptyStateTitle>
-              <EmptyStateDescription>
-                You don't have permission to create new deployments
-              </EmptyStateDescription>
             </EmptyStateTextContent>
           }
         >

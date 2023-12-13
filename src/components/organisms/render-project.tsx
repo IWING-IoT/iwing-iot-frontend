@@ -93,7 +93,7 @@ export async function RenderProject({
             href={`/project/${project.id}/deployments`}
             title={project.name}
             owner={project.owner}
-            location={project.location.en_name}
+            location={project.location}
             startedAt={project.startedAt}
           />
         ))}

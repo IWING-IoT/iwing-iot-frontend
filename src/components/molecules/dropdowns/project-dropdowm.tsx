@@ -23,6 +23,7 @@ import {
   Trash2,
   User,
 } from "lucide-react";
+import Link from "next/link";
 
 type ProjectMoreDropdownProps = {
   projectId: string;
@@ -73,7 +74,7 @@ export function ProjectDropdown({
                 </div>
                 <div className="flex items-center gap-2">
                   <MapPin className="h-5 w-5" />
-                  <p>{projectData.location.en_name}</p>
+                  <p>{projectData.location}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar className="h-5 w-5" />
@@ -90,9 +91,11 @@ export function ProjectDropdown({
           </DropdownMenuItem>
         </DialogWithContent>
         <Restricted to="edit">
-          <DropdownMenuItem>
-            <Pen className="h-4 w-4 text-muted-foreground" />
-            Edit
+          <DropdownMenuItem asChild>
+            <Link href={"edit"}>
+              <Pen className="h-4 w-4 text-muted-foreground" />
+              Edit
+            </Link>
           </DropdownMenuItem>
         </Restricted>
         <Restricted to="delete">
