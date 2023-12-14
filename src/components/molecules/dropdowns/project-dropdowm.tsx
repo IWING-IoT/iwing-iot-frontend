@@ -64,9 +64,11 @@ export function ProjectDropdown({
           title={projectData.name}
           content={
             <div className="flex flex-col gap-4">
-              <p className="text-muted-foreground">
-                {projectData.description ?? "No description"}
-              </p>
+              {projectData.description && (
+                <p className="text-muted-foreground">
+                  {projectData.description}
+                </p>
+              )}
               <div className="flex flex-col gap-2 text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <User className="h-5 w-5" />
