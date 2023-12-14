@@ -1,7 +1,7 @@
 "use client";
 
 import { DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { ColumnsIcon } from "lucide-react";
+import { ChevronDown, ColumnsIcon } from "lucide-react";
 import { Table } from "@tanstack/react-table";
 
 import { Button } from "../ui/button";
@@ -23,13 +23,10 @@ export function DataTableViewOptions<TData>({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          className="ml-auto hidden h-8 lg:flex"
-        >
-          <ColumnsIcon className="mr-2 h-4 w-4" />
+        <Button variant="outline" className="ml-auto hidden lg:flex">
+          <ColumnsIcon className="mr-2 h-5 w-5" />
           View
+          <ChevronDown className="ml-2 h-5 w-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[150px]">
