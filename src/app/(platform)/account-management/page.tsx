@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { userAccountColumns } from "@/components/columns/user-account-columns";
 import { fetchData } from "@/lib/data-fetching";
-import { UserAccountForm } from "@/components/forms/user-account-form";
+import { NewUserAccountForm } from "@/components/forms/new-user-account-form";
 import { MainContainer } from "@/components/templates/main-container";
 import { TableWrapper } from "@/components/templates/table-wrapper";
 import { DialogWithContent } from "@/components/organisms/dialogs/dialog-with-content";
@@ -32,7 +32,7 @@ export default async function AccountManagement() {
           </HeaderTitleAndSupporting>
           <HeaderActions>
             <DialogWithContent
-              content={<UserAccountForm type="create" />}
+              content={<NewUserAccountForm />}
               title="Create new account"
             >
               <Button>

@@ -3,10 +3,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "../data-table/column-header";
 import { Button } from "../ui/button";
-import { Pen, Trash2 } from "lucide-react";
+import { Pen } from "lucide-react";
 import { DialogWithContent } from "../organisms/dialogs/dialog-with-content";
-import { AlertDialog } from "../organisms/dialogs/alert-dialog";
-import { UserAccountForm } from "../forms/user-account-form";
+import { EditUserAccountForm } from "../forms/edit-user-account-form";
 import { CustomAvatar } from "../atoms/custom-avatar";
 import { TUserAccountDetails } from "@/lib/type";
 
@@ -60,23 +59,12 @@ export const userAccountColumns: ColumnDef<
         <div className="flex justify-end gap-1">
           <DialogWithContent
             title={`Edit ${user.name}'s account`}
-            content={<UserAccountForm type="edit" userData={user} />}
+            content={<EditUserAccountForm userData={user} />}
           >
             <Button type="button" variant={"ghost"} size={"icon"}>
               <Pen className="h-5 w-5 text-muted-foreground" />
             </Button>
           </DialogWithContent>
-          <AlertDialog
-            variant="error"
-            icon={<Trash2 />}
-            title={`Delete ${user.name}'s account`}
-            description={`${user.name} will no longer have access to this platform. This action can't be undone.`}
-            submitButtonLabel="Delete"
-          >
-            <Button type="button" variant={"ghost"} size={"icon"}>
-              <Trash2 className="h-5 w-5 text-destructive" />
-            </Button>
-          </AlertDialog>
         </div>
       );
     },

@@ -46,6 +46,7 @@ export type TProjectDetails = {
 };
 
 export type TUserAccountDetails = {
+  id: string;
   name: string;
   email: string;
   password: string;

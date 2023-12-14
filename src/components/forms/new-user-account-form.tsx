@@ -28,12 +28,7 @@ import { THttpError, TUserAccountDetails } from "@/lib/type";
 import { postData } from "@/lib/data-fetching";
 import { useRouter } from "next/navigation";
 
-type UserAccountFormProps = {
-  type: "create" | "edit";
-  userData?: Omit<TUserAccountDetails, "password">;
-};
-
-export function UserAccountForm({ type, userData }: UserAccountFormProps) {
+export function NewUserAccountForm() {
   const formSchema = z.object({
     name: z.string().min(1),
     email: z.string().email({ message: "Please enter a valid email address" }),
@@ -47,18 +42,18 @@ export function UserAccountForm({ type, userData }: UserAccountFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      role: userData ? userData.role : undefined,
-      name: userData ? userData.name : "",
-      email: userData ? userData.email : "",
+      role: undefined,
+      name: "",
+      email: "",
       password: "",
     },
     mode: "onBlur",
   });
 
   const createAccount = useMutation({
-    mutationFn: (data: TUserAccountDetails) => postData("/admin/account", data),
+    mutationFn: (data: Omit<TUserAccountDetails, "id">) =>
+      postData("/admin/account", data),
     onError: (error: THttpError) => {
-      // console.log(error.response.data.message);
       toast.error("Unable to create account", {
         description: error.response.data.message,
       });
@@ -73,18 +68,7 @@ export function UserAccountForm({ type, userData }: UserAccountFormProps) {
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    if (type === "create") {
-      createAccount.mutate(data);
-    } else {
-      // Edit account
-      toast("You submitted the following values:", {
-        description: (
-          <pre className="mt-2 w-[340px] overflow-scroll rounded-md bg-slate-950 p-4">
-            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-          </pre>
-        ),
-      });
-    }
+    createAccount.mutate(data);
   }
 
   return (
@@ -193,9 +177,7 @@ export function UserAccountForm({ type, userData }: UserAccountFormProps) {
           )}
         />
         <DialogFooter>
-          <Button type="submit">
-            {type === "create" ? "Create" : "Save changes"}
-          </Button>
+          <Button type="submit">Create</Button>
         </DialogFooter>
       </form>
     </Form>
