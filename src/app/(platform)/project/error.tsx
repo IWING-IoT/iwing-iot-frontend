@@ -10,7 +10,7 @@ import {
   EmptyStateTitle,
 } from "@/components/molecules/empty-state";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, RotateCcw } from "lucide-react";
+import { ArrowLeft, Home, RotateCcw } from "lucide-react";
 import Link from "next/link";
 
 export default function Error({
@@ -29,13 +29,13 @@ export default function Error({
         <EmptyStateTitle>
           We encountered an issue while trying to retrieve this project.
         </EmptyStateTitle>
-        <EmptyStateDescription>(Digest: {error.digest})</EmptyStateDescription>
+        <EmptyStateDescription>Digest: {error.digest}</EmptyStateDescription>
       </EmptyStateTextContent>
       <EmptyStateAction>
         <Button variant={"outline"} asChild>
           <Link href="/home">
-            <ArrowLeft className="mr-2 h-5 w-5" />
-            Back home
+            <Home className="mr-2 h-5 w-5" />
+            Go home
           </Link>
         </Button>
         <Button onClick={() => reset()}>
