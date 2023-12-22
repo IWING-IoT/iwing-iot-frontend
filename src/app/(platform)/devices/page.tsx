@@ -1,3 +1,6 @@
+import { devicesColumns } from "@/components/columns/devices-colmns";
+import { DataTable } from "@/components/data-table/data-table";
+import { AddDeviceForm } from "@/components/forms/add-device-form";
 import {
   Header,
   HeaderActions,
@@ -6,8 +9,11 @@ import {
   HeaderTitle,
   HeaderTitleAndSupporting,
 } from "@/components/molecules/header";
+import { DialogWithContent } from "@/components/organisms/dialogs/dialog-with-content";
 import { MainContainer } from "@/components/templates/main-container";
+import { TableWrapper } from "@/components/templates/table-wrapper";
 import { Button } from "@/components/ui/button";
+import { allDevices } from "@/lib/mock";
 import { Plus } from "lucide-react";
 
 export default function Devices() {
@@ -22,15 +28,19 @@ export default function Devices() {
             </HeaderDescription>
           </HeaderTitleAndSupporting>
           <HeaderActions>
-            <Button>
-              <Plus className="mr-2 h-5 w-5" />
-              New device
-            </Button>
+            <DialogWithContent title="New device" content={<AddDeviceForm />}>
+              <Button>
+                <Plus className="mr-2 h-5 w-5" />
+                New device
+              </Button>
+            </DialogWithContent>
           </HeaderActions>
         </HeaderContent>
       </Header>
       <MainContainer>
-        <h1>Devices</h1>
+        <TableWrapper>
+          <DataTable columns={devicesColumns} data={allDevices} />
+        </TableWrapper>
       </MainContainer>
     </>
   );
