@@ -84,3 +84,43 @@ export type TDeploymentDetails = {
 export type TUserPermission = "can_view" | "can_edit" | "owner";
 
 export type TPermission = "view" | "create" | "edit" | "delete";
+
+export type TCategory = {
+  id: string;
+  name: string;
+};
+
+export type TCategoryDetails = {
+  name: string;
+  mainAttribute: string;
+  description: string;
+  entryDefinitions: TEntryDefinition[];
+  attributeEntries: TAttributeEntry[];
+};
+
+export type TEntryDefinition = {
+  id?: string;
+  accessorKey: string;
+  type: "string" | "image" | "category_reference";
+  category?: TCategory;
+};
+
+export type TAttributeEntry = {
+  id: string;
+  [x: string]: { id: string; name: string } | string;
+};
+
+export type TEntry = {
+  id: string;
+  name: string;
+};
+
+export type TAllEntries = {
+  [x: string]: TEntry[];
+};
+
+export type TDevices = {
+  id: string;
+  name: string;
+  status: "Available" | "Unavailable" | `In use by ${string}`;
+};

@@ -26,27 +26,46 @@ import {
 } from "../molecules/empty-state";
 import { NotFoundIllustration } from "../atoms/illustrations/not-found-illustration";
 import { DataTableGeneralToolbar } from "./general-toolbar";
+import { useRouter } from "next/navigation";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface WithId {
+  id: string;
 }
 
-export function DataTable<TData, TValue>({
+interface DataTableProps<TData extends WithId, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  enableToggleColumns?: boolean;
+  clickableRows?: boolean;
+  clickableRowsBaseURL?: string;
+  searchByColumn?: string;
+}
+
+export function DataTable<TData extends WithId, TValue>({
   columns,
   data,
+  enableToggleColumns = false,
+  clickableRows = false,
+  clickableRowsBaseURL,
+  searchByColumn = "name",
 }: DataTableProps<TData, TValue>) {
+  const router = useRouter();
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getRowId: (row) => row.id,
   });
 
   return (
     <>
-      <DataTableGeneralToolbar table={table} />
+      <DataTableGeneralToolbar
+        table={table}
+        enableToggleColumns={enableToggleColumns}
+        searchByColumn={searchByColumn}
+      />
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -72,6 +91,12 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                className={clickableRows ? "cursor-pointer" : ""}
+                onClick={() => {
+                  if (clickableRows) {
+                    router.push(`${clickableRowsBaseURL}/${row.id}`);
+                  }
+                }}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>

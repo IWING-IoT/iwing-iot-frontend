@@ -4,22 +4,28 @@ import { SearchInput } from "../ui/input";
 
 interface DataTableGeneralToolbarProps<TData> {
   table: Table<TData>;
+  enableToggleColumns: boolean;
+  searchByColumn: string;
 }
 
 export function DataTableGeneralToolbar<TData>({
   table,
+  enableToggleColumns,
+  searchByColumn,
 }: DataTableGeneralToolbarProps<TData>) {
   return (
     <div className="flex justify-between border-b px-4 py-3">
       <SearchInput
         className="max-w-[400px]"
-        placeholder="Search by name"
-        value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+        placeholder={`Search by ${searchByColumn}`}
+        value={
+          (table.getColumn(searchByColumn)?.getFilterValue() as string) ?? ""
+        }
         onChange={(event) =>
-          table.getColumn("name")?.setFilterValue(event.target.value)
+          table.getColumn(searchByColumn)?.setFilterValue(event.target.value)
         }
       />
-      <DataTableViewOptions table={table} />
+      {enableToggleColumns && <DataTableViewOptions table={table} />}
     </div>
   );
 }

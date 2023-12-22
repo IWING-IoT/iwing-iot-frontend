@@ -70,7 +70,7 @@ export async function fetchData(
   }
 }
 
-export async function postData(path: string, body: any) {
+export async function postData(path: string, body: unknown) {
   try {
     const { data } = await clientAxios.post(path, body);
     // console.log("data => ", data);
@@ -80,9 +80,19 @@ export async function postData(path: string, body: any) {
   }
 }
 
-export async function patchData(path: string, body: any) {
+export async function patchData(path: string, body: unknown) {
   try {
     const { data } = await clientAxios.patch(path, body);
+    // console.log("data => ", data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function putData(path: string, body: unknown) {
+  try {
+    const { data } = await clientAxios.put(path, body);
     // console.log("data => ", data);
     return data;
   } catch (error) {

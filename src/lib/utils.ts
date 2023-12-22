@@ -25,3 +25,34 @@ export const permission: Record<string, TPermission[]> = {
   can_edit: ["view", "edit"],
   owner: ["view", "edit", "delete"],
 };
+
+export function stopPropagate(callback: () => void) {
+  return (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    callback();
+  };
+}
+
+// Deal with radix ui dropdown bugs
+
+export const onDialogOpenChange = (open: boolean) => {
+  if (open === false) {
+    setTimeout(() => {
+      const escEvent = new KeyboardEvent("keydown", {
+        key: "Escape",
+      });
+      document.dispatchEvent(escEvent);
+    }, 200);
+  }
+};
+export const onDropdownSelect = (e: Event) => {
+  e.preventDefault();
+};
+
+export const closeDialog = () => {
+  const escEvent = new KeyboardEvent("keydown", {
+    key: "Escape",
+  });
+  document.dispatchEvent(escEvent);
+};

@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { TProjectDetails } from "@/lib/type";
-import { formatDate } from "@/lib/utils";
+import { formatDate, onDialogOpenChange, onDropdownSelect } from "@/lib/utils";
 import {
   Archive,
   Calendar,
@@ -35,19 +35,6 @@ export function ProjectDropdown({
   projectData,
 }: ProjectMoreDropdownProps) {
   // deal with radix ui's bug
-  const onOpenChange = (open: boolean) => {
-    if (open === false) {
-      setTimeout(() => {
-        const escEvent = new KeyboardEvent("keydown", {
-          key: "Escape",
-        });
-        document.dispatchEvent(escEvent);
-      }, 200);
-    }
-  };
-  const onSelect = (e: Event) => {
-    e.preventDefault();
-  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -85,9 +72,9 @@ export function ProjectDropdown({
               </div>
             </div>
           }
-          onOpenChange={onOpenChange}
+          onOpenChange={onDialogOpenChange}
         >
-          <DropdownMenuItem onSelect={onSelect}>
+          <DropdownMenuItem onSelect={onDropdownSelect}>
             <Info className="h-4 w-4 text-muted-foreground" />
             Project info
           </DropdownMenuItem>
@@ -109,9 +96,9 @@ export function ProjectDropdown({
             description="You will no longer be able to make any changes to this project."
             action="archiveProject"
             id={projectId}
-            onOpenChange={onOpenChange}
+            onOpenChange={onDialogOpenChange}
           >
-            <DropdownMenuItem onSelect={onSelect}>
+            <DropdownMenuItem onSelect={onDropdownSelect}>
               <Archive className="h-4 w-4 text-muted-foreground" />
               Archive
             </DropdownMenuItem>
@@ -121,11 +108,11 @@ export function ProjectDropdown({
             description="Are you sure you want to delete this project? This action is irreversible and will result in permanent loss of all associated data."
             action="deleteProject"
             id={projectId}
-            onOpenChange={onOpenChange}
+            onOpenChange={onDialogOpenChange}
           >
             <DropdownMenuItem
               className="text-destructive data-[highlighted]:text-destructive"
-              onSelect={onSelect}
+              onSelect={onDropdownSelect}
             >
               <Trash2 className="h-4 w-4" />
               Delete
