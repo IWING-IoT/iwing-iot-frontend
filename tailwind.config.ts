@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -93,8 +96,12 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "var(--font-anuphan)"],
-        mono: ["var(--font-jetbrains-mono)"],
+        sans: [
+          "var(--font-inter)",
+          "var(--font-anuphan)",
+          ...defaultTheme.fontFamily.sans,
+        ],
+        mono: ["var(--font-jetbrains-mono)", ...defaultTheme.fontFamily.mono],
       },
       height: {
         screen: ["100vh", "100dvh"],
