@@ -1,10 +1,19 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
-import React from "react";
+import * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 
-const Drawer = DrawerPrimitive.Root;
+const Drawer = ({
+  shouldScaleBackground = false,
+  ...props
+}: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
+  <DrawerPrimitive.Root
+    shouldScaleBackground={shouldScaleBackground}
+    {...props}
+  />
+);
+Drawer.displayName = "Drawer";
 
 const DrawerTrigger = DrawerPrimitive.Trigger;
 
@@ -18,7 +27,7 @@ const DrawerOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Overlay
     ref={ref}
-    className={cn("fixed inset-0 z-40 bg-black/60 dark:bg-black/90", className)}
+    className={cn("fixed inset-0 z-50 bg-black/60 dark:bg-black/90", className)}
     {...props}
   />
 ));
@@ -59,6 +68,14 @@ const DrawerHeader = ({
 );
 DrawerHeader.displayName = "DrawerHeader";
 
+const DrawerFooter = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={cn("flex flex-col-reverse gap-3", className)} {...props} />
+);
+DrawerFooter.displayName = "DrawerFooter";
+
 const DrawerTitle = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
@@ -83,16 +100,9 @@ const DrawerDescription = React.forwardRef<
 ));
 DrawerDescription.displayName = DrawerPrimitive.Description.displayName;
 
-const DrawerFooter = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("flex flex-col-reverse gap-3", className)} {...props} />
-);
-DrawerFooter.displayName = "DrawerFooter";
-
 export {
   Drawer,
+  DrawerPortal,
   DrawerTrigger,
   DrawerContent,
   DrawerOverlay,

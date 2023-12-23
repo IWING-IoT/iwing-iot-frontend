@@ -90,15 +90,8 @@ export function DeleteActionDialog({
       icon={<Trash2 />}
       title={title}
       description={description}
-      submitButton={
-        <Button
-          variant={"destructive"}
-          className="flex-1"
-          onClick={() => handleDelete()}
-        >
-          {submitLabel}
-        </Button>
-      }
+      onClickSubmit={() => handleDelete()}
+      submitButtonLabel={submitLabel}
       onOpenChange={onOpenChange}
     >
       {children}

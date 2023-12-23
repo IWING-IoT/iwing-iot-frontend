@@ -78,15 +78,8 @@ export function PatchActionDialog({
       icon={icon}
       title={title}
       description={description}
-      submitButton={
-        <Button
-          variant={variant === "error" ? "destructive" : "default"}
-          className="flex-1"
-          onClick={() => handlePatch()}
-        >
-          {submitLabel}
-        </Button>
-      }
+      onClickSubmit={() => handlePatch()}
+      submitButtonLabel={submitLabel}
       onOpenChange={onOpenChange}
     >
       {children}

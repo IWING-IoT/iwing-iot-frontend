@@ -231,7 +231,7 @@ export function ItemForm({
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
+                <PopoverContent className="z-50 p-0">
                   <Command>
                     <CommandInput placeholder="Search attribute..." />
                     <CommandEmpty>No attribute found.</CommandEmpty>

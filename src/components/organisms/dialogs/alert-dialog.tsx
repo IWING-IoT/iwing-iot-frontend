@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { FeatureIcon } from "@/components/atoms/feature-icon";
+import useMediaQuery from "beautiful-react-hooks/useMediaQuery";
 
 type AlertDialogProps = {
   children: React.ReactNode;
@@ -47,40 +48,9 @@ export function AlertDialog({
   icon,
   onOpenChange,
 }: AlertDialogProps) {
-  return (
-    <>
-      <Dialog onOpenChange={onOpenChange}>
-        <DialogTrigger className="hidden sm:flex" asChild>
-          {children}
-        </DialogTrigger>
-        <DialogContent className={cn("w-[400px]", className)}>
-          <DialogHeader className="gap-2.5">
-            <FeatureIcon icon={icon} variant={variant} />
-            <div className="flex flex-col gap-1">
-              <DialogTitle>{title}</DialogTitle>
-              <DialogDescription>{description}</DialogDescription>
-            </div>
-          </DialogHeader>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant={"outline"} className="flex-1">
-                Cancel
-              </Button>
-            </DialogClose>
-            {submitButton ? (
-              <DialogClose asChild>{submitButton}</DialogClose>
-            ) : (
-              <Button
-                className="flex-1"
-                onClick={onClickSubmit}
-                variant={variant === "error" ? "destructive" : "default"}
-              >
-                {submitButtonLabel}
-              </Button>
-            )}
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+  const isMobile = useMediaQuery("(max-width: 640px)");
+  if (isMobile) {
+    return (
       <Drawer onOpenChange={onOpenChange}>
         <DrawerTrigger className="sm:hidden" asChild>
           {children}
@@ -103,7 +73,6 @@ export function AlertDialog({
               <DrawerClose asChild>{submitButton}</DrawerClose>
             ) : (
               <Button
-                className="flex-1"
                 onClick={onClickSubmit}
                 variant={variant === "error" ? "destructive" : "default"}
               >
@@ -113,6 +82,40 @@ export function AlertDialog({
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-    </>
+    );
+  }
+  return (
+    <Dialog onOpenChange={onOpenChange}>
+      <DialogTrigger className="hidden sm:flex" asChild>
+        {children}
+      </DialogTrigger>
+      <DialogContent className={cn("w-[400px]", className)}>
+        <DialogHeader className="gap-2.5">
+          <FeatureIcon icon={icon} variant={variant} />
+          <div className="flex flex-col gap-1">
+            <DialogTitle>{title}</DialogTitle>
+            <DialogDescription>{description}</DialogDescription>
+          </div>
+        </DialogHeader>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant={"outline"} className="flex-1">
+              Cancel
+            </Button>
+          </DialogClose>
+          {submitButton ? (
+            <DialogClose asChild>{submitButton}</DialogClose>
+          ) : (
+            <Button
+              className="flex-1"
+              onClick={onClickSubmit}
+              variant={variant === "error" ? "destructive" : "default"}
+            >
+              {submitButtonLabel}
+            </Button>
+          )}
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
