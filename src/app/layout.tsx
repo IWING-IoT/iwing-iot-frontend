@@ -4,10 +4,10 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { NextAuthProvider } from "@/components/providers/nextauth-provider";
 import { JotaiProvider } from "@/components/providers/jotai-provider";
-import { SonnerToasterProvider } from "@/components/providers/sonner-toaster-provider";
 import { QueryClientProvider } from "@/components/providers/query-client-provider";
 import { DrawerWrapper } from "@/components/atoms/drawer-wrapper";
 import { ShowDialog } from "@/components/organisms/dialogs/show-dialog";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "IWING IoT",
@@ -58,7 +58,7 @@ export default function RootLayout({
               <QueryClientProvider>
                 <DrawerWrapper>{children}</DrawerWrapper>
               </QueryClientProvider>
-              <SonnerToasterProvider />
+              <Toaster />
               <ShowDialog />
             </JotaiProvider>
           </NextAuthProvider>
