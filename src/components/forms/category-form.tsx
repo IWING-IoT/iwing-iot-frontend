@@ -162,6 +162,7 @@ export function CategoryForm({
     onSuccess: () => {
       toast.success("Category created successfully");
       router.push(`/project/${projectId}/attribute-data`);
+      router.refresh();
     },
   });
 
@@ -176,6 +177,7 @@ export function CategoryForm({
     onSuccess: () => {
       toast.success("Changes saved successfully");
       router.push(`/project/${projectId}/category/${categoryId}`);
+      router.refresh();
     },
   });
 
@@ -386,7 +388,7 @@ export function CategoryForm({
                                   </Button>
                                 </FormControl>
                               </PopoverTrigger>
-                              <PopoverContent className="w-[200px] p-0">
+                              <PopoverContent className="z-50 p-0">
                                 <Command>
                                   <CommandInput placeholder="Search category" />
                                   <CommandEmpty>
