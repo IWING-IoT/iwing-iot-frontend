@@ -35,15 +35,14 @@ import { DialogFooter } from "../ui/dialog";
 import { useMutation } from "@tanstack/react-query";
 import { postData } from "@/lib/data-fetching";
 import { toast } from "sonner";
-import { v4 as uuidv4 } from "uuid";
 
 // Filepond
-import { FilePond, registerPlugin } from "react-filepond";
-import FilePondPluginFileEncode from "filepond-plugin-file-encode";
-import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
-import "filepond/dist/filepond.min.css";
+// import { FilePond, registerPlugin } from "react-filepond";
+// import FilePondPluginFileEncode from "filepond-plugin-file-encode";
+// import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+// import "filepond/dist/filepond.min.css";
 
-registerPlugin(FilePondPluginFileEncode, FilePondPluginFileValidateType);
+// registerPlugin(FilePondPluginFileEncode, FilePondPluginFileValidateType);
 
 type ItemFormProps = {
   categoryId: string;
@@ -60,9 +59,9 @@ export function ItemForm({
   allEntries,
   categoryId,
 }: ItemFormProps) {
-  console.log(categoryData);
+  // console.log(categoryData);
   const mainAttributeField: TEntryDefinition = {
-    id: uuidv4(),
+    id: categoryData.mainAttribute,
     accessorKey: categoryData.mainAttribute,
     type: "string",
   };
@@ -173,7 +172,7 @@ export function ItemForm({
                 {entry.accessorKey}
               </FormLabel>
               <FormControl>
-                <FilePond
+                {/* <FilePond
                   id={entry.accessorKey}
                   allowFileEncode
                   allowFileTypeValidation
@@ -194,7 +193,7 @@ export function ItemForm({
                       : []
                   }
                   {...field}
-                />
+                /> */}
               </FormControl>
               <FormMessage />
             </FormItem>
