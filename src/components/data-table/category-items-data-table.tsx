@@ -86,7 +86,7 @@ export function CategoryItemsDataTable({
         cell: ({ row }) => {
           const imageSrc = String(row.getValue(key.accessorKey));
           if (!imageSrc) {
-            return <p className="text-muted-foreground">No image</p>;
+            return <p className="text-muted-foreground">-</p>;
           }
           return (
             <DialogWithContent
@@ -133,7 +133,9 @@ export function CategoryItemsDataTable({
           <DataTableColumnHeader column={column} title={key.accessorKey} />
         ),
         cell: ({ row }) => {
-          const data = String(row.getValue(key.accessorKey));
+          const data = row.getValue(key.accessorKey)
+            ? String(row.getValue(key.accessorKey))
+            : "-";
           return <p className="w-max text-muted-foreground">{data}</p>;
         },
       } as ColumnDef<TAttributeEntry>;
