@@ -185,7 +185,7 @@ export function CategoryForm({
     if (type === "create") {
       createCategory.mutate(data);
     } else {
-      editCategory.mutate(data);
+      editCategory.mutate(form.getValues());
     }
   }
   function onAttributeSubmit(data: z.infer<typeof addAttributeFormSchema>) {
