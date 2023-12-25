@@ -22,7 +22,7 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { cn } from "@/lib/utils";
+import { cn, generateEscEvent } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import {
   Command,
@@ -33,7 +33,7 @@ import {
 } from "../ui/command";
 import { DialogFooter } from "../ui/dialog";
 import { useMutation } from "@tanstack/react-query";
-import { postData } from "@/lib/data-fetching";
+import { postData, putData } from "@/lib/data-fetching";
 import { toast } from "sonner";
 
 // Filepond
@@ -59,7 +59,7 @@ export function ItemForm({
   allEntries,
   categoryId,
 }: ItemFormProps) {
-  // console.log(categoryData);
+  console.log(categoryData);
   const mainAttributeField: TEntryDefinition = {
     id: categoryData.mainAttribute,
     accessorKey: categoryData.mainAttribute,
@@ -86,19 +86,19 @@ export function ItemForm({
     },
   });
 
-  // const editItem = useMutation({
-  //   mutationFn: (data: z.infer<typeof formSchema>) =>
-  //     postData(`/entry/${entryData?.id}`, data),
-  //   onError: (error: THttpError) => {
-  //     toast.error("Unable to save changes", {
-  //       description: error.response.data.message,
-  //     });
-  //   },
-  //   onSuccess: () => {
-  //     toast.success("Changes saved successfully");
-  //     router.refresh();
-  //   },
-  // });
+  const editItem = useMutation({
+    mutationFn: (data: z.infer<typeof formSchema>) =>
+      putData(`/entry/${entryData?.id}`, data),
+    onError: (error: THttpError) => {
+      toast.error("Unable to save changes", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      toast.success("Changes saved successfully");
+      router.refresh();
+    },
+  });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
     const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
@@ -108,27 +108,26 @@ export function ItemForm({
       addItem.mutate(data);
     } else {
       // editItem.mutate(data);
+      console.log(data);
+      console.log(form.getValues());
     }
     router.refresh();
   }
 
-  const defaultValues = entryData
-    ? Object.entries(entryData).reduce(
-        (values: Record<string, string>, [key, value]) => {
-          if (typeof value === "object") {
-            values[key] = value.id;
-          } else {
-            values[key] = value;
-          }
-          return values;
-        },
-        {},
-      )
-    : fields.reduce((values: Record<string, string>, entry) => {
-        values[entry.accessorKey] = "";
-        return values;
-      }, {});
-  // console.log(defaultValues);
+  const defaultValues: Record<string, string> = {};
+  fields.forEach((entry) => {
+    const value = entryData?.[entry.accessorKey];
+    console.log(value);
+    if (typeof value === "object" && value !== null) {
+      defaultValues[entry.accessorKey] = value.id ?? "";
+    } else {
+      defaultValues[entry.accessorKey] = value ?? "";
+    }
+  });
+
+  console.log("fields => ", fields);
+  console.log("entryData => ", entryData);
+  console.log("defaultValues => ", defaultValues);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -243,6 +242,7 @@ export function ItemForm({
                             key={option.id}
                             onSelect={() => {
                               form.setValue(entry.accessorKey, option.id);
+                              generateEscEvent();
                             }}
                           >
                             <Check
