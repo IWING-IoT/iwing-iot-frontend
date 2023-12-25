@@ -16,9 +16,9 @@ import { formatDate, onDialogOpenChange, onDropdownSelect } from "@/lib/utils";
 import {
   Archive,
   Calendar,
-  ChevronDown,
   Info,
   MapPin,
+  MoreHorizontal,
   Pen,
   Trash2,
   User,
@@ -38,12 +38,8 @@ export function ProjectDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant={"ghost"}
-          size={"icon"}
-          className="h-8 w-8 sm:h-10 sm:w-10"
-        >
-          <ChevronDown className="h-5 w-5 sm:h-6 sm:w-6" />
+        <Button variant={"outline"} size={"icon"}>
+          <MoreHorizontal className="h-5 w-5 sm:h-6 sm:w-6" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-60" align="end">

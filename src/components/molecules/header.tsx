@@ -33,7 +33,11 @@ export function HeaderContent({ children, className }: HeaderProps) {
 }
 
 export function HeaderTitleAndSupporting({ children, className }: HeaderProps) {
-  return <div className={cn("flex flex-col gap-1", className)}>{children}</div>;
+  return (
+    <div className={cn("flex flex-col gap-1 overflow-hidden", className)}>
+      {children}
+    </div>
+  );
 }
 
 export function HeaderTitle({ children, className }: HeaderProps) {
