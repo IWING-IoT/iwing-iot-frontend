@@ -33,7 +33,7 @@ import {
   CustomRadioItemLabel,
 } from "../molecules/custom-radio-item";
 import { DialogFooter } from "../ui/dialog";
-import { cn, stopPropagate } from "@/lib/utils";
+import { cn, generateEscEvent, stopPropagate } from "@/lib/utils";
 
 import {
   DndContext,
@@ -86,21 +86,7 @@ export function CategoryForm({
         name: z.string().min(1),
         type: z.enum(["string", "image", "category_reference"]),
         referenceFrom: z.string(),
-      }).refine(
-        (data) => {
-          // If type is "category_reference", referenceFrom must be defined
-          if (data.type === "category_reference") {
-            return data.referenceFrom !== undefined;
-          }
-          // If type is not "category_reference", the data is valid
-          return true;
-        },
-        {
-          // Custom error message
-          message:
-            "referenceFrom is required when type is 'category_reference'",
-        },
-      ),
+      }),
     ),
   });
 
@@ -126,7 +112,6 @@ export function CategoryForm({
   const { fields, append, remove, move } = useFieldArray({
     control, // control props comes from useForm (optional: if you are using FormContext)
     name: "otherAttribute", // unique name for your Field Array
-    rules: { minLength: 1 },
   });
 
   function onDelete(index: number) {
@@ -136,9 +121,37 @@ export function CategoryForm({
   }
 
   const addAttributeFormSchema = z.object({
-    name: z.string().min(1),
+    name: z
+      .string()
+      .min(1)
+      .refine(
+        (name) => {
+          const itemNameArray = form
+            .getValues()
+            .otherAttribute.map((item) => item.name);
+          itemNameArray.push(form.getValues().mainAttribute);
+          return itemNameArray.includes(name) !== true;
+        },
+        {
+          message: "This name already exists",
+        },
+      ),
     type: z.enum(["string", "image", "category_reference"]),
-    referenceFrom: z.string(),
+    referenceFrom: z.string().refine(
+      (val) => {
+        if (
+          addAttributeForm.getValues().type === "category_reference" &&
+          !val
+        ) {
+          return false;
+        }
+        console.log(val);
+        return true;
+      },
+      {
+        message: "Required",
+      },
+    ),
   });
   const addAttributeForm = useForm<z.infer<typeof addAttributeFormSchema>>({
     resolver: zodResolver(addAttributeFormSchema),
@@ -404,6 +417,10 @@ export function CategoryForm({
                                             "referenceFrom",
                                             category.id,
                                           );
+                                          addAttributeForm.clearErrors(
+                                            "referenceFrom",
+                                          );
+                                          generateEscEvent();
                                         }}
                                       >
                                         <Check
@@ -440,55 +457,63 @@ export function CategoryForm({
             </DialogWithContent>
           </SectionHeaderAction>
         </SectionHeader>
-        <div className="flex flex-col gap-4">
-          {fields.length !== 0 ? (
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext
-                items={fields}
-                strategy={verticalListSortingStrategy}
-              >
-                {fields.map((field, index) => (
-                  <AttributeCard
-                    key={field.id}
-                    id={field.id}
-                    type={field.type}
-                    name={field.name}
-                    referenceFrom={
-                      allCategoryData.find(
-                        (category) => category.id === field.referenceFrom,
-                      )?.name
-                    }
-                    onDelete={() => onDelete(index)}
+        <FormField
+          control={form.control}
+          name="otherAttribute"
+          render={({ field }) => (
+            <div className="flex flex-col gap-4">
+              {fields.length !== 0 ? (
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={handleDragEnd}
+                  id="dnd-context"
+                >
+                  <SortableContext
+                    items={fields}
+                    strategy={verticalListSortingStrategy}
                   >
-                    <FormField
-                      control={form.control}
-                      name={`otherAttribute.${index}.name`}
-                      render={({ field }) => (
-                        <FormItem className="flex-1">
-                          <FormControl>
-                            <Input
-                              placeholder="Enter attribute name"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </AttributeCard>
-                ))}
-              </SortableContext>
-            </DndContext>
-          ) : (
-            <div className="flex h-20 items-center justify-center">
-              <p className="text-muted-foreground">No attributes yet</p>
+                    {fields.map((field, index) => (
+                      <AttributeCard
+                        key={field.id}
+                        id={field.id}
+                        type={field.type}
+                        name={field.name}
+                        referenceFrom={
+                          allCategoryData.find(
+                            (category) => category.id === field.referenceFrom,
+                          )?.name
+                        }
+                        onDelete={() => onDelete(index)}
+                      >
+                        <FormField
+                          control={form.control}
+                          name={`otherAttribute.${index}.name`}
+                          render={({ field }) => (
+                            <FormItem className="flex-1">
+                              <FormControl>
+                                <Input
+                                  placeholder="Enter attribute name"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </AttributeCard>
+                    ))}
+                  </SortableContext>
+                </DndContext>
+              ) : (
+                <div className="flex h-20 items-center justify-center">
+                  <p className="text-muted-foreground">No attributes yet</p>
+                </div>
+              )}
+              <FormMessage />
             </div>
           )}
-        </div>
+        />
         <Button type="submit">
           {type === "create" ? "Create" : "Save changes"}
         </Button>
