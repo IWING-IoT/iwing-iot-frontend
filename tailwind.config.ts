@@ -12,11 +12,11 @@ module.exports = {
   ],
   theme: {
     fontSize: {
-      xs: ["0.75rem", "1.125rem"],
-      sm: ["0.875rem", "1.25rem"],
-      base: ["1rem", "1.5rem"],
-      lg: ["1.125rem", "1.75rem"],
-      xl: ["1.25rem", "1.875rem"],
+      xs: ["0.75rem", "1.2rem"],
+      sm: ["0.875rem", "1.4rem"],
+      base: ["1rem", "1.6rem"],
+      lg: ["1.125rem", "1.8rem"],
+      xl: ["1.25rem", "2rem"],
       "2xl": ["1.5rem", "2.4rem"],
       "3xl": ["1.875rem", "3rem"],
       "4xl": ["2.25rem", { lineHeight: "2.75rem", letterSpacing: "-0.045rem" }],
