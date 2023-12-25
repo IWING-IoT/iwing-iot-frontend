@@ -25,7 +25,7 @@ import { useMutation } from "@tanstack/react-query";
 import { THttpError, TUserAccountDetails } from "@/lib/type";
 import { patchData } from "@/lib/data-fetching";
 import { useRouter } from "next/navigation";
-import { closeDialog } from "@/lib/utils";
+import { generateEscEvent } from "@/lib/utils";
 
 export function AddDeviceForm() {
   const deviceType = [
@@ -66,7 +66,7 @@ export function AddDeviceForm() {
 
   function onSubmit(data: z.infer<typeof formSchema>) {
     //   editAccount.mutate(data);
-    closeDialog();
+    generateEscEvent();
     console.log(data);
   }
 

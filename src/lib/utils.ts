@@ -50,7 +50,7 @@ export const onDropdownSelect = (e: Event) => {
   e.preventDefault();
 };
 
-export const closeDialog = () => {
+export const generateEscEvent = () => {
   const escEvent = new KeyboardEvent("keydown", {
     key: "Escape",
   });
