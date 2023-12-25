@@ -19,7 +19,7 @@ import { useMutation } from "@tanstack/react-query";
 import { TDevices, THttpError, TUserAccountDetails } from "@/lib/type";
 import { patchData } from "@/lib/data-fetching";
 import { useRouter } from "next/navigation";
-import { closeDialog } from "@/lib/utils";
+import { generateEscEvent } from "@/lib/utils";
 
 type EditFormProps = {
   deviceData: TDevices;
@@ -58,7 +58,7 @@ export function EditDeviceForm({ deviceData }: EditFormProps) {
 
   function onSubmit(data: z.infer<typeof formSchema>) {
     //   editAccount.mutate(data);
-    closeDialog();
+    generateEscEvent();
     console.log(data);
   }
 
