@@ -2,6 +2,7 @@ import { fetchData } from "@/lib/data-fetching";
 import { TProjectDetails } from "@/lib/type";
 import {
   Header,
+  HeaderActions,
   HeaderContent,
   HeaderTitle,
   HeaderTitleAndSupporting,
@@ -29,16 +30,16 @@ export default async function Layout({ params, children }: ProjectProps) {
   return (
     <>
       <Header className="pb-0 sm:pb-0">
-        <HeaderContent>
+        <HeaderContent className="flex-row">
           <HeaderTitleAndSupporting>
-            <div className="flex gap-2">
-              <HeaderTitle>{projectData.name}</HeaderTitle>
-              <ProjectDropdown
-                projectId={params.projectId}
-                projectData={projectData}
-              />
-            </div>
+            <HeaderTitle>{projectData.name}</HeaderTitle>
           </HeaderTitleAndSupporting>
+          <HeaderActions>
+            <ProjectDropdown
+              projectId={params.projectId}
+              projectData={projectData}
+            />
+          </HeaderActions>
         </HeaderContent>
         <NavTabs tabs={tabs} layoutId="project" />
       </Header>
