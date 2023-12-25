@@ -1,2 +1,3 @@
-- สร้างโปรเจค
-- เพิ่มผู้ร่วมทำโปรเจค
+- ลองเชื่อม backend แล้วเทส edit item
+- API settings
+- device ใน deployment เสร็จ
