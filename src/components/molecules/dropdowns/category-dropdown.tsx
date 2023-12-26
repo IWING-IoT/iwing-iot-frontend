@@ -37,12 +37,13 @@ export function CategoryDropdown({
             Edit
           </Link>
         </DropdownMenuItem>
-        {/* <DeleteActionDialog
+        <DeleteActionDialog
           title={`Delete ${categoryData.name}`}
           description="This action cannot be undone. You will lose all data associated with this category."
-          action=""
+          action="deleteCategory"
           id={categoryId}
           onOpenChange={onDialogOpenChange}
+          redirectTo={`/project/${projectId}/attribute-data`}
         >
           <DropdownMenuItem
             className="text-destructive data-[highlighted]:text-destructive"
@@ -51,7 +52,7 @@ export function CategoryDropdown({
             <Trash2 className="h-4 w-4" />
             Delete
           </DropdownMenuItem>
-        </DeleteActionDialog> */}
+        </DeleteActionDialog>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -146,6 +146,7 @@ export function CategoryItemsDataTable({
     {
       id: "actions",
       cell: ({ row }) => {
+        const mainAttribute = String(row.getValue(categoryData.mainAttribute));
         const data = row.original;
         return (
           <Restricted to="edit">
@@ -167,10 +168,12 @@ export function CategoryItemsDataTable({
                 </Button>
               </DialogWithContent>
               <DeleteActionDialog
-                title={`Remove this item`}
-                description={`This item will be lost forever`}
-                action="removeCollaborator"
-                id={"123"}
+                title={`Delete ${mainAttribute}`}
+                description={
+                  "This action cannot be undone. You will lose all data associated with this item."
+                }
+                action="deleteEntry"
+                id={data.id}
               >
                 <Button type="button" variant={"ghost"} size={"icon"}>
                   <Trash2 className="h-5 w-5 text-destructive" />
