@@ -37,7 +37,11 @@ export const devicesColumns: ColumnDef<TDevices>[] = [
       } else {
         variant = "warning";
       }
-      return <Badge variant={variant}>{status}</Badge>;
+      return (
+        <div className="w-max">
+          <Badge variant={variant}>{status}</Badge>
+        </div>
+      );
     },
   },
   {

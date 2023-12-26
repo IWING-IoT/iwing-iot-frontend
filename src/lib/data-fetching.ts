@@ -93,7 +93,7 @@ export async function patchData(path: string, body: unknown) {
 export async function putData(path: string, body: unknown) {
   try {
     const { data } = await clientAxios.put(path, body);
-    // console.log("data => ", data);
+    // console.log("putdata => ", data);
     return data;
   } catch (error) {
     throw error;

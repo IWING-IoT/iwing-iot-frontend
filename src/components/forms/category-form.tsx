@@ -145,7 +145,7 @@ export function CategoryForm({
         ) {
           return false;
         }
-        console.log(val);
+        // console.log(val);
         return true;
       },
       {
@@ -195,8 +195,8 @@ export function CategoryForm({
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
-    console.log(form.getValues());
+    // console.log(data);
+    // console.log(form.getValues());
     if (type === "create") {
       createCategory.mutate(data);
     } else {
@@ -206,7 +206,7 @@ export function CategoryForm({
   function onAttributeSubmit(data: z.infer<typeof addAttributeFormSchema>) {
     const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
     document.dispatchEvent(escEvent);
-    console.log(data);
+    // console.log(data);
     append(data);
     addAttributeForm.reset();
   }
@@ -232,7 +232,7 @@ export function CategoryForm({
     if (over && active.id !== over?.id) {
       const activeIndex = active.data.current?.sortable?.index;
       const overIndex = over.data.current?.sortable?.index;
-      console.log({ activeIndex, overIndex });
+      // console.log({ activeIndex, overIndex });
       if (activeIndex !== undefined && overIndex !== undefined) {
         move(activeIndex, overIndex);
       }

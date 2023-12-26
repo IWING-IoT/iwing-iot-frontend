@@ -35,6 +35,7 @@ import { DialogFooter } from "../ui/dialog";
 import { useMutation } from "@tanstack/react-query";
 import { postData, putData } from "@/lib/data-fetching";
 import { toast } from "sonner";
+import { ScrollArea } from "../ui/scroll-area";
 
 // Filepond
 // import { FilePond, registerPlugin } from "react-filepond";
@@ -59,7 +60,7 @@ export function ItemForm({
   allEntries,
   categoryId,
 }: ItemFormProps) {
-  console.log(categoryData);
+  // console.log(categoryData);
   const mainAttributeField: TEntryDefinition = {
     id: categoryData.mainAttribute,
     accessorKey: categoryData.mainAttribute,
@@ -103,13 +104,13 @@ export function ItemForm({
   function onSubmit(data: z.infer<typeof formSchema>) {
     const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
     document.dispatchEvent(escEvent);
-    console.log(data);
+    // console.log(data);
     if (type === "add") {
       addItem.mutate(data);
     } else {
-      // editItem.mutate(data);
-      console.log(data);
-      console.log(form.getValues());
+      editItem.mutate(data);
+      // console.log("submitdata=>", data);
+      // console.log(form.getValues());
     }
     router.refresh();
   }
@@ -117,7 +118,7 @@ export function ItemForm({
   const defaultValues: Record<string, string> = {};
   fields.forEach((entry) => {
     const value = entryData?.[entry.accessorKey];
-    console.log(value);
+    // console.log(value);
     if (typeof value === "object" && value !== null) {
       defaultValues[entry.accessorKey] = value.id ?? "";
     } else {
@@ -125,9 +126,9 @@ export function ItemForm({
     }
   });
 
-  console.log("fields => ", fields);
-  console.log("entryData => ", entryData);
-  console.log("defaultValues => ", defaultValues);
+  // console.log("fields => ", fields);
+  // console.log("entryData => ", entryData);
+  // console.log("defaultValues => ", defaultValues);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -233,30 +234,32 @@ export function ItemForm({
                 <PopoverContent className="z-50 p-0">
                   <Command>
                     <CommandInput placeholder="Search attribute..." />
-                    <CommandEmpty>No attribute found.</CommandEmpty>
-                    <CommandGroup>
-                      {entry.category &&
-                        allEntries[entry.category?.name].map((option) => (
-                          <CommandItem
-                            value={option.name}
-                            key={option.id}
-                            onSelect={() => {
-                              form.setValue(entry.accessorKey, option.id);
-                              generateEscEvent();
-                            }}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                option.id === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0",
-                              )}
-                            />
-                            {option?.name}
-                          </CommandItem>
-                        ))}
-                    </CommandGroup>
+                    <ScrollArea className="h-60">
+                      <CommandEmpty>No attribute found.</CommandEmpty>
+                      <CommandGroup>
+                        {entry.category &&
+                          allEntries[entry.category?.name].map((option) => (
+                            <CommandItem
+                              value={option.name}
+                              key={option.id}
+                              onSelect={() => {
+                                form.setValue(entry.accessorKey, option.id);
+                                generateEscEvent();
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  option.id === field.value
+                                    ? "opacity-100"
+                                    : "opacity-0",
+                                )}
+                              />
+                              {option?.name}
+                            </CommandItem>
+                          ))}
+                      </CommandGroup>
+                    </ScrollArea>
                   </Command>
                 </PopoverContent>
               </Popover>
