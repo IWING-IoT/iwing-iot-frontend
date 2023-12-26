@@ -1,5 +1,9 @@
 import { LoadingIndicator } from "@/components/atoms/loading-indicator";
 
 export default function Loading() {
-  return <LoadingIndicator />;
+  return (
+    <div className="h-screen w-full">
+      <LoadingIndicator />
+    </div>
+  );
 }
