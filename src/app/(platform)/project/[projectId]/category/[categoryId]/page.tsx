@@ -15,6 +15,7 @@ import {
   HeaderTitleAndSupporting,
 } from "@/components/molecules/header";
 import { DialogWithContent } from "@/components/organisms/dialogs/dialog-with-content";
+import Restricted from "@/components/providers/permission-provider/restricted";
 import { MainContainer } from "@/components/templates/main-container";
 import { TableWrapper } from "@/components/templates/table-wrapper";
 import { Button } from "@/components/ui/button";
@@ -79,29 +80,31 @@ export default async function Category({ params }: CategoryProps) {
               <HeaderDescription>{categoryData.description}</HeaderDescription>
             )}
           </HeaderTitleAndSupporting>
-          <HeaderActions>
-            <DialogWithContent
-              title="Add new item"
-              content={
-                <ItemForm
-                  categoryData={categoryData}
-                  categoryId={params.categoryId}
-                  type="add"
-                  allEntries={allCategoriesEntries}
-                />
-              }
-            >
-              <Button type="button">
-                <Plus className="mr-2 h-5 w-5" />
-                New item
-              </Button>
-            </DialogWithContent>
-            <CategoryDropdown
-              projectId={params.projectId}
-              categoryId={params.categoryId}
-              categoryData={categoryData}
-            />
-          </HeaderActions>
+          <Restricted to="edit">
+            <HeaderActions>
+              <DialogWithContent
+                title="Add new item"
+                content={
+                  <ItemForm
+                    categoryData={categoryData}
+                    categoryId={params.categoryId}
+                    type="add"
+                    allEntries={allCategoriesEntries}
+                  />
+                }
+              >
+                <Button type="button">
+                  <Plus className="mr-2 h-5 w-5" />
+                  New item
+                </Button>
+              </DialogWithContent>
+              <CategoryDropdown
+                projectId={params.projectId}
+                categoryId={params.categoryId}
+                categoryData={categoryData}
+              />
+            </HeaderActions>
+          </Restricted>
         </HeaderContent>
       </Header>
       <MainContainer>
