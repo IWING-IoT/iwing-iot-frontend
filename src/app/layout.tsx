@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { NextAuthProvider } from "@/components/providers/nextauth-provider";
@@ -13,13 +13,6 @@ export const metadata: Metadata = {
   title: "IWING IoT",
   description: "IoT Tracking Platform for IWING Lab",
 };
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 const jetbrains_mono = JetBrains_Mono({
   subsets: ["latin"],
@@ -36,7 +29,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrains_mono.variable}`}
+      className={`${jetbrains_mono.variable}`}
       suppressHydrationWarning
     >
       <body className="font-sans">
