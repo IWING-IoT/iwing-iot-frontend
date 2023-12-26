@@ -1,3 +1,8 @@
-- ลองเชื่อม backend แล้วเทส edit item
+- เพิ่ม Validation ตอนแก้ชื่อ attribute ไม่ให้ซ้ำกับ main และ other ตัวอื่น
 - API settings
 - device ใน deployment เสร็จ
+- แก้ bug matchMediaQuery bug ของ showDialog
+- แก้ empty state ของตารางในกรณีที่ไม่มีของ ไม่ใช่มีแต่ค้นไม่เจอ
+- ถ้า device in use อยู่ใน phase แล้ว user จะ mark as unavailable จะทำยังไง
+- required ทุกช่องใน item-form
+- แก้บัค scrollarea ใน combobox
