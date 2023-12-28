@@ -85,7 +85,7 @@ export function CategoryItemsDataTable({
         accessorKey: key.accessorKey,
         header: key.accessorKey,
         cell: ({ row }) => {
-          const imageSrc = String(row.getValue(key.accessorKey));
+          const imageSrc = row.getValue(key.accessorKey);
           if (!imageSrc) {
             return <p className="text-muted-foreground">-</p>;
           }
@@ -95,7 +95,7 @@ export function CategoryItemsDataTable({
               className="h-fit"
               content={
                 <AspectRatioImage
-                  imageSrc={imageSrc}
+                  imageSrc={String(imageSrc)}
                   alt={row.getValue(categoryData.mainAttribute)}
                 />
               }
