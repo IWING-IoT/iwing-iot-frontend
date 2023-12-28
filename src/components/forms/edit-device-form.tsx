@@ -21,11 +21,11 @@ import { patchData } from "@/lib/data-fetching";
 import { useRouter } from "next/navigation";
 import { generateEscEvent } from "@/lib/utils";
 
-type EditFormProps = {
+type EditDeviceFormProps = {
   deviceData: TDevices;
 };
 
-export function EditDeviceForm({ deviceData }: EditFormProps) {
+export function EditDeviceForm({ deviceData }: EditDeviceFormProps) {
   const formSchema = z.object({
     name: z.string().min(1),
   });
@@ -36,30 +36,26 @@ export function EditDeviceForm({ deviceData }: EditFormProps) {
     defaultValues: {
       name: deviceData.name ?? "",
     },
-    mode: "onBlur",
+    mode: "onChange",
   });
 
-  //   const editAccount = useMutation({
-  //     mutationFn: (data: Omit<TUserAccountDetails, "id" | "password">) =>
-  //       patchData(`/admin/account/${userData.id}`, data),
-  //     onError: (error: THttpError) => {
-  //       toast.error("Unable to save changes", {
-  //         description: error.response.data.message,
-  //       });
-  //     },
-  //     onSuccess: () => {
-  //       // Close dialog
-  //       const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-  //       document.dispatchEvent(escEvent);
-  //       router.refresh();
-  //       toast.success("Changes saved successfully");
-  //     },
-  //   });
+  const editDevice = useMutation({
+    mutationFn: (data: Pick<TDevices, "name">) =>
+      patchData(`/device/${deviceData.id}`, data),
+    onError: (error: THttpError) => {
+      toast.error("Unable save changes", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      toast.success("Changes saved successfully");
+      router.refresh();
+    },
+  });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    //   editAccount.mutate(data);
     generateEscEvent();
-    console.log(data);
+    editDevice.mutate(data);
   }
 
   return (
