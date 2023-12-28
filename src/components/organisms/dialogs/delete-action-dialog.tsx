@@ -15,7 +15,9 @@ type DeleteActionDialogProps = {
     | "removeCollaborator"
     | "deleteProject"
     | "deleteEntry"
-    | "deleteCategory";
+    | "deleteCategory"
+    | "deleteApiField"
+    | "deleteDevice";
   id: string;
   onOpenChange?: (open: boolean) => void;
   redirectTo?: string;
@@ -37,15 +39,11 @@ export function DeleteActionDialog({
   const removeCollaborator = useMutation({
     mutationFn: () => deleteData(`/collaborator/${id}`),
     onError: (error: THttpError) => {
-      const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-      document.dispatchEvent(escEvent);
       toast.error("Unable to remove this collaborator", {
         description: error.response.data.message,
       });
     },
     onSuccess: () => {
-      const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-      document.dispatchEvent(escEvent);
       router.refresh();
       toast.success("Collaborator removed successfully");
     },
@@ -54,15 +52,11 @@ export function DeleteActionDialog({
   const deleteProject = useMutation({
     mutationFn: () => deleteData(`/project/${id}/deleted`),
     onError: (error: THttpError) => {
-      const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-      document.dispatchEvent(escEvent);
       toast.error("Unable to delete this project", {
         description: error.response.data.message,
       });
     },
     onSuccess: () => {
-      const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-      document.dispatchEvent(escEvent);
       router.push("/home");
       router.refresh();
       toast.success("Project deleted successfully");
@@ -72,15 +66,11 @@ export function DeleteActionDialog({
   const deleteEntry = useMutation({
     mutationFn: () => deleteData(`/entry/${id}`),
     onError: (error: THttpError) => {
-      const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-      document.dispatchEvent(escEvent);
       toast.error("Unable to delete this item", {
         description: error.response.data.message,
       });
     },
     onSuccess: () => {
-      const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-      document.dispatchEvent(escEvent);
       router.refresh();
       toast.success("Item deleted successfully");
     },
@@ -89,20 +79,42 @@ export function DeleteActionDialog({
   const deleteCategory = useMutation({
     mutationFn: () => deleteData(`/category/${id}`),
     onError: (error: THttpError) => {
-      const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-      document.dispatchEvent(escEvent);
       toast.error("Unable to delete this category", {
         description: error.response.data.message,
       });
     },
     onSuccess: () => {
-      const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-      document.dispatchEvent(escEvent);
       if (redirectTo) {
         router.push(redirectTo);
       }
       router.refresh();
       toast.success("Category deleted successfully");
+    },
+  });
+
+  const deleteApiField = useMutation({
+    mutationFn: () => deleteData(`/phaseApi/${id}`),
+    onError: (error: THttpError) => {
+      toast.error("Unable to delete this field", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      router.refresh();
+      toast.success("Field deleted successfully");
+    },
+  });
+
+  const deleteDevice = useMutation({
+    mutationFn: () => deleteData(`/device/${id}`),
+    onError: (error: THttpError) => {
+      toast.error("Unable to delete this device", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      router.refresh();
+      toast.success("Device deleted successfully");
     },
   });
 
@@ -127,6 +139,12 @@ export function DeleteActionDialog({
         break;
       case "deleteCategory":
         deleteCategory.mutate();
+        break;
+      case "deleteApiField":
+        deleteApiField.mutate();
+        break;
+      case "deleteDevice":
+        deleteDevice.mutate();
         break;
       default:
         break;
