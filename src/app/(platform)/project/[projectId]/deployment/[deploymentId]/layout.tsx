@@ -11,9 +11,11 @@ import {
   HeaderTitleAndSupporting,
 } from "@/components/molecules/header";
 import { NavTabs } from "@/components/molecules/nav-tabs";
+import PermissionProvider from "@/components/providers/permission-provider/permission-provider";
 import { MainContainer } from "@/components/templates/main-container";
 import { fetchData } from "@/lib/data-fetching";
 import { TDeploymentDetails, TProjectDetails } from "@/lib/type";
+import { permission } from "@/lib/utils";
 
 const tabs = [
   { label: "Dashboard", href: "dashboard" },
@@ -34,8 +36,18 @@ export default async function Layout({ params, children }: LayoutProps) {
   );
   const { data: deploymentData }: { data: TDeploymentDetails } =
     await fetchData(`/phase/${params.deploymentId}`);
+
+  let permissions;
+  if (projectData.isArchived === true) {
+    permissions = permission.project_archived;
+  } else if (deploymentData.isActive === false) {
+    permissions = permission.deployment_finished;
+  } else {
+    permissions = permission[projectData.permission];
+  }
+
   return (
-    <>
+    <PermissionProvider permissions={permissions}>
       <Header className="pb-0 sm:pb-0">
         <Breadcrumb>
           <BreadcrumbItem>
@@ -55,6 +67,6 @@ export default async function Layout({ params, children }: LayoutProps) {
         <NavTabs tabs={tabs} layoutId="deployment" />
       </Header>
       <MainContainer>{children}</MainContainer>
-    </>
+    </PermissionProvider>
   );
 }
