@@ -16,6 +16,7 @@ export function DataTableGeneralToolbar<TData>({
   return (
     <div className="flex justify-between border-b px-4 py-3">
       <SearchInput
+        id="search"
         className="max-w-[400px]"
         placeholder={`Search by ${searchByColumn}`}
         value={
