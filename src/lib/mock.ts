@@ -1,4 +1,4 @@
-import { TCategory, TCategoryDetails, TDevices, TEntry } from "./type";
+import { TCategory, TCategoryDetails, TEntry } from "./type";
 
 export const categoryData: TCategoryDetails = {
   name: "Test Category",
@@ -94,23 +94,5 @@ export const allEntries: TEntry[] = [
   {
     id: "3",
     name: "Entry 3",
-  },
-];
-
-export const allDevices: TDevices[] = [
-  {
-    id: "1",
-    name: "Device 1",
-    status: "Available",
-  },
-  {
-    id: "2",
-    name: "Device 2",
-    status: "Unavailable",
-  },
-  {
-    id: "3",
-    name: "Device 3",
-    status: "In use by Boat Track",
   },
 ];
