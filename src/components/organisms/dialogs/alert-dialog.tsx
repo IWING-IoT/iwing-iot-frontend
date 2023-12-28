@@ -30,6 +30,7 @@ type AlertDialogProps = {
   title: string;
   description: string;
   className?: string;
+  action?: boolean;
   submitButton?: React.ReactNode;
   onClickSubmit?: () => void;
   submitButtonLabel?: string;
@@ -43,6 +44,7 @@ export function AlertDialog({
   title,
   description,
   className,
+  action = true,
   submitButton,
   onClickSubmit,
   submitButtonLabel,
@@ -66,21 +68,25 @@ export function AlertDialog({
               </DrawerDescription>
             </div>
           </DrawerHeader>
-          <DrawerFooter>
-            <DrawerClose asChild>
-              <Button variant={"outline"}>Cancel</Button>
-            </DrawerClose>
-            {submitButton ? (
-              <DrawerClose asChild>{submitButton}</DrawerClose>
-            ) : (
-              <Button
-                onClick={onClickSubmit}
-                variant={variant === "error" ? "destructive" : "default"}
-              >
-                {submitButtonLabel}
-              </Button>
-            )}
-          </DrawerFooter>
+          {action && (
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button variant={"outline"}>Cancel</Button>
+              </DrawerClose>
+              {submitButton ? (
+                <DrawerClose asChild>{submitButton}</DrawerClose>
+              ) : (
+                <DrawerClose asChild>
+                  <Button
+                    onClick={onClickSubmit}
+                    variant={variant === "error" ? "destructive" : "default"}
+                  >
+                    {submitButtonLabel}
+                  </Button>
+                </DrawerClose>
+              )}
+            </DrawerFooter>
+          )}
         </DrawerContent>
       </Drawer>
     );
@@ -98,24 +104,28 @@ export function AlertDialog({
             <DialogDescription>{description}</DialogDescription>
           </div>
         </DialogHeader>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant={"outline"} className="flex-1">
-              Cancel
-            </Button>
-          </DialogClose>
-          {submitButton ? (
-            <DialogClose asChild>{submitButton}</DialogClose>
-          ) : (
-            <Button
-              className="flex-1"
-              onClick={onClickSubmit}
-              variant={variant === "error" ? "destructive" : "default"}
-            >
-              {submitButtonLabel}
-            </Button>
-          )}
-        </DialogFooter>
+        {action && (
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant={"outline"} className="flex-1">
+                Cancel
+              </Button>
+            </DialogClose>
+            {submitButton ? (
+              <DialogClose asChild>{submitButton}</DialogClose>
+            ) : (
+              <DialogClose asChild>
+                <Button
+                  className="flex-1"
+                  onClick={onClickSubmit}
+                  variant={variant === "error" ? "destructive" : "default"}
+                >
+                  {submitButtonLabel}
+                </Button>
+              </DialogClose>
+            )}
+          </DialogFooter>
+        )}
       </DialogContent>
     </Dialog>
   );
