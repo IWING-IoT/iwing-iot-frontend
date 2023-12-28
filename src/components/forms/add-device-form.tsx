@@ -22,8 +22,8 @@ import {
 import { DialogFooter } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { useMutation } from "@tanstack/react-query";
-import { THttpError, TUserAccountDetails } from "@/lib/type";
-import { patchData } from "@/lib/data-fetching";
+import { TDevices, THttpError } from "@/lib/type";
+import { postData } from "@/lib/data-fetching";
 import { useRouter } from "next/navigation";
 import { generateEscEvent } from "@/lib/utils";
 
@@ -47,27 +47,24 @@ export function AddDeviceForm() {
     mode: "onBlur",
   });
 
-  //   const editAccount = useMutation({
-  //     mutationFn: (data: Omit<TUserAccountDetails, "id" | "password">) =>
-  //       patchData(`/admin/account/${userData.id}`, data),
-  //     onError: (error: THttpError) => {
-  //       toast.error("Unable to save changes", {
-  //         description: error.response.data.message,
-  //       });
-  //     },
-  //     onSuccess: () => {
-  //       // Close dialog
-  //       const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-  //       document.dispatchEvent(escEvent);
-  //       router.refresh();
-  //       toast.success("Changes saved successfully");
-  //     },
-  //   });
+  const addDevice = useMutation({
+    mutationFn: (data: Omit<TDevices, "id" | "status">) =>
+      postData("/device", data),
+    onError: (error: THttpError) => {
+      toast.error("Unable to add device", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      toast.success("Device added successfully");
+      router.refresh();
+    },
+  });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    //   editAccount.mutate(data);
     generateEscEvent();
-    console.log(data);
+    // console.log(data);
+    addDevice.mutate(data);
   }
 
   return (
