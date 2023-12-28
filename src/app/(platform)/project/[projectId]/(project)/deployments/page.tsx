@@ -18,11 +18,11 @@ import Restricted from "@/components/providers/permission-provider/restricted";
 import { CardGrid } from "@/components/templates/card-grid";
 import { Button } from "@/components/ui/button";
 import { fetchData } from "@/lib/data-fetching";
-import { TPhaseDetails } from "@/lib/type";
+import { TDeploymentDetails } from "@/lib/type";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
-type PhaseProps = {
+type DeploymentProps = {
   params: { projectId: string };
 };
 
@@ -32,16 +32,18 @@ const tabs = [
   { label: "Attribute data", href: "attribute-data" },
 ];
 
-export default async function Deployment({ params }: PhaseProps) {
-  const { data: phaseData }: { data: TPhaseDetails[] } = await fetchData(
-    `/project/${params.projectId}/phase?type=all`,
+export default async function Deployment({ params }: DeploymentProps) {
+  const { data: deploymentData }: { data: TDeploymentDetails[] } =
+    await fetchData(`/project/${params.projectId}/phase?type=all`);
+  const activeDeployment = deploymentData.filter(
+    (deployment) => deployment.isActive === true,
   );
-  const activePhase = phaseData.filter((phase) => phase.isActive === true);
-  // const activePhase = [];
-  const finishedPhase = phaseData.filter((phase) => phase.isActive === false);
-  // const finishedPhase = [];
 
-  if (phaseData.length === 0) {
+  const finishedDeployment = deploymentData.filter(
+    (deployment) => deployment.isActive === false,
+  );
+
+  if (deploymentData.length === 0) {
     return (
       <EmptyState>
         <EmptyStateImage>
@@ -75,7 +77,7 @@ export default async function Deployment({ params }: PhaseProps) {
   } else {
     return (
       <>
-        {activePhase.length !== 0 && (
+        {activeDeployment.length !== 0 && (
           <>
             <SectionHeader className="items-center">
               <SectionHeaderTextContent>
@@ -95,23 +97,23 @@ export default async function Deployment({ params }: PhaseProps) {
               </Restricted>
             </SectionHeader>
             <CardGrid>
-              {phaseData
-                .filter((phase) => phase.isActive === true)
-                .map((phase) => (
+              {deploymentData
+                .filter((deployment) => deployment.isActive === true)
+                .map((deployment) => (
                   <ProjectAndDeploymentCard
-                    key={phase.id}
-                    href={`deployment/${phase.id}/dashboard`}
-                    title={phase.name}
-                    owner={phase.owner}
-                    startedAt={phase.startedAt}
-                    endedAt={phase.endedAt}
-                    isActive={phase.isActive}
+                    key={deployment.id}
+                    href={`deployment/${deployment.id}/dashboard`}
+                    title={deployment.name}
+                    owner={deployment.owner}
+                    startedAt={deployment.startedAt}
+                    endedAt={deployment.endedAt}
+                    isActive={deployment.isActive}
                   />
                 ))}
             </CardGrid>
           </>
         )}
-        {finishedPhase.length !== 0 && (
+        {finishedDeployment.length !== 0 && (
           <>
             <SectionHeader className="items-center">
               <SectionHeaderTextContent>
@@ -120,7 +122,7 @@ export default async function Deployment({ params }: PhaseProps) {
                 </SectionHeaderTitle>
               </SectionHeaderTextContent>
               <Restricted to="edit">
-                {activePhase.length === 0 && (
+                {activeDeployment.length === 0 && (
                   <SectionHeaderAction>
                     <Button type="button" asChild>
                       <Link href={"deployment/new"}>
@@ -133,17 +135,17 @@ export default async function Deployment({ params }: PhaseProps) {
               </Restricted>
             </SectionHeader>
             <CardGrid>
-              {phaseData
-                .filter((phase) => phase.isActive === false)
-                .map((phase) => (
+              {deploymentData
+                .filter((deployment) => deployment.isActive === false)
+                .map((deployment) => (
                   <ProjectAndDeploymentCard
-                    key={phase.id}
-                    href={`deployment/${phase.id}/dashboard`}
-                    title={phase.name}
-                    owner={phase.owner}
-                    startedAt={phase.startedAt}
-                    endedAt={phase.endedAt}
-                    isActive={phase.isActive}
+                    key={deployment.id}
+                    href={`deployment/${deployment.id}/dashboard`}
+                    title={deployment.name}
+                    owner={deployment.owner}
+                    startedAt={deployment.startedAt}
+                    endedAt={deployment.endedAt}
+                    isActive={deployment.isActive}
                   />
                 ))}
             </CardGrid>

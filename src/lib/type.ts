@@ -53,13 +53,15 @@ export type TUserAccountDetails = {
   role: "admin" | "user";
 };
 
-export type TPhaseDetails = {
+export type TDeploymentDetails = {
   id: string;
   name: string;
   owner: string;
-  isActive: boolean;
   startedAt: string;
-  endedAt: string;
+  endedAt?: string;
+  permission: TUserPermission;
+  isActive: boolean;
+  isProjectArchived: boolean;
 };
 
 export type TInviteCollaborators = {
@@ -75,7 +77,7 @@ export type TCollaborators = {
   permissionId: "655cf84bad42c1839d57648c" | "655cf8d3ad42c1839d576491";
 };
 
-export type TDeploymentDetails = {
+export type TDeploymentForm = {
   name: string;
   startedAt: string;
   description: string;

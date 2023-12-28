@@ -13,7 +13,7 @@ import {
 import { NavTabs } from "@/components/molecules/nav-tabs";
 import { MainContainer } from "@/components/templates/main-container";
 import { fetchData } from "@/lib/data-fetching";
-import { TPhaseDetails, TProjectDetails } from "@/lib/type";
+import { TDeploymentDetails, TProjectDetails } from "@/lib/type";
 
 const tabs = [
   { label: "Dashboard", href: "dashboard" },
@@ -32,9 +32,8 @@ export default async function Layout({ params, children }: LayoutProps) {
   const { data: projectData }: { data: TProjectDetails } = await fetchData(
     `/project/${params.projectId}`,
   );
-  const { data: phaseData }: { data: TPhaseDetails } = await fetchData(
-    `/phase/${params.deploymentId}`,
-  );
+  const { data: deploymentData }: { data: TDeploymentDetails } =
+    await fetchData(`/phase/${params.deploymentId}`);
   return (
     <>
       <Header className="pb-0 sm:pb-0">
@@ -45,12 +44,12 @@ export default async function Layout({ params, children }: LayoutProps) {
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink isCurrentPage>{phaseData.name}</BreadcrumbLink>
+            <BreadcrumbLink isCurrentPage>{deploymentData.name}</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
         <HeaderContent>
           <HeaderTitleAndSupporting>
-            <HeaderTitle>{phaseData.name}</HeaderTitle>
+            <HeaderTitle>{deploymentData.name}</HeaderTitle>
           </HeaderTitleAndSupporting>
         </HeaderContent>
         <NavTabs tabs={tabs} layoutId="deployment" />

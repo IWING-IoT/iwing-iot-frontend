@@ -23,7 +23,7 @@ import { useMutation } from "@tanstack/react-query";
 import { postData } from "@/lib/data-fetching";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { TDeploymentDetails, THttpError } from "@/lib/type";
+import { TDeploymentForm, THttpError } from "@/lib/type";
 
 type DeploymentFormProps = {
   projectId: string;
@@ -52,7 +52,7 @@ export function DeploymentForm({
   });
 
   const createDeployment = useMutation({
-    mutationFn: (data: TDeploymentDetails) =>
+    mutationFn: (data: TDeploymentForm) =>
       postData(`/project/${projectId}/phase`, data),
     onError: (error: THttpError) => {
       // console.log(error.response.data.message);
