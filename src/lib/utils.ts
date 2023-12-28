@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { format, parseISO } from "date-fns";
+import { format, formatRelative, parseISO } from "date-fns";
 import React from "react";
 import { TPermission } from "./type";
 
@@ -8,8 +8,14 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatDate(dateString: string) {
+export function formatDate(
+  dateString: string,
+  formatType: "default" | "relative" = "default",
+) {
   const date = parseISO(dateString);
+  if (formatType === "relative") {
+    return formatRelative(date, new Date());
+  }
   return format(date, "d MMMM yyyy");
 }
 
