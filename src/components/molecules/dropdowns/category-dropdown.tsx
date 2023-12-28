@@ -33,7 +33,7 @@ export function CategoryDropdown({
       <DropdownMenuContent className="w-60" align="end">
         <DropdownMenuItem asChild>
           <Link href={`/project/${projectId}/category/${categoryId}/edit`}>
-            <Pen className="h-4 w-4" />
+            <Pen className="h-4 w-4 text-muted-foreground" />
             Edit
           </Link>
         </DropdownMenuItem>
