@@ -45,7 +45,7 @@ export default async function Layout({ params, children }: ProjectProps) {
       </Header>
       {projectData.isArchived && (
         <div className="flex items-center gap-2 border-b px-6 py-4 text-sm text-muted-foreground">
-          <Info className="h-4 w-4" />
+          <Info className="h-4 w-4 shrink-0" />
           This project has been archived. You can't make any changes to it.
         </div>
       )}
