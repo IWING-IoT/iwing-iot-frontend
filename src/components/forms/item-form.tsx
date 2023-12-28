@@ -38,12 +38,12 @@ import { toast } from "sonner";
 import { ScrollArea } from "../ui/scroll-area";
 
 // Filepond
-// import { FilePond, registerPlugin } from "react-filepond";
-// import FilePondPluginFileEncode from "filepond-plugin-file-encode";
-// import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
-// import "filepond/dist/filepond.min.css";
+import { FilePond, registerPlugin } from "react-filepond";
+import FilePondPluginFileEncode from "filepond-plugin-file-encode";
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import "filepond/dist/filepond.min.css";
 
-// registerPlugin(FilePondPluginFileEncode, FilePondPluginFileValidateType);
+registerPlugin(FilePondPluginFileEncode, FilePondPluginFileValidateType);
 
 type ItemFormProps = {
   categoryId: string;
@@ -60,7 +60,6 @@ export function ItemForm({
   allEntries,
   categoryId,
 }: ItemFormProps) {
-  // console.log(categoryData);
   const mainAttributeField: TEntryDefinition = {
     id: categoryData.mainAttribute,
     accessorKey: categoryData.mainAttribute,
@@ -172,7 +171,7 @@ export function ItemForm({
                 {entry.accessorKey}
               </FormLabel>
               <FormControl>
-                {/* <FilePond
+                <FilePond
                   id={entry.accessorKey}
                   allowFileEncode
                   allowFileTypeValidation
@@ -184,16 +183,11 @@ export function ItemForm({
                     );
                   }}
                   onremovefile={() => {
-                    // form.setValue(entry.accessorKey, "");
+                    form.setValue(entry.accessorKey, "");
                     console.log("removed");
                   }}
-                  files={
-                    form.getValues(entry.accessorKey)
-                      ? [form.getValues(entry.accessorKey)]
-                      : []
-                  }
                   {...field}
-                /> */}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
