@@ -26,7 +26,8 @@ export function getValidChildren(children: React.ReactNode) {
 }
 
 export const permission: Record<string, TPermission[]> = {
-  archived: ["view"],
+  deployment_finished: ["view"],
+  project_archived: ["view"],
   can_view: ["view"],
   can_edit: ["view", "edit"],
   owner: ["view", "edit", "delete"],

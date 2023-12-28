@@ -10,6 +10,7 @@ import {
 } from "@/components/molecules/card-header";
 import { ApiSettingsDropdown } from "@/components/molecules/dropdowns/api-settings-dropdown";
 import { DialogWithContent } from "@/components/organisms/dialogs/dialog-with-content";
+import Restricted from "@/components/providers/permission-provider/restricted";
 import { TableWrapper } from "@/components/templates/table-wrapper";
 import { Button } from "@/components/ui/button";
 import { fetchData } from "@/lib/data-fetching";
@@ -35,15 +36,17 @@ export default async function ApiSettings({ params }: ApiSettingsProps) {
           </CardHeaderDescription>
         </CardHeaderTextContent>
         <CardHeaderActions>
-          <DialogWithContent
-            title="Create new field"
-            content={<AddApiFieldForm deploymentId={params.deploymentId} />}
-          >
-            <Button>
-              <Plus className="mr-2 h-5 w-5" />
-              New field
-            </Button>
-          </DialogWithContent>
+          <Restricted to="edit">
+            <DialogWithContent
+              title="Create new field"
+              content={<AddApiFieldForm deploymentId={params.deploymentId} />}
+            >
+              <Button>
+                <Plus className="mr-2 h-5 w-5" />
+                New field
+              </Button>
+            </DialogWithContent>
+          </Restricted>
           <ApiSettingsDropdown
             deploymentId={params.deploymentId}
             apiExampleData={apiExampleData}

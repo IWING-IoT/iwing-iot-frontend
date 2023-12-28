@@ -1,12 +1,14 @@
 "use client";
 import { DialogWithContent } from "@/components/organisms/dialogs/dialog-with-content";
 import { PostActionDialog } from "@/components/organisms/dialogs/post-action-dialog";
+import Restricted from "@/components/providers/permission-provider/restricted";
 import { CodeBlock } from "@/components/templates/code-block";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -63,20 +65,23 @@ export function ApiSettingsDropdown({
             API example
           </DropdownMenuItem>
         </DialogWithContent>
-        <PostActionDialog
-          variant="warning"
-          icon={<AlertCircle />}
-          title="Replace with previous API field"
-          description="All fields will be replaced with the API fields from the previous deployment."
-          action="replaceWithPreviousApi"
-          id={deploymentId}
-          onOpenChange={onDialogOpenChange}
-        >
-          <DropdownMenuItem onSelect={onDropdownSelect}>
-            <Replace className="h-4 w-4 text-muted-foreground" />
-            Replace with previous API field
-          </DropdownMenuItem>
-        </PostActionDialog>
+        <Restricted to="edit">
+          <DropdownMenuSeparator />
+          <PostActionDialog
+            variant="warning"
+            icon={<AlertCircle />}
+            title="Replace with previous API field"
+            description="All fields will be replaced with the API fields from the previous deployment."
+            action="replaceWithPreviousApi"
+            id={deploymentId}
+            onOpenChange={onDialogOpenChange}
+          >
+            <DropdownMenuItem onSelect={onDropdownSelect}>
+              <Replace className="h-4 w-4 text-muted-foreground" />
+              Replace with previous API field
+            </DropdownMenuItem>
+          </PostActionDialog>
+        </Restricted>
       </DropdownMenuContent>
     </DropdownMenu>
   );

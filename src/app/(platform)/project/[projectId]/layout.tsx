@@ -1,6 +1,6 @@
 import PermissionProvider from "@/components/providers/permission-provider/permission-provider";
 import { fetchData } from "@/lib/data-fetching";
-import { TPermission, TProjectDetails } from "@/lib/type";
+import { TProjectDetails } from "@/lib/type";
 import { permission } from "@/lib/utils";
 
 type LayoutProps = {
@@ -14,7 +14,7 @@ export default async function Layout({ params, children }: LayoutProps) {
   );
   let permissions;
   if (projectData.isArchived === true) {
-    permissions = permission.archived;
+    permissions = permission.project_archived;
   } else {
     permissions = permission[projectData.permission];
   }
