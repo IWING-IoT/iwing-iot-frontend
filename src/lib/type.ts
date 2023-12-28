@@ -122,5 +122,31 @@ export type TAllEntries = {
 export type TDevices = {
   id: string;
   name: string;
+  type: "standalone" | "gateway" | "node";
   status: "Available" | "Unavailable" | `In use by ${string}`;
+};
+
+export type TDeploymentApi = {
+  id: string;
+  name: string;
+  dataType: "String" | "Number" | "Boolean" | "Date";
+  description?: string;
+};
+
+export type TDeploymentApiExample = {
+  gateway: {
+    [x: string]: string;
+  };
+  default: {
+    [x: string]: string;
+  };
+};
+
+export type TFirmware = {
+  name: string;
+  type: "source" | "config" | "binary";
+  createdAt: string;
+  editedAt: string;
+  id: string;
+  lastUpdate: string;
 };
