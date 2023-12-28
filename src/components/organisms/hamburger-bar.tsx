@@ -15,7 +15,7 @@ export function HamburgerBar({ children }: HamburgerBarProps) {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon" aria-label="Menu">
           <Menu />
         </Button>
       </SheetTrigger>

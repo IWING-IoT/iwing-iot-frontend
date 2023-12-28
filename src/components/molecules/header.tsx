@@ -10,7 +10,7 @@ export function Header({ children, className }: HeaderProps) {
   return (
     <header
       className={cn(
-        "flex w-full flex-col gap-5 border-b px-4 py-6 sm:p-6",
+        "flex w-full flex-col gap-4 border-b px-4 py-6 sm:p-6",
         className,
       )}
     >
@@ -33,7 +33,11 @@ export function HeaderContent({ children, className }: HeaderProps) {
 }
 
 export function HeaderTitleAndSupporting({ children, className }: HeaderProps) {
-  return <div className={cn("flex flex-col gap-1", className)}>{children}</div>;
+  return (
+    <div className={cn("flex flex-col gap-1 overflow-hidden", className)}>
+      {children}
+    </div>
+  );
 }
 
 export function HeaderTitle({ children, className }: HeaderProps) {

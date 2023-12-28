@@ -77,9 +77,11 @@ export default async function Deployment({ params }: PhaseProps) {
       <>
         {activePhase.length !== 0 && (
           <>
-            <SectionHeader>
+            <SectionHeader className="items-center">
               <SectionHeaderTextContent>
-                <SectionHeaderTitle>Active</SectionHeaderTitle>
+                <SectionHeaderTitle className="text-xl sm:text-2xl">
+                  Active
+                </SectionHeaderTitle>
               </SectionHeaderTextContent>
               <Restricted to="edit">
                 <SectionHeaderAction>
@@ -111,9 +113,11 @@ export default async function Deployment({ params }: PhaseProps) {
         )}
         {finishedPhase.length !== 0 && (
           <>
-            <SectionHeader>
+            <SectionHeader className="items-center">
               <SectionHeaderTextContent>
-                <SectionHeaderTitle>Finished</SectionHeaderTitle>
+                <SectionHeaderTitle className="text-xl sm:text-2xl">
+                  Finished
+                </SectionHeaderTitle>
               </SectionHeaderTextContent>
               <Restricted to="edit">
                 {activePhase.length === 0 && (

@@ -28,7 +28,9 @@ export function EmptyStateTitle({ children }: EmptyStateProps) {
 
 export function EmptyStateDescription({ children }: EmptyStateProps) {
   return (
-    <p className="text-base font-normal text-muted-foreground">{children}</p>
+    <p className="text-center text-base font-normal text-muted-foreground">
+      {children}
+    </p>
   );
 }
 

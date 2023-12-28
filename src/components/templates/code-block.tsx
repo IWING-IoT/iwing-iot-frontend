@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { a11yDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
@@ -6,12 +7,17 @@ type CodeBlockProps = React.ComponentPropsWithoutRef<
 > & {
   code: string;
   language: string;
+  className?: string;
 };
 
-export function CodeBlock({ code, language, ...props }: CodeBlockProps) {
+export function CodeBlock({ code, language, className }: CodeBlockProps) {
   return (
-    <div className="overflow-hidden rounded-md font-mono">
-      <SyntaxHighlighter language={language} style={a11yDark}>
+    <div className={cn("overflow-hidden rounded-md", className)}>
+      <SyntaxHighlighter
+        language={language}
+        style={a11yDark}
+        customStyle={{ height: "100%" }}
+      >
         {code}
       </SyntaxHighlighter>
     </div>

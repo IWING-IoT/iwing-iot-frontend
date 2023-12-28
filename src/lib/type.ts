@@ -84,3 +84,69 @@ export type TDeploymentDetails = {
 export type TUserPermission = "can_view" | "can_edit" | "owner";
 
 export type TPermission = "view" | "create" | "edit" | "delete";
+
+export type TCategory = {
+  id: string;
+  name: string;
+};
+
+export type TCategoryDetails = {
+  name: string;
+  mainAttribute: string;
+  description: string;
+  entryDefinitions: TEntryDefinition[];
+  attributeEntries: TAttributeEntry[];
+};
+
+export type TEntryDefinition = {
+  id?: string;
+  accessorKey: string;
+  type: "string" | "image" | "category_reference";
+  category?: TCategory;
+};
+
+export type TAttributeEntry = {
+  id: string;
+  [x: string]: { id: string; name: string } | string;
+};
+
+export type TEntry = {
+  id: string;
+  name: string;
+};
+
+export type TAllEntries = {
+  [x: string]: TEntry[];
+};
+
+export type TDevices = {
+  id: string;
+  name: string;
+  type: "standalone" | "gateway" | "node";
+  status: "Available" | "Unavailable" | `In use by ${string}`;
+};
+
+export type TDeploymentApi = {
+  id: string;
+  name: string;
+  dataType: "String" | "Number" | "Boolean" | "Date";
+  description?: string;
+};
+
+export type TDeploymentApiExample = {
+  gateway: {
+    [x: string]: string;
+  };
+  default: {
+    [x: string]: string;
+  };
+};
+
+export type TFirmware = {
+  name: string;
+  type: "source" | "config" | "binary";
+  createdAt: string;
+  editedAt: string;
+  id: string;
+  lastUpdate: string;
+};

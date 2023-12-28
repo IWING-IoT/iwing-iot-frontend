@@ -1,3 +1,4 @@
+"use client";
 import { cn } from "@/lib/utils";
 import {
   Dialog,
@@ -13,6 +14,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import useMediaQuery from "beautiful-react-hooks/useMediaQuery";
 
 type DialogWithContentProps = {
   children: React.ReactNode;
@@ -29,23 +31,11 @@ export function DialogWithContent({
   className,
   onOpenChange,
 }: DialogWithContentProps) {
-  return (
-    <>
-      <Dialog onOpenChange={onOpenChange}>
-        <DialogTrigger className="hidden sm:flex" asChild>
-          {children}
-        </DialogTrigger>
-        <DialogContent className={cn(className)}>
-          <DialogHeader>
-            <DialogTitle>{title}</DialogTitle>
-          </DialogHeader>
-          {content}
-        </DialogContent>
-      </Dialog>
+  const isMobile = useMediaQuery("(max-width: 640px)");
+  if (isMobile) {
+    return (
       <Drawer onOpenChange={onOpenChange}>
-        <DrawerTrigger className="sm:hidden" asChild>
-          {children}
-        </DrawerTrigger>
+        <DrawerTrigger asChild>{children}</DrawerTrigger>
         <DrawerContent className={cn(className)}>
           <DrawerHeader>
             <DrawerTitle>{title}</DrawerTitle>
@@ -53,6 +43,17 @@ export function DialogWithContent({
           <div className="overflow-y-auto p-4">{content}</div>
         </DrawerContent>
       </Drawer>
-    </>
+    );
+  }
+  return (
+    <Dialog onOpenChange={onOpenChange}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent className={cn(className)}>
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+        </DialogHeader>
+        {content}
+      </DialogContent>
+    </Dialog>
   );
 }

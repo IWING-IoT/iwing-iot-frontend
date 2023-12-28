@@ -5,6 +5,8 @@ import { ChevronRight } from "lucide-react";
 
 import { cn, getValidChildren } from "@/lib/utils";
 
+import Link from "next/link";
+
 export interface BreadcrumbProps extends React.ComponentPropsWithoutRef<"nav"> {
   /* The visual separator between each breadcrumb item */
   separator?: React.ReactNode;
@@ -91,7 +93,11 @@ export const BreadcrumbItem = React.forwardRef<
 
     return (
       <li
-        className={cn("inline-flex items-center", className)}
+        className={cn(
+          "inline-flex items-center overflow-x-hidden",
+          !lastChild ? "flex-shrink-0" : "",
+          className,
+        )}
         {...props}
         ref={forwardedRef}
       >
@@ -114,15 +120,16 @@ export interface BreadcrumbLinkProps
 export const BreadcrumbLink = React.forwardRef<
   HTMLAnchorElement,
   BreadcrumbLinkProps
->(({ className, as: asComp, isCurrentPage, ...props }, forwardedRef) => {
-  const Comp = (isCurrentPage ? "span" : asComp || "a") as "a";
+>(({ className, as: asComp, isCurrentPage, href, ...props }, forwardedRef) => {
+  const Comp = (isCurrentPage ? "span" : asComp || Link) as typeof Link;
 
   return (
     <Comp
       className={cn(
-        "text-sm font-medium text-muted-foreground underline-offset-4 transition-colors aria-[current]:text-primary aria-[current]:dark:text-foreground [&:not([aria-current])]:hover:underline",
+        "truncate text-sm font-medium text-muted-foreground underline-offset-4 transition-colors aria-[current]:text-primary aria-[current]:dark:text-foreground [&:not([aria-current])]:hover:underline",
         className,
       )}
+      href={href ?? ""}
       aria-current={isCurrentPage ? "page" : undefined}
       {...props}
       ref={forwardedRef}

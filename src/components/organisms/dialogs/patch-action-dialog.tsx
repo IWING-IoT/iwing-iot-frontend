@@ -5,7 +5,6 @@ import { useMutation } from "@tanstack/react-query";
 import { patchData } from "@/lib/data-fetching";
 import { THttpError } from "@/lib/type";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
 
 type PatchActionDialogProps = {
   children: React.ReactNode;
@@ -13,7 +12,7 @@ type PatchActionDialogProps = {
   icon: React.ReactNode;
   title: string;
   description: string;
-  action: "archiveProject";
+  action: "archiveProject" | "disableDevice" | "enableDevice";
   id: string;
   onOpenChange?: (open: boolean) => void;
 };
@@ -30,7 +29,7 @@ export function PatchActionDialog({
 }: PatchActionDialogProps) {
   const router = useRouter();
 
-  // preset delete action
+  // preset patch action
 
   const archiveProject = useMutation({
     mutationFn: () =>
@@ -39,24 +38,50 @@ export function PatchActionDialog({
         JSON.stringify({ isArchived: true }),
       ),
     onError: (error: THttpError) => {
-      const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-      document.dispatchEvent(escEvent);
       toast.error("Unable to archive this project", {
         description: error.response.data.message,
       });
     },
     onSuccess: () => {
-      const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-      document.dispatchEvent(escEvent);
       router.push("/home");
       router.refresh();
       toast.success("Project archived successfully");
     },
   });
 
+  const disableDevice = useMutation({
+    mutationFn: () => patchData(`/device/${id}/disable`, { disable: true }),
+    onError: (error: THttpError) => {
+      toast.error("Unable to mark as unavailable", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      router.refresh();
+      toast.success("Device marked as unavailable");
+    },
+  });
+
+  const enableDevice = useMutation({
+    mutationFn: () => patchData(`/device/${id}/disable`, { disable: false }),
+    onError: (error: THttpError) => {
+      toast.error("Unable to mark as available", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      router.refresh();
+      toast.success("Device marked as available");
+    },
+  });
+
   let submitLabel;
   if (action === "archiveProject") {
     submitLabel = "Archive";
+  } else if (action === "disableDevice") {
+    submitLabel = "Mark as unavailable";
+  } else if (action === "enableDevice") {
+    submitLabel = "Mark as available";
   } else {
     submitLabel = "Save changes";
   }
@@ -66,6 +91,12 @@ export function PatchActionDialog({
     switch (action) {
       case "archiveProject":
         archiveProject.mutate();
+        break;
+      case "disableDevice":
+        disableDevice.mutate();
+        break;
+      case "enableDevice":
+        enableDevice.mutate();
         break;
       default:
         break;
@@ -78,15 +109,8 @@ export function PatchActionDialog({
       icon={icon}
       title={title}
       description={description}
-      submitButton={
-        <Button
-          variant={variant === "error" ? "destructive" : "default"}
-          className="flex-1"
-          onClick={() => handlePatch()}
-        >
-          {submitLabel}
-        </Button>
-      }
+      onClickSubmit={() => handlePatch()}
+      submitButtonLabel={submitLabel}
       onOpenChange={onOpenChange}
     >
       {children}

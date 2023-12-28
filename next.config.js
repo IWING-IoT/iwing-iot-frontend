@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
+
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+
 const nextConfig = {
   experimental: {
     swcPlugins: [["@swc-jotai/react-refresh", {}]],
@@ -12,6 +17,9 @@ const nextConfig = {
       fullUrl: true,
     },
   },
+  images: {
+    domains: ["images.unsplash.com"],
+  },
 };
 
-module.exports = nextConfig;
+module.exports = withBundleAnalyzer(nextConfig);

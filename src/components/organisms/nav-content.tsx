@@ -23,13 +23,13 @@ const topItems = [
   },
   {
     label: "Devices",
-    href: "/devices",
+    href: "/devices/standalone",
     icon: <Router />,
     permit: ["admin", "user"],
   },
   {
     label: "Firmware",
-    href: "/firmware",
+    href: "/firmware/source",
     icon: <FileCode />,
     permit: ["admin", "user"],
   },

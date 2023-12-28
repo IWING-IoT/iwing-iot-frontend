@@ -2,6 +2,7 @@ import { fetchData } from "@/lib/data-fetching";
 import { TProjectDetails } from "@/lib/type";
 import {
   Header,
+  HeaderActions,
   HeaderContent,
   HeaderTitle,
   HeaderTitleAndSupporting,
@@ -29,22 +30,22 @@ export default async function Layout({ params, children }: ProjectProps) {
   return (
     <>
       <Header className="pb-0 sm:pb-0">
-        <HeaderContent>
+        <HeaderContent className="flex-row">
           <HeaderTitleAndSupporting>
-            <div className="flex gap-2">
-              <HeaderTitle>{projectData.name}</HeaderTitle>
-              <ProjectDropdown
-                projectId={params.projectId}
-                projectData={projectData}
-              />
-            </div>
+            <HeaderTitle>{projectData.name}</HeaderTitle>
           </HeaderTitleAndSupporting>
+          <HeaderActions>
+            <ProjectDropdown
+              projectId={params.projectId}
+              projectData={projectData}
+            />
+          </HeaderActions>
         </HeaderContent>
         <NavTabs tabs={tabs} layoutId="project" />
       </Header>
       {projectData.isArchived && (
         <div className="flex items-center gap-2 border-b px-6 py-4 text-sm text-muted-foreground">
-          <Info className="h-4 w-4" />
+          <Info className="h-4 w-4 shrink-0" />
           This project has been archived. You can't make any changes to it.
         </div>
       )}
