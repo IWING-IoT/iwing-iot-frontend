@@ -27,6 +27,7 @@ import {
 import { NotFoundIllustration } from "../atoms/illustrations/not-found-illustration";
 import { DataTableGeneralToolbar } from "./general-toolbar";
 import { useRouter } from "next/navigation";
+import { EmptyIllustration } from "../atoms/illustrations/empty-illustration";
 
 interface WithId {
   id: string;
@@ -110,12 +111,22 @@ export function DataTable<TData extends WithId, TValue>({
               <TableCell colSpan={columns.length}>
                 <EmptyState>
                   <EmptyStateImage>
-                    <NotFoundIllustration />
+                    {data.length > 0 ? (
+                      <NotFoundIllustration />
+                    ) : (
+                      <EmptyIllustration />
+                    )}
                   </EmptyStateImage>
                   <EmptyStateTextContent>
-                    <EmptyStateTitle>No results were found</EmptyStateTitle>
+                    <EmptyStateTitle>
+                      {data.length > 0
+                        ? "No results were found"
+                        : "This table is empty"}
+                    </EmptyStateTitle>
                     <EmptyStateDescription>
-                      Try different keywords or remove search filters.
+                      {data.length > 0
+                        ? "Try different keywords or remove search filters."
+                        : "Try adding a new item and it will appear here."}
                     </EmptyStateDescription>
                   </EmptyStateTextContent>
                 </EmptyState>

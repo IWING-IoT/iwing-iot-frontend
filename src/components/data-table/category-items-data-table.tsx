@@ -41,6 +41,7 @@ import { DeleteActionDialog } from "../organisms/dialogs/delete-action-dialog";
 import { ItemForm } from "../forms/item-form";
 import dynamic from "next/dynamic";
 import { LoadingIndicator } from "../atoms/loading-indicator";
+import { EmptyIllustration } from "../atoms/illustrations/empty-illustration";
 
 const AspectRatioImage = dynamic(
   () =>
@@ -245,12 +246,22 @@ export function CategoryItemsDataTable({
               <TableCell colSpan={categoriesColumns.length}>
                 <EmptyState>
                   <EmptyStateImage>
-                    <NotFoundIllustration />
+                    {categoryData.attributeEntries.length > 0 ? (
+                      <NotFoundIllustration />
+                    ) : (
+                      <EmptyIllustration />
+                    )}
                   </EmptyStateImage>
                   <EmptyStateTextContent>
-                    <EmptyStateTitle>No results were found</EmptyStateTitle>
+                    <EmptyStateTitle>
+                      {categoryData.attributeEntries.length > 0
+                        ? "No results were found"
+                        : "This table is empty"}
+                    </EmptyStateTitle>
                     <EmptyStateDescription>
-                      Try different keywords or remove search filters.
+                      {categoryData.attributeEntries.length > 0
+                        ? "Try different keywords or remove search filters."
+                        : "Try adding a new item and it will appear here."}
                     </EmptyStateDescription>
                   </EmptyStateTextContent>
                 </EmptyState>
