@@ -31,7 +31,6 @@ import { Button } from "../ui/button";
 import { FilePond, registerPlugin } from "react-filepond";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import "filepond/dist/filepond.min.css";
-import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { postFormData } from "@/lib/data-fetching";
 import { THttpError } from "@/lib/type";
@@ -42,7 +41,6 @@ registerPlugin(FilePondPluginFileValidateType);
 
 export function NewFirmwareForm() {
   const router = useRouter();
-  const [file, setFile] = useState<Blob | undefined>(undefined);
   const firmwareTypes = [
     { label: "Source code", value: "source" },
     { label: "Config file", value: "config" },
@@ -91,7 +89,6 @@ export function NewFirmwareForm() {
     for (const [key, value] of Object.entries(data)) {
       formData.append(key, value);
     }
-    formData.append("file", file as Blob);
     addFirmware.mutate(formData);
   }
 
@@ -163,7 +160,6 @@ export function NewFirmwareForm() {
                   id={"file"}
                   {...field}
                   onupdatefiles={(fileItems) => {
-                    setFile(fileItems[0]?.file ?? undefined);
                     form.setValue("file", fileItems[0]?.file ?? undefined);
                   }}
                 />
