@@ -5,7 +5,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
 } from "@/components/molecules/breadcrumbs";
-import { CategoryDropdown } from "@/components/molecules/dropdowns/category-dropdown";
+import { CategoryDropdown } from "@/components/organisms/dropdowns/category-dropdown";
 import {
   Header,
   HeaderActions,

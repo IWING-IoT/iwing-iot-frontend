@@ -7,7 +7,7 @@ import {
   HeaderTitleAndSupporting,
   HeaderTitle,
 } from "@/components/molecules/header";
-import { SortDropDown } from "@/components/molecules/dropdowns/project-sort-dropdown";
+import { SortDropDown } from "@/components/organisms/dropdowns/project-sort-dropdown";
 import { MainContainer } from "@/components/templates/main-container";
 import { Suspense } from "react";
 import { CardGridSkeleton } from "@/components/skeleton/card-skeleton";

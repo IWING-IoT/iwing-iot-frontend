@@ -2,7 +2,7 @@
 import { DialogWithContent } from "@/components/organisms/dialogs/dialog-with-content";
 import { PostActionDialog } from "@/components/organisms/dialogs/post-action-dialog";
 import Restricted from "@/components/providers/permission-provider/restricted";
-import { CodeBlock } from "@/components/templates/code-block";
+import { CodeBlock } from "@/components/atoms/code-block";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,6 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TDeploymentApiExample } from "@/lib/type";
 import { onDialogOpenChange, onDropdownSelect } from "@/lib/utils";
 import { AlertCircle, Braces, MoreHorizontal, Replace } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type ApiSettingsDropdownProps = {
   deploymentId: string;
