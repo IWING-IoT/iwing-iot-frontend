@@ -28,7 +28,7 @@ import { postData } from "@/lib/data-fetching";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { showDialogAtom } from "@/store/atoms";
-import { CodeBlock } from "../templates/code-block";
+import { CodeBlock } from "../atoms/code-block";
 
 const formSchema = z.object({
   permission: z.enum(["can_edit", "can_view"]),
