@@ -26,7 +26,7 @@ export const devicesColumns: ColumnDef<TDevices>[] = [
     ),
     cell: ({ row }) => {
       const name = String(row.getValue("name"));
-      return <div className="text-base font-medium">{name}</div>;
+      return <p className="text-base font-medium text-foreground">{name}</p>;
     },
   },
   {

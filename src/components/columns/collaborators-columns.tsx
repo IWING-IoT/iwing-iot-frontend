@@ -20,9 +20,9 @@ export const collaboratorsColumns: ColumnDef<TCollaborators>[] = [
     cell: ({ row }) => {
       const name = String(row.getValue("name"));
       return (
-        <div className="flex w-max items-center gap-3 text-base">
+        <div className="flex w-max items-center gap-3">
           <CustomAvatar value={name} size={40} />
-          <p className="font-medium">{name}</p>
+          <p className="text-base font-medium text-foreground">{name}</p>
         </div>
       );
     },
@@ -32,10 +32,6 @@ export const collaboratorsColumns: ColumnDef<TCollaborators>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Email" />
     ),
-    cell: ({ row }) => {
-      const email = String(row.getValue("email"));
-      return <div className="text-muted-foreground">{email}</div>;
-    },
   },
   {
     accessorKey: "permission",
@@ -44,11 +40,7 @@ export const collaboratorsColumns: ColumnDef<TCollaborators>[] = [
     ),
     cell: ({ row }) => {
       const permission = String(row.getValue("permission")).replace("_", " ");
-      return (
-        <div className="text-muted-foreground first-letter:uppercase">
-          {permission}
-        </div>
-      );
+      return <p className="first-letter:uppercase">{permission}</p>;
     },
   },
   {

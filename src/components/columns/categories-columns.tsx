@@ -15,8 +15,8 @@ export const categoriesColumns: ColumnDef<TCategory>[] = [
       const name = String(row.getValue("name"));
       return (
         <div className="flex justify-between">
-          <p className="w-max text-base font-medium">{name}</p>
-          <ChevronRight className="text-muted-foreground" />
+          <p className="w-max text-base font-medium text-foreground">{name}</p>
+          <ChevronRight />
         </div>
       );
     },

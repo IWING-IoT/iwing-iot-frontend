@@ -20,7 +20,7 @@ export const userAccountColumns: ColumnDef<
     cell: ({ row }) => {
       const user = row.original;
       return (
-        <div className="flex w-max items-center gap-3 text-base">
+        <div className="flex w-max items-center gap-3 text-base text-foreground">
           <CustomAvatar value={user.name} size={40} />
           <p className="font-medium">{user.name}</p>
         </div>
@@ -32,10 +32,6 @@ export const userAccountColumns: ColumnDef<
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Email" />
     ),
-    cell: ({ row }) => {
-      const email = String(row.getValue("email"));
-      return <div className="text-muted-foreground">{email}</div>;
-    },
   },
   {
     accessorKey: "role",
@@ -43,11 +39,8 @@ export const userAccountColumns: ColumnDef<
       <DataTableColumnHeader column={column} title="Role" />
     ),
     cell: ({ row }) => {
-      return (
-        <div className="capitalize text-muted-foreground">
-          {row.getValue("role")}
-        </div>
-      );
+      const role = String(row.getValue("role"));
+      return <p className="capitalize">{role}</p>;
     },
   },
   {

@@ -74,7 +74,9 @@ export function CategoryItemsDataTable({
       ),
       cell: ({ row }) => {
         const data = String(row.getValue(categoryData.mainAttribute));
-        return <p className="w-max text-base font-medium">{data}</p>;
+        return (
+          <p className="w-max text-base font-medium text-foreground">{data}</p>
+        );
       },
     },
   ];
@@ -87,7 +89,7 @@ export function CategoryItemsDataTable({
         cell: ({ row }) => {
           const imageSrc = row.getValue(key.accessorKey);
           if (!imageSrc) {
-            return <p className="text-muted-foreground">-</p>;
+            return <p>-</p>;
           }
           return (
             <DialogWithContent
@@ -124,7 +126,7 @@ export function CategoryItemsDataTable({
           ) {
             data = cellValue.name;
           }
-          return <p className="w-max text-muted-foreground">{data}</p>;
+          return <p className="w-max">{data}</p>;
         },
       } as ColumnDef<TAttributeEntry>;
     } else {
@@ -137,7 +139,7 @@ export function CategoryItemsDataTable({
           const data = row.getValue(key.accessorKey)
             ? String(row.getValue(key.accessorKey))
             : "-";
-          return <p className="w-max text-muted-foreground">{data}</p>;
+          return <p className="w-max">{data}</p>;
         },
       } as ColumnDef<TAttributeEntry>;
     }

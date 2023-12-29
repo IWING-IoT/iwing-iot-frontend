@@ -20,7 +20,9 @@ export const apiSettingsColumns: ColumnDef<TDeploymentApi>[] = [
       const name = String(row.getValue("name"));
       return (
         <pre>
-          <code className="rounded-sm bg-muted p-1">{name}</code>
+          <code className="rounded-sm bg-muted p-1 text-foreground">
+            {name}
+          </code>
         </pre>
       );
     },
@@ -30,10 +32,6 @@ export const apiSettingsColumns: ColumnDef<TDeploymentApi>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Data type" />
     ),
-    cell: ({ row }) => {
-      const dataType = String(row.getValue("dataType"));
-      return <div className="text-muted-foreground">{dataType}</div>;
-    },
   },
   {
     accessorKey: "description",
@@ -44,7 +42,7 @@ export const apiSettingsColumns: ColumnDef<TDeploymentApi>[] = [
       const description = row.getValue("description")
         ? String(row.getValue("description"))
         : "-";
-      return <div className="text-muted-foreground">{description}</div>;
+      return <p>{description}</p>;
     },
   },
   {
