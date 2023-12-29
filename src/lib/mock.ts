@@ -96,3 +96,27 @@ export const allEntries: TEntry[] = [
     name: "Entry 3",
   },
 ];
+
+export const oldCode: string = `
+#include <iostream>
+
+int main() {
+    std::cout << "Hello, World!" << std::endl;
+    return 0;
+}`;
+
+export const newCode: string = `
+#include <iostream>
+
+class HelloWorld {
+public:
+    void printMessage() {
+        std::cout << "Hello, World!" << std::endl;
+    }
+};
+
+int main() {
+    HelloWorld helloWorld;
+    helloWorld.printMessage();
+    return 0;
+}`;

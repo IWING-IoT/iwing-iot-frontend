@@ -14,9 +14,9 @@ export const firmwareColumns: ColumnDef<TFirmware>[] = [
     cell: ({ row }) => {
       const name = String(row.getValue("name"));
       return (
-        <div className="flex items-center gap-2">
-          <File className="h-5 w-5 text-muted-foreground" />
-          <p className="text-base font-medium">{name}</p>
+        <div className="flex min-w-max items-center gap-2">
+          <File className="h-5 w-5" />
+          <p className="text-base font-medium text-foreground">{name}</p>
         </div>
       );
     },
@@ -30,10 +30,8 @@ export const firmwareColumns: ColumnDef<TFirmware>[] = [
       const lastUpdate = String(row.getValue("lastUpdate"));
       return (
         <div className="flex justify-between">
-          <p className="text-muted-foreground">
-            {formatDate(lastUpdate, "relative")}
-          </p>
-          <ChevronRight className="text-muted-foreground" />
+          <p className="min-w-max">{formatDate(lastUpdate, "relative")}</p>
+          <ChevronRight />
         </div>
       );
     },

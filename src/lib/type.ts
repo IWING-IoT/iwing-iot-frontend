@@ -144,11 +144,39 @@ export type TDeploymentApiExample = {
   };
 };
 
+export type TFirmwareType = "source" | "config" | "binary";
+
 export type TFirmware = {
   name: string;
-  type: "source" | "config" | "binary";
+  type: TFirmwareType;
   createdAt: string;
   editedAt: string;
   id: string;
   lastUpdate: string;
+};
+
+export type TFirmwareVersion = {
+  id: string;
+  name: string;
+  description?: string;
+  gitUrl?: string;
+  lastUpdate: string;
+};
+
+export type TFirmwareDetails = {
+  name: string;
+  description?: string;
+  type: TFirmwareType;
+  versions: TFirmwareVersion[];
+};
+
+export type TFirmwareVersionDetails = {
+  id: string;
+  name: string;
+  description?: string;
+  gitUrl?: string;
+  lastUpdate: string;
+  updatedBy: string;
+  file: string;
+  fileExtension: "cp" | "py" | "bin";
 };

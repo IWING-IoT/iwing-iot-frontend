@@ -80,6 +80,32 @@ export async function postData(path: string, body?: unknown) {
   }
 }
 
+export async function postFormData(path: string, body: FormData) {
+  try {
+    const { data } = await clientAxios.post(path, body, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    // console.log("data => ", data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getFile(path: string) {
+  try {
+    const { data } = await clientAxios.get(path, {
+      headers: { "Content-Type": "application/octet-stream" },
+    });
+    // console.log("data => ", data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function patchData(path: string, body: unknown) {
   try {
     const { data } = await clientAxios.patch(path, body);

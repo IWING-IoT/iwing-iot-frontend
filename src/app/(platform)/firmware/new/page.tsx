@@ -1,4 +1,5 @@
 import { RouterBackButton } from "@/components/atoms/router-back-button";
+import { NewFirmwareForm } from "@/components/forms/new-firmware-form";
 import { HeaderTitle } from "@/components/molecules/header";
 import { MainContainer } from "@/components/templates/main-container";
 
@@ -14,6 +15,7 @@ export default function New() {
           />
           <HeaderTitle>Add new firmware</HeaderTitle>
         </div>
+        <NewFirmwareForm />
       </MainContainer>
     </div>
   );

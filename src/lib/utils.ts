@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { format, formatRelative, parseISO } from "date-fns";
 import React from "react";
-import { TPermission } from "./type";
+import { TFirmwareType, TPermission } from "./type";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -62,4 +62,10 @@ export const generateEscEvent = () => {
     key: "Escape",
   });
   document.dispatchEvent(escEvent);
+};
+
+export const firmwareType: Record<TFirmwareType, string> = {
+  source: "Source code",
+  config: "Config file",
+  binary: "Binary file",
 };

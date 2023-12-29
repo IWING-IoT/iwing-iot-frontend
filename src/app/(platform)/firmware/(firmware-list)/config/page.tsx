@@ -11,7 +11,12 @@ export default async function Config() {
   );
   return (
     <TableWrapper>
-      <DataTable columns={firmwareColumns} data={sourceCodeData} />
+      <DataTable
+        columns={firmwareColumns}
+        data={sourceCodeData}
+        clickableRows
+        clickableRowsBaseURL="/firmware"
+      />
     </TableWrapper>
   );
 }
