@@ -63,7 +63,7 @@ export function DiffViewer({ oldCode, newCode, language }: DiffViewerProps) {
               },
             },
             lineNumber: {
-              color: "var(--muted-foreground)",
+              color: "hsl(var(--foreground))",
             },
           }}
         />
