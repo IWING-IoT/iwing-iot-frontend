@@ -4,7 +4,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "../data-table/column-header";
 import { ChevronRight, Github } from "lucide-react";
 import { formatDate } from "@/lib/utils";
-import Link from "next/link";
 import { Badge } from "../ui/badge";
 
 export const firmwareVersionsColumns: ColumnDef<TFirmwareVersion>[] = [
@@ -46,12 +45,10 @@ export const firmwareVersionsColumns: ColumnDef<TFirmwareVersion>[] = [
         return <p>-</p>;
       }
       return (
-        <Link href={gitUrl}>
-          <Badge variant={"modern"}>
-            <Github className="mr-2 h-4 w-4" />
-            <span>{shortCommitHash}</span>
-          </Badge>
-        </Link>
+        <Badge variant={"modern"}>
+          <Github className="mr-2 h-3 w-3 text-foreground" />
+          <span>{shortCommitHash}</span>
+        </Badge>
       );
     },
   },
