@@ -11,19 +11,6 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { RadioGroup } from "../ui/radio-group";
-import {
-  CustomRadioItem,
-  CustomRadioItemContainer,
-  CustomRadioItemLabel,
-} from "../molecules/custom-radio-item";
-import { Separator } from "../ui/separator";
-import {
-  SectionHeader,
-  SectionHeaderDescription,
-  SectionHeaderTextContent,
-  SectionHeaderTitle,
-} from "../molecules/section-header";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 
@@ -39,18 +26,14 @@ import { useRouter } from "next/navigation";
 
 registerPlugin(FilePondPluginFileValidateType);
 
-export function NewFirmwareForm() {
+type NewFirmwareVersionForm = {
+  firmwareId: string;
+};
+
+export function NewFirmwareVersionForm({ firmwareId }: NewFirmwareVersionForm) {
   const router = useRouter();
-  const firmwareTypes = [
-    { label: "Source code", value: "source" },
-    { label: "Config file", value: "config" },
-    { label: "Binary", value: "binary" },
-  ];
 
   const formSchema = z.object({
-    name: z.string().min(1),
-    type: z.enum(["source", "config", "binary"]),
-    description: z.string(),
     file: z
       .any()
       .refine((file) => file !== undefined, { message: "File is required" }),
@@ -62,7 +45,6 @@ export function NewFirmwareForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
       versionName: "",
       gitUrl: "",
       versionDescription: "",
@@ -70,17 +52,18 @@ export function NewFirmwareForm() {
     mode: "onChange",
   });
 
-  const addFirmware = useMutation({
-    mutationFn: (data: FormData) => postFormData(`/firmware`, data),
+  const addFirmwareVersion = useMutation({
+    mutationFn: (data: FormData) =>
+      postFormData(`/firmware/${firmwareId}`, data),
     onError: (error: THttpError) => {
-      toast.error("Unable to add firmware", {
+      toast.error("Unable to add new version", {
         description: error.response.data.message,
       });
     },
 
     onSuccess: () => {
-      toast.success("Firmware added successfully");
-      router.back();
+      toast.success("New version added successfully");
+      router.push(`/firmware/${firmwareId}`);
       router.refresh();
     },
   });
@@ -91,7 +74,7 @@ export function NewFirmwareForm() {
     for (const [key, value] of Object.entries(data)) {
       formData.append(key, value);
     }
-    addFirmware.mutate(formData);
+    addFirmwareVersion.mutate(formData);
   }
 
   return (
@@ -100,75 +83,6 @@ export function NewFirmwareForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-1 flex-col space-y-6"
       >
-        <FormField
-          control={form.control}
-          name="type"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Select firmware type</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex flex-col space-y-1"
-                >
-                  {firmwareTypes.map((firmware) => (
-                    <CustomRadioItem
-                      key={firmware.value}
-                      value={firmware.value}
-                    >
-                      <CustomRadioItemContainer>
-                        <CustomRadioItemLabel>
-                          {firmware.label}
-                        </CustomRadioItemLabel>
-                      </CustomRadioItemContainer>
-                    </CustomRadioItem>
-                  ))}
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel htmlFor="name">Firmware name</FormLabel>
-              <FormControl>
-                <Input id="name" placeholder="Enter firmware name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel htmlFor="description">Firmware description</FormLabel>
-              <FormControl>
-                <Textarea
-                  id="description"
-                  placeholder="Enter firmware description"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Separator />
-        <SectionHeader>
-          <SectionHeaderTextContent>
-            <SectionHeaderTitle>First version</SectionHeaderTitle>
-            <SectionHeaderDescription>
-              Upload your first version of this firmware.
-            </SectionHeaderDescription>
-          </SectionHeaderTextContent>
-        </SectionHeader>
         <FormField
           control={form.control}
           name="file"

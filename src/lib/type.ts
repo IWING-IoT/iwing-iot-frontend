@@ -178,5 +178,5 @@ export type TFirmwareVersionDetails = {
   lastUpdate: string;
   updatedBy: string;
   file: string;
-  fileExtension: "cp" | "py" | "bin";
+  fileExtension: "cpp" | "py" | "bin";
 };

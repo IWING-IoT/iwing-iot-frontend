@@ -39,6 +39,7 @@ interface DataTableProps<TData extends WithId, TValue> {
   enableToggleColumns?: boolean;
   clickableRows?: boolean;
   clickableRowsBaseURL?: string;
+  clickableRowsTrailURL?: string;
   searchByColumn?: string;
 }
 
@@ -48,6 +49,7 @@ export function DataTable<TData extends WithId, TValue>({
   enableToggleColumns = false,
   clickableRows = false,
   clickableRowsBaseURL,
+  clickableRowsTrailURL,
   searchByColumn = "name",
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
@@ -95,7 +97,11 @@ export function DataTable<TData extends WithId, TValue>({
                 className={clickableRows ? "cursor-pointer" : ""}
                 onClick={() => {
                   if (clickableRows) {
-                    router.push(`${clickableRowsBaseURL}/${row.id}`);
+                    router.push(
+                      `${clickableRowsBaseURL}/${row.id}${
+                        clickableRowsTrailURL ? clickableRowsTrailURL : ""
+                      }`,
+                    );
                   }
                 }}
               >

@@ -13,13 +13,15 @@ import {
   HeaderTitle,
   HeaderTitleAndSupporting,
 } from "@/components/molecules/header";
+import { FirmwareDropdown } from "@/components/organisms/dropdowns/firmware-dropdown";
 import { MainContainer } from "@/components/templates/main-container";
 import { TableWrapper } from "@/components/templates/table-wrapper";
 import { Button } from "@/components/ui/button";
 import { fetchData } from "@/lib/data-fetching";
 import { TFirmwareDetails } from "@/lib/type";
 import { firmwareType } from "@/lib/utils";
-import { MoreHorizontal, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
+import Link from "next/link";
 
 type FirmwareProps = {
   params: {
@@ -52,13 +54,16 @@ export default async function Firmware({ params }: FirmwareProps) {
             )}
           </HeaderTitleAndSupporting>
           <HeaderActions>
-            <Button>
-              <Plus className="mr-1.5 h-5 w-5" />
-              New version
+            <Button asChild>
+              <Link href={`/firmware/${params.firmwareId}/version/new`}>
+                <Plus className="mr-1.5 h-5 w-5" />
+                New version
+              </Link>
             </Button>
-            <Button variant={"outline"} size={"icon"}>
-              <MoreHorizontal />
-            </Button>
+            <FirmwareDropdown
+              firmwareId={params.firmwareId}
+              firmwareData={firmwareData}
+            />
           </HeaderActions>
         </HeaderContent>
       </Header>
@@ -69,6 +74,7 @@ export default async function Firmware({ params }: FirmwareProps) {
             data={firmwareData.versions}
             clickableRows
             clickableRowsBaseURL={`/firmware/${params.firmwareId}/version`}
+            clickableRowsTrailURL="/code"
           />
         </TableWrapper>
       </MainContainer>

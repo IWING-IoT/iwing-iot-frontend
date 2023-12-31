@@ -46,7 +46,7 @@ export const firmwareVersionsColumns: ColumnDef<TFirmwareVersion>[] = [
       }
       return (
         <Badge variant={"modern"}>
-          <Github className="mr-2 h-3 w-3 text-foreground" />
+          <Github className="mr-1 h-3 w-3 text-foreground" />
           <span>{shortCommitHash}</span>
         </Badge>
       );
@@ -61,7 +61,7 @@ export const firmwareVersionsColumns: ColumnDef<TFirmwareVersion>[] = [
       const lastUpdate = String(row.getValue("lastUpdate"));
       return (
         <div className="flex justify-between">
-          <p className="min-w-max">{formatDate(lastUpdate)}</p>
+          <p className="min-w-max">{formatDate(lastUpdate, "relative")}</p>
           <ChevronRight />
         </div>
       );

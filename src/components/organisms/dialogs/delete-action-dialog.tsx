@@ -17,7 +17,8 @@ type DeleteActionDialogProps = {
     | "deleteEntry"
     | "deleteCategory"
     | "deleteApiField"
-    | "deleteDevice";
+    | "deleteDevice"
+    | "deleteFirmware";
   id: string;
   onOpenChange?: (open: boolean) => void;
   redirectTo?: string;
@@ -118,6 +119,22 @@ export function DeleteActionDialog({
     },
   });
 
+  const deleteFirmware = useMutation({
+    mutationFn: () => deleteData(`/firmware/${id}`),
+    onError: (error: THttpError) => {
+      toast.error("Unable to delete this firmware", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      if (redirectTo) {
+        router.push(redirectTo);
+      }
+      router.refresh();
+      toast.success("Firmware deleted successfully");
+    },
+  });
+
   let submitLabel;
   if (action === "removeCollaborator") {
     submitLabel = "Remove";
@@ -145,6 +162,9 @@ export function DeleteActionDialog({
         break;
       case "deleteDevice":
         deleteDevice.mutate();
+        break;
+      case "deleteFirmware":
+        deleteFirmware.mutate();
         break;
       default:
         break;

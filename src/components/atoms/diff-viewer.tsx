@@ -1,6 +1,6 @@
 "use client";
 import { useTheme } from "next-themes";
-import ReactDiffViewer from "react-diff-viewer-continued";
+import ReactDiffViewer, { DiffMethod } from "react-diff-viewer-continued";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import {
   a11yDark,
@@ -27,6 +27,7 @@ export function DiffViewer({ oldCode, newCode, language }: DiffViewerProps) {
           oldValue={oldCode}
           newValue={newCode}
           useDarkTheme={isDark}
+          compareMethod={DiffMethod.WORDS}
           renderContent={(code) => (
             <SyntaxHighlighter
               language={language}
@@ -51,6 +52,7 @@ export function DiffViewer({ oldCode, newCode, language }: DiffViewerProps) {
                 removedGutterBackground: "#FFD6D5",
                 removedBackground: "#FEF0ED",
                 wordRemovedBackground: "#FFD6D5",
+                codeFoldContentColor: "hsl(var(--foreground))",
               },
               dark: {
                 diffViewerBackground: "none",
@@ -60,6 +62,7 @@ export function DiffViewer({ oldCode, newCode, language }: DiffViewerProps) {
                 removedGutterBackground: "#542527",
                 removedBackground: "#25191C",
                 wordRemovedBackground: "#7A2F2E",
+                codeFoldContentColor: "hsl(var(--foreground))",
               },
             },
             lineNumber: {
