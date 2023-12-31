@@ -39,7 +39,7 @@ export function ProjectDropdown({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant={"outline"} size={"icon"}>
-          <MoreHorizontal className="h-5 w-5 sm:h-6 sm:w-6" />
+          <MoreHorizontal className="h-5 w-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-60" align="end">

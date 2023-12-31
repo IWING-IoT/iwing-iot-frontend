@@ -6,6 +6,7 @@ import {
   DropdownMenu,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { TCategoryDetails } from "@/lib/type";
 import { onDialogOpenChange, onDropdownSelect } from "@/lib/utils";
@@ -37,6 +38,7 @@ export function CategoryDropdown({
             Edit
           </Link>
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DeleteActionDialog
           title={`Delete ${categoryData.name}`}
           description="This action cannot be undone. You will lose all data associated with this category."
