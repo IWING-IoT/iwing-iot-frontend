@@ -1,4 +1,5 @@
 import { DiffViewer } from "@/components/atoms/diff-viewer";
+import { VersionDescriptionCard } from "@/components/molecules/version-description-card";
 import { fetchData, getFile } from "@/lib/data-fetching";
 import { TFirmwareDetails, TFirmwareVersionDetails } from "@/lib/type";
 
@@ -41,10 +42,13 @@ export default async function Code({ params }: CodeProps) {
   }
   const newCode: string = await getFile(firmwareVersionData.file);
   return (
-    <DiffViewer
-      oldCode={oldCode}
-      newCode={newCode}
-      language={language[firmwareVersionData.fileExtension]}
-    />
+    <div className="flex flex-1 flex-col gap-4">
+      <VersionDescriptionCard firmwareVersionData={firmwareVersionData} />
+      <DiffViewer
+        oldCode={oldCode}
+        newCode={newCode}
+        language={language[firmwareVersionData.fileExtension]}
+      />
+    </div>
   );
 }

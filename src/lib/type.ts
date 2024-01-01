@@ -179,4 +179,5 @@ export type TFirmwareVersionDetails = {
   updatedBy: string;
   file: string;
   fileExtension: "cpp" | "py" | "bin";
+  markdown?: string;
 };

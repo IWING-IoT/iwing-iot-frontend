@@ -18,7 +18,8 @@ type DeleteActionDialogProps = {
     | "deleteCategory"
     | "deleteApiField"
     | "deleteDevice"
-    | "deleteFirmware";
+    | "deleteFirmware"
+    | "deleteFirmwareVersion";
   id: string;
   onOpenChange?: (open: boolean) => void;
   redirectTo?: string;
@@ -135,6 +136,22 @@ export function DeleteActionDialog({
     },
   });
 
+  const deleteFirmwareVersion = useMutation({
+    mutationFn: () => deleteData(`/firmwareVersion/${id}`),
+    onError: (error: THttpError) => {
+      toast.error("Unable to delete this version", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      if (redirectTo) {
+        router.push(redirectTo);
+      }
+      router.refresh();
+      toast.success("Version deleted successfully");
+    },
+  });
+
   let submitLabel;
   if (action === "removeCollaborator") {
     submitLabel = "Remove";
@@ -165,6 +182,9 @@ export function DeleteActionDialog({
         break;
       case "deleteFirmware":
         deleteFirmware.mutate();
+        break;
+      case "deleteFirmwareVersion":
+        deleteFirmwareVersion.mutate();
         break;
       default:
         break;

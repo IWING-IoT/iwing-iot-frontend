@@ -116,6 +116,20 @@ export async function patchData(path: string, body: unknown) {
   }
 }
 
+export async function patchFormData(path: string, body: FormData) {
+  try {
+    const { data } = await clientAxios.patch(path, body, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    // console.log("data => ", data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function putData(path: string, body: unknown) {
   try {
     const { data } = await clientAxios.put(path, body);
