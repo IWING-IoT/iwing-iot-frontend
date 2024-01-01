@@ -9,7 +9,7 @@ import {
 } from "@/components/molecules/header";
 import { NavTabs } from "@/components/molecules/nav-tabs";
 import { MainContainer } from "@/components/templates/main-container";
-import { ProjectDropdown } from "@/components/organisms/dropdowns/project-dropdowm";
+import { ProjectDropdown } from "@/components/organisms/dropdowns/project-dropdown";
 import { Info } from "lucide-react";
 
 type ProjectProps = {
