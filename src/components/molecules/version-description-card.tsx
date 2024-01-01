@@ -20,7 +20,7 @@ export function VersionDescriptionCard({
 }: VersionDescriptionCardProps) {
   return (
     <div className="flex w-full flex-col overflow-hidden rounded-md border">
-      <SectionHeader className="items-center border-b bg-muted/50 p-4">
+      <SectionHeader className="flex-col items-start border-b bg-muted/50 p-4 sm:flex-row sm:items-center">
         <SectionHeaderTextContent>
           <SectionHeaderTitle>
             {firmwareVersionData.description ?? "No description"}
