@@ -102,7 +102,7 @@ export function CategoryItemsDataTable({
                 />
               }
             >
-              <Button variant={"outline"}>
+              <Button variant={"outline"} className="text-foreground">
                 <Eye className="mr-2 h-5 w-5" />
                 Show
               </Button>

@@ -1,3 +1,4 @@
+"use client";
 import Avvvatars from "avvvatars-react";
 
 type CustomAvatarProps = {
