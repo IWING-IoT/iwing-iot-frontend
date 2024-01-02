@@ -32,13 +32,17 @@ type NewFirmwareVersionForm = {
 
 export function NewFirmwareVersionForm({ firmwareId }: NewFirmwareVersionForm) {
   const router = useRouter();
+  const gitCommitUrlRegex =
+    /^https:\/\/github\.com\/[^\/]+\/[^\/]+\/commit\/[0-9a-f]{40}$/;
 
   const formSchema = z.object({
     file: z
       .any()
       .refine((file) => file !== undefined, { message: "File is required" }),
     versionName: z.string().min(1),
-    gitUrl: z.string(),
+    gitUrl: z.string().refine((url) => gitCommitUrlRegex.test(url), {
+      message: "A Git commit URL should end with a 40-character commit hash.",
+    }),
     versionDescription: z.string(),
   });
 
