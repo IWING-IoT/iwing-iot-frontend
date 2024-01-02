@@ -145,7 +145,7 @@ export const deploymentDevicesData: TDeploymentDeviceDetails[] = [
     status: "active",
     battery: "100",
     temperature: "53",
-    lastCommunuication: "2023-10-05T14:48:00.000Z",
+    lastCommunuication: "2024-01-02T18:11:17.821Z",
     JWT: "JWT",
   },
   {

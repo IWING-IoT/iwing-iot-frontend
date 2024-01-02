@@ -19,7 +19,7 @@ function getRelativeTimeString(date: Date | number, locales = "en"): string {
   // Get the amount of seconds between the given date and now
   const deltaSeconds = Math.round((timeMs - Date.now()) / 1000);
 
-  // Array reprsenting one minute, hour, day, week, month, etc in seconds
+  // Array representing one minute, hour, day, week, month, etc in seconds
   const cutoffs = [
     60,
     3600,
@@ -52,7 +52,11 @@ function getRelativeTimeString(date: Date | number, locales = "en"): string {
 
   // Intl.RelativeTimeFormat do its magic
   const rtf = new Intl.RelativeTimeFormat(locales, { numeric: "auto" });
-  return rtf.format(Math.floor(deltaSeconds / divisor), units[unitIndex]);
+  const result =
+    deltaSeconds / divisor < 0
+      ? Math.ceil(deltaSeconds / divisor)
+      : Math.floor(deltaSeconds / divisor);
+  return rtf.format(result, units[unitIndex]);
 }
 
 export function formatDate(
