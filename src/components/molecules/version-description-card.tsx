@@ -23,7 +23,9 @@ export function VersionDescriptionCard({
       <CardHeader className="p-4">
         <CardHeaderTextContent>
           <CardHeaderTitle>
-            {firmwareVersionData.description ?? "No description"}
+            {firmwareVersionData.description
+              ? firmwareVersionData.description
+              : "No description"}
           </CardHeaderTitle>
         </CardHeaderTextContent>
         <CardHeaderActions>
