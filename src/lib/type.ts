@@ -181,3 +181,16 @@ export type TFirmwareVersionDetails = {
   fileExtension: "cpp" | "py" | "bin";
   markdown?: string;
 };
+
+export type TDeploymentDeviceDetails = {
+  id: string;
+  type: "standalone" | "gateway" | "node";
+  name: string;
+  associate: TEntry[];
+  alias: string;
+  status: "active" | "inactive";
+  battery: string;
+  temperature: string;
+  lastCommunuication: string;
+  JWT: string;
+};

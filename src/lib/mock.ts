@@ -1,4 +1,9 @@
-import { TCategory, TCategoryDetails, TEntry } from "./type";
+import {
+  TCategory,
+  TCategoryDetails,
+  TDeploymentDeviceDetails,
+  TEntry,
+} from "./type";
 
 export const categoryData: TCategoryDetails = {
   name: "Test Category",
@@ -120,3 +125,69 @@ int main() {
     helloWorld.printMessage();
     return 0;
 }`;
+
+export const deploymentDevicesData: TDeploymentDeviceDetails[] = [
+  {
+    id: "100",
+    type: "standalone",
+    name: "device01",
+    associate: [
+      {
+        id: "1",
+        name: "Olivia Rhye",
+      },
+      {
+        id: "2",
+        name: "Dog A",
+      },
+    ],
+    alias: "alias_of_device",
+    status: "active",
+    battery: "100",
+    temperature: "53",
+    lastCommunuication: "2023-10-05T14:48:00.000Z",
+    JWT: "JWT",
+  },
+  {
+    id: "200",
+    type: "gateway",
+    name: "device02",
+    associate: [
+      {
+        id: "3",
+        name: "Olivia Rhye",
+      },
+      {
+        id: "4",
+        name: "Dog A",
+      },
+    ],
+    alias: "alias_of_device",
+    status: "active",
+    battery: "100",
+    temperature: "53",
+    lastCommunuication: "2023-10-05T14:48:00.000Z",
+    JWT: "JWT",
+  },
+  {
+    id: "300",
+    type: "node",
+    name: "device03",
+    associate: [
+      {
+        id: "5",
+        name: "Olivia Rhye",
+      },
+      {
+        id: "6",
+        name: "Dog A",
+      },
+    ],
+    alias: "alias_of_device",
+    status: "active",
+    battery: "100",
+    temperature: "53",
+    lastCommunuication: "2023-10-05T14:48:00.000Z",
+    JWT: "JWT",
+  },
+];
