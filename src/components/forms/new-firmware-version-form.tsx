@@ -40,9 +40,11 @@ export function NewFirmwareVersionForm({ firmwareId }: NewFirmwareVersionForm) {
       .any()
       .refine((file) => file !== undefined, { message: "File is required" }),
     versionName: z.string().min(1),
-    gitUrl: z.string().refine((url) => gitCommitUrlRegex.test(url), {
-      message: "A Git commit URL should end with a 40-character commit hash.",
-    }),
+    gitUrl: z
+      .string()
+      .refine((url) => (url !== "" ? gitCommitUrlRegex.test(url) : true), {
+        message: "A Git commit URL should end with a 40-character commit hash.",
+      }),
     versionDescription: z.string(),
   });
 
