@@ -13,7 +13,7 @@ const badgeVariants = cva(
         secondary:
           "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
         modern:
-          "rounded-md bg-background hover:bg-accent hover:text-accent-foreground",
+          "rounded-md bg-background hover:bg-accent hover:text-accent-foreground px-2 py-0.5",
         error:
           "border-[#FECDCA] bg-[#FEF3F2] text-[#B42318] dark:border-[#912018] dark:bg-[#55160C] dark:text-[#FDA29B]",
         outline: "text-foreground",
