@@ -1,15 +1,15 @@
 import { TFirmwareVersionDetails } from "@/lib/type";
-import {
-  SectionHeader,
-  SectionHeaderAction,
-  SectionHeaderTextContent,
-  SectionHeaderTitle,
-} from "./section-header";
 import { Button } from "../ui/button";
-import { DownloadCloud, Github } from "lucide-react";
+import { DownloadCloud, ExternalLink, Github } from "lucide-react";
 import { CustomAvatar } from "../atoms/custom-avatar";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
+import {
+  CardHeader,
+  CardHeaderActions,
+  CardHeaderTextContent,
+  CardHeaderTitle,
+} from "./card-header";
 
 type VersionDescriptionCardProps = {
   firmwareVersionData: TFirmwareVersionDetails;
@@ -20,13 +20,13 @@ export function VersionDescriptionCard({
 }: VersionDescriptionCardProps) {
   return (
     <div className="flex w-full flex-col overflow-hidden rounded-md border">
-      <SectionHeader className="flex-col items-start border-b bg-muted/50 p-4 sm:flex-row sm:items-center">
-        <SectionHeaderTextContent>
-          <SectionHeaderTitle>
+      <CardHeader className="p-4">
+        <CardHeaderTextContent>
+          <CardHeaderTitle>
             {firmwareVersionData.description ?? "No description"}
-          </SectionHeaderTitle>
-        </SectionHeaderTextContent>
-        <SectionHeaderAction>
+          </CardHeaderTitle>
+        </CardHeaderTextContent>
+        <CardHeaderActions>
           <Button variant={"outline"} asChild>
             <a href={firmwareVersionData.file} download>
               <DownloadCloud className="mr-1.5 h-5 w-5" />
@@ -34,15 +34,16 @@ export function VersionDescriptionCard({
             </a>
           </Button>
           {firmwareVersionData.gitUrl && (
-            <Button variant={"outline"} asChild>
-              <Link href={firmwareVersionData.gitUrl}>
-                <Github className="mr-1.5 h-5 w-5" />
+            <Button className="gap-1.5" variant={"outline"} asChild>
+              <Link href={firmwareVersionData.gitUrl} target="_blank">
+                <Github className="h-5 w-5" />
                 Github
+                <ExternalLink className="h-5 w-5" />
               </Link>
             </Button>
           )}
-        </SectionHeaderAction>
-      </SectionHeader>
+        </CardHeaderActions>
+      </CardHeader>
       <div className="flex gap-1 p-4">
         <div className="flex gap-2">
           <CustomAvatar value={firmwareVersionData.updatedBy} size={24} />
