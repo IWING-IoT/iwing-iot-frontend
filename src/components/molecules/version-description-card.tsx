@@ -52,7 +52,7 @@ export function VersionDescriptionCard({
           <p className="text-sm">{firmwareVersionData.updatedBy}</p>
         </div>
         <p className="text-sm text-muted-foreground">
-          uploaded on {formatDate(firmwareVersionData.lastUpdate)}
+          uploaded {formatDate(firmwareVersionData.lastUpdate, "relative")}
         </p>
       </div>
     </div>

@@ -55,7 +55,7 @@ export const firmwareVersionsColumns: ColumnDef<TFirmwareVersion>[] = [
   {
     accessorKey: "lastUpdate",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Updated on" />
+      <DataTableColumnHeader column={column} title="Uploaded" />
     ),
     cell: ({ row }) => {
       const lastUpdate = String(row.getValue("lastUpdate"));
