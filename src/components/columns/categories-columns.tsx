@@ -14,9 +14,16 @@ export const categoriesColumns: ColumnDef<TCategory>[] = [
     cell: ({ row }) => {
       const name = String(row.getValue("name"));
       return (
-        <div className="flex justify-between">
-          <p className="w-max text-base font-medium text-foreground">{name}</p>
-          <ChevronRight />
+        <p className="w-max text-base font-medium text-foreground">{name}</p>
+      );
+    },
+  },
+  {
+    id: "drillIn",
+    cell: () => {
+      return (
+        <div className="flex justify-end">
+          <ChevronRight className="text-muted-foreground" />
         </div>
       );
     },

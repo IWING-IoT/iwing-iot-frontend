@@ -59,10 +59,15 @@ export const firmwareVersionsColumns: ColumnDef<TFirmwareVersion>[] = [
     ),
     cell: ({ row }) => {
       const lastUpdate = String(row.getValue("lastUpdate"));
+      return <p className="min-w-max">{formatDate(lastUpdate, "relative")}</p>;
+    },
+  },
+  {
+    id: "drillIn",
+    cell: () => {
       return (
-        <div className="flex justify-between">
-          <p className="min-w-max">{formatDate(lastUpdate, "relative")}</p>
-          <ChevronRight />
+        <div className="flex justify-end">
+          <ChevronRight className="text-muted-foreground" />
         </div>
       );
     },
