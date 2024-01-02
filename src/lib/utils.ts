@@ -12,10 +12,7 @@ export function cn(...inputs: ClassValue[]) {
  * "a minute ago", "in 2 hours", "yesterday", "3 months ago", etc.
  * using Intl.RelativeTimeFormat
  */
-function getRelativeTimeString(
-  date: Date | number,
-  locales = "default",
-): string {
+function getRelativeTimeString(date: Date | number, locales = "en"): string {
   // Allow dates or times to be passed
   const timeMs = typeof date === "number" ? date : date.getTime();
 
@@ -66,7 +63,7 @@ export function formatDate(
   if (formatType === "relative") {
     return getRelativeTimeString(date);
   }
-  return `${date.getDate()} ${date.toLocaleString("default", {
+  return `${date.getDate()} ${date.toLocaleString("en-US", {
     month: "long",
   })} ${date.getFullYear()}`;
 }
