@@ -5,6 +5,9 @@ import { DataTableColumnHeader } from "../data-table/column-header";
 import { TDeploymentDeviceDetails, TEntry } from "@/lib/type";
 import { Badge } from "../ui/badge";
 import { formatDate } from "@/lib/utils";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Copy } from "lucide-react";
 
 export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
   {
@@ -102,6 +105,29 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
         <Badge variant={"gray"}>
           {formatDate(lastCommunicate, "relative")}
         </Badge>
+      );
+    },
+  },
+  {
+    accessorKey: "lastCommunication",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="JWT token" />
+    ),
+    cell: ({ row }) => {
+      const JWT = row.original.JWT;
+      if (!JWT) return <p>-</p>;
+      return (
+        <div className="flex">
+          <Input className="z-0 rounded-r-none" value={JWT} readOnly />
+          <Button
+            className="rounded-l-none border-l-0"
+            variant={"outline"}
+            size={"icon"}
+            onClick={() => navigator.clipboard.writeText(JWT)}
+          >
+            <Copy className="h-5 w-5" />
+          </Button>
+        </div>
       );
     },
   },
