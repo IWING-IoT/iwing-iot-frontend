@@ -3,6 +3,11 @@ import useMediaQuery from "beautiful-react-hooks/useMediaQuery";
 import { CodeEditor } from "../atoms/code-editor";
 import { MarkdownPreview } from "../atoms/markdown-preview";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 type MarkDownEditorProps = {
   value: string;
@@ -28,9 +33,14 @@ export function MarkDownEditor({ value, setValue }: MarkDownEditorProps) {
     );
   }
   return (
-    <div className="relative flex flex-1 gap-6 [&>*]:flex-1">
-      <CodeEditor value={value} setValue={setValue} />
-      <MarkdownPreview value={value} />
-    </div>
+    <ResizablePanelGroup direction="horizontal">
+      <ResizablePanel className="rounded-l-md border p-4">
+        <CodeEditor value={value} setValue={setValue} />
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel className="rounded-r-md border p-4">
+        <MarkdownPreview value={value} />
+      </ResizablePanel>
+    </ResizablePanelGroup>
   );
 }

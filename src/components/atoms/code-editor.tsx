@@ -34,9 +34,8 @@ export function CodeEditor({ value, setValue }: CodeEditorProps) {
           {code}
         </SyntaxHighlighter>
       )}
-      className="rounded-md border font-mono text-sm"
+      className="font-mono text-sm"
       textareaClassName="focus:outline-none"
-      padding={16}
     />
   );
 }
