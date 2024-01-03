@@ -51,7 +51,7 @@ function getRelativeTimeString(date: Date | number, locales = "en"): string {
   const divisor = unitIndex ? cutoffs[unitIndex - 1] : 1;
 
   // Intl.RelativeTimeFormat do its magic
-  const rtf = new Intl.RelativeTimeFormat(locales, { numeric: "auto" });
+  const rtf = new Intl.RelativeTimeFormat(locales, { numeric: "always" });
   const result =
     deltaSeconds / divisor < 0
       ? Math.ceil(deltaSeconds / divisor)
