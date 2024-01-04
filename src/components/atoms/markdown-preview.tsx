@@ -10,7 +10,7 @@ type MarkdownPreviewProps = {
 export function MarkdownPreview({ value }: MarkdownPreviewProps) {
   return (
     <Markdown
-      className="prose max-w-full dark:prose-invert"
+      className="prose min-h-[20rem] max-w-full dark:prose-invert"
       rehypePlugins={[rehypeRaw]}
       components={{
         code(props) {

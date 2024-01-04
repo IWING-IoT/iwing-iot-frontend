@@ -34,7 +34,7 @@ export function CodeEditor({ value, setValue }: CodeEditorProps) {
           {code}
         </SyntaxHighlighter>
       )}
-      className="h-full font-mono text-sm"
+      className="h-full min-h-[20rem] font-mono text-sm"
       textareaClassName="focus:outline-none"
     />
   );

@@ -23,10 +23,10 @@ export function MarkDownEditor({ value, setValue }: MarkDownEditorProps) {
           <TabsTrigger value="editor">Editor</TabsTrigger>
           <TabsTrigger value="preview">Preview</TabsTrigger>
         </TabsList>
-        <TabsContent value="editor">
+        <TabsContent value="editor" className="rounded-md border p-4">
           <CodeEditor value={value} setValue={setValue} />
         </TabsContent>
-        <TabsContent value="preview">
+        <TabsContent value="preview" className="rounded-md border p-4">
           <MarkdownPreview value={value} />
         </TabsContent>
       </Tabs>
