@@ -101,8 +101,7 @@ export function ItemForm({
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-    document.dispatchEvent(escEvent);
+    generateEscEvent();
     // console.log(data);
     if (type === "add") {
       addItem.mutate(data);

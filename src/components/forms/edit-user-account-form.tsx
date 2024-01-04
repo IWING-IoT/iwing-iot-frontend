@@ -25,6 +25,7 @@ import { useMutation } from "@tanstack/react-query";
 import { THttpError, TUserAccountDetails } from "@/lib/type";
 import { patchData } from "@/lib/data-fetching";
 import { useRouter } from "next/navigation";
+import { generateEscEvent } from "@/lib/utils";
 
 type EditUserAccountFormProps = {
   userData: Omit<TUserAccountDetails, "password">;
@@ -58,15 +59,13 @@ export function EditUserAccountForm({ userData }: EditUserAccountFormProps) {
       });
     },
     onSuccess: () => {
-      // Close dialog
-      const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-      document.dispatchEvent(escEvent);
       router.refresh();
       toast.success("Changes saved successfully");
     },
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
+    generateEscEvent();
     editAccount.mutate(data);
   }
 

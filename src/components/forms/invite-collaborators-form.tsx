@@ -29,6 +29,7 @@ import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { showDialogAtom } from "@/store/atoms";
 import { CodeBlock } from "../atoms/code-block";
+import { generateEscEvent } from "@/lib/utils";
 
 const formSchema = z.object({
   permission: z.enum(["can_edit", "can_view"]),
@@ -80,8 +81,6 @@ export function InviteCollaboratorsForm({
       });
     },
     onSuccess: (response) => {
-      const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-      document.dispatchEvent(escEvent);
       router.refresh();
       if (response.invalidCollaborator.length > 0) {
         toast.error("Some collaborators were not invited", {
@@ -111,6 +110,7 @@ export function InviteCollaboratorsForm({
       email: email.text,
       permission: data.permission,
     }));
+    generateEscEvent();
     inviteCollaborators.mutate(inviteCollaboratorsData);
   }
   return (

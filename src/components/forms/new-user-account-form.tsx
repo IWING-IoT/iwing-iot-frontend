@@ -27,6 +27,7 @@ import { useMutation } from "@tanstack/react-query";
 import { THttpError, TUserAccountDetails } from "@/lib/type";
 import { postData } from "@/lib/data-fetching";
 import { useRouter } from "next/navigation";
+import { generateEscEvent } from "@/lib/utils";
 
 export function NewUserAccountForm() {
   const formSchema = z.object({
@@ -59,15 +60,13 @@ export function NewUserAccountForm() {
       });
     },
     onSuccess: () => {
-      // Close dialog
-      const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-      document.dispatchEvent(escEvent);
       router.refresh();
       toast.success("Account created successfully");
     },
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
+    generateEscEvent();
     createAccount.mutate(data);
   }
 

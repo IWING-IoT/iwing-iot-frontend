@@ -115,8 +115,7 @@ export function CategoryForm({
   });
 
   function onDelete(index: number) {
-    const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-    document.dispatchEvent(escEvent);
+    generateEscEvent();
     setTimeout(() => remove(index), 200);
   }
 

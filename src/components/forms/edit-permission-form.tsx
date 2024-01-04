@@ -23,6 +23,7 @@ import { useMutation } from "@tanstack/react-query";
 import { TCollaborators, THttpError } from "@/lib/type";
 import { patchData } from "@/lib/data-fetching";
 import { useRouter } from "next/navigation";
+import { generateEscEvent } from "@/lib/utils";
 
 const formSchema = z.object({
   permission: z.enum(["can_edit", "can_view"]),
@@ -57,24 +58,13 @@ export function EditPermissionForm({
       });
     },
     onSuccess: () => {
-      const escEvent = new KeyboardEvent("keydown", { key: "Escape" });
-      document.dispatchEvent(escEvent);
       router.refresh();
       toast.success("Changes saved successfully");
     },
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    // toast("You submitted the following values:", {
-    //   description: (
-    //     <pre className="mt-2 w-[340px] overflow-scroll rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //       <code className="text-white">
-    //         {JSON.stringify(collaboratorData, null, 2)}
-    //       </code>
-    //     </pre>
-    //   ),
-    // });
+    generateEscEvent();
     editPermission.mutate(data);
   }
   return (
