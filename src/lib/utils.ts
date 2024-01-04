@@ -83,7 +83,7 @@ export const permission: Record<string, TPermission[]> = {
   project_archived: ["view"],
   can_view: ["view"],
   can_edit: ["view", "edit"],
-  owner: ["view", "edit", "delete"],
+  owner: ["view", "edit", "delete", "transferOwnership"],
 };
 
 export function stopPropagate(callback: () => void) {

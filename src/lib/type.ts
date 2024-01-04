@@ -85,7 +85,12 @@ export type TDeploymentForm = {
 
 export type TUserPermission = "can_view" | "can_edit" | "owner";
 
-export type TPermission = "view" | "create" | "edit" | "delete";
+export type TPermission =
+  | "view"
+  | "create"
+  | "edit"
+  | "delete"
+  | "transferOwnership";
 
 export type TCategory = {
   id: string;
