@@ -18,7 +18,8 @@ type PatchActionDialogProps = {
     | "disableDevice"
     | "enableDeploymentDevice"
     | "disableDeploymentDevice"
-    | "transferOwnership";
+    | "transferOwnership"
+    | "markDeploymentAsFinished";
   id: string;
   onOpenChange?: (open: boolean) => void;
 };
@@ -126,6 +127,22 @@ export function PatchActionDialog({
     },
   });
 
+  const markDeploymentAsFinished = useMutation({
+    mutationFn: () =>
+      patchData(`/phase/${id}/status`, {
+        isActive: false,
+      }),
+    onError: (error: THttpError) => {
+      toast.error("Unable to mark as finished", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      router.refresh();
+      toast.success("Deployment marked as finished");
+    },
+  });
+
   let submitLabel;
   if (action === "archiveProject") {
     submitLabel = "Archive";
@@ -139,6 +156,8 @@ export function PatchActionDialog({
     submitLabel = "Stop receiving";
   } else if (action === "transferOwnership") {
     submitLabel = "Transfer";
+  } else if (action === "markDeploymentAsFinished") {
+    submitLabel = "Mark as finished";
   } else {
     submitLabel = "Save changes";
   }
@@ -163,6 +182,9 @@ export function PatchActionDialog({
         break;
       case "transferOwnership":
         transferOwnership.mutate();
+        break;
+      case "markDeploymentAsFinished":
+        markDeploymentAsFinished.mutate();
         break;
       default:
         break;

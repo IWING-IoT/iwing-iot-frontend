@@ -11,6 +11,7 @@ import {
   HeaderTitleAndSupporting,
 } from "@/components/molecules/header";
 import { NavTabs } from "@/components/molecules/nav-tabs";
+import { DeploymentDropdown } from "@/components/organisms/dropdowns/deployment-dropdown";
 import PermissionProvider from "@/components/providers/permission-provider/permission-provider";
 import { MainContainer } from "@/components/templates/main-container";
 import { fetchData } from "@/lib/data-fetching";
@@ -63,6 +64,9 @@ export default async function Layout({ params, children }: LayoutProps) {
           <HeaderTitleAndSupporting>
             <HeaderTitle>{deploymentData.name}</HeaderTitle>
           </HeaderTitleAndSupporting>
+          <HeaderActions>
+            <DeploymentDropdown deploymentData={deploymentData} />
+          </HeaderActions>
         </HeaderContent>
         <NavTabs tabs={tabs} layoutId="deployment" />
       </Header>
