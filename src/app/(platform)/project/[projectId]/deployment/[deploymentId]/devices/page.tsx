@@ -2,7 +2,7 @@ import { deploymentDevicesColumns } from "@/components/columns/deployment-device
 import { DataTable } from "@/components/data-table/data-table";
 import { TableWrapper } from "@/components/templates/table-wrapper";
 import { fetchData } from "@/lib/data-fetching";
-import { deploymentDevicesData } from "@/lib/mock";
+// import { deploymentDevicesData } from "@/lib/mock";
 import { TDeploymentDeviceDetails } from "@/lib/type";
 
 type DeploymentDevicesProps = {
@@ -14,8 +14,8 @@ type DeploymentDevicesProps = {
 export default async function DeploymentDevices({
   params,
 }: DeploymentDevicesProps) {
-  // const { data: deploymentDevicesData }: { data: TDeploymentDeviceDetails[] } =
-  //   await fetchData(`/phase/${params.deploymentId}/device`);
+  const { data: deploymentDevicesData }: { data: TDeploymentDeviceDetails[] } =
+    await fetchData(`/phase/${params.deploymentId}/device`);
   return (
     <TableWrapper>
       <DataTable

@@ -2,12 +2,18 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "../data-table/column-header";
-import { TDeploymentDeviceDetails, TEntry } from "@/lib/type";
+import { TDeploymentDeviceDetails } from "@/lib/type";
 import { Badge } from "../ui/badge";
 import { formatDate } from "@/lib/utils";
 import { CopyableInput } from "../molecules/copyable-input";
-import { Button } from "../ui/button";
-import { MoreHorizontal } from "lucide-react";
+import {
+  BatteryFull,
+  BatteryLow,
+  MessageSquare,
+  Thermometer,
+  ThermometerSun,
+} from "lucide-react";
+import { DeploymentDevicesColumnsDropdown } from "../organisms/dropdowns/deployment-devices-columns-dropdown";
 
 export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
   {
@@ -73,7 +79,12 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
       if (!battery) return <p>-</p>;
       return (
         <Badge variant={Number(battery) > 20 ? "success" : "error"}>
-          {battery}%
+          {Number(battery) > 20 ? (
+            <BatteryFull className="mr-1 h-3 w-3" />
+          ) : (
+            <BatteryLow className="mr-1 h-3 w-3" />
+          )}
+          <p>{battery}%</p>
         </Badge>
       );
     },
@@ -88,7 +99,12 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
       if (!temperature) return <p>-</p>;
       return (
         <Badge variant={Number(temperature) <= 40 ? "success" : "error"}>
-          {temperature} °C
+          {Number(temperature) <= 40 ? (
+            <Thermometer className="mr-1 h-3 w-3" />
+          ) : (
+            <ThermometerSun className="mr-1 h-3 w-3" />
+          )}
+          <p>{temperature} °C</p>
         </Badge>
       );
     },
@@ -103,7 +119,8 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
       if (!lastCommunicate) return <p>-</p>;
       return (
         <Badge variant={"gray"}>
-          {formatDate(lastCommunicate, "relative")}
+          <MessageSquare className="mr-1 h-3 w-3" />
+          <p>{formatDate(lastCommunicate, "relative")}</p>
         </Badge>
       );
     },
@@ -122,11 +139,8 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      return (
-        <Button variant={"ghost"} size={"icon"}>
-          <MoreHorizontal className="h-5 w-5" />
-        </Button>
-      );
+      const data = row.original;
+      return <DeploymentDevicesColumnsDropdown deploymentDeviceData={data} />;
     },
   },
 ];
