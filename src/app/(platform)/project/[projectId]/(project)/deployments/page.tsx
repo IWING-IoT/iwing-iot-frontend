@@ -34,7 +34,8 @@ const tabs = [
 
 export default async function Deployment({ params }: DeploymentProps) {
   const { data: deploymentData }: { data: TDeployment[] } = await fetchData(
-    `/project/${params.projectId}/phase?type=all`,
+    `/project/${params.projectId}/phase`,
+    [{ key: "type", value: "all" }],
   );
   const activeDeployment = deploymentData.filter(
     (deployment) => deployment.isActive === true,
