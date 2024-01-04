@@ -95,6 +95,7 @@ export async function RenderProject({
             owner={project.owner}
             location={project.location}
             startedAt={project.startedAt}
+            endedAt={project.endedAt}
           />
         ))}
       </CardGrid>

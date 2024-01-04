@@ -18,7 +18,7 @@ import Restricted from "@/components/providers/permission-provider/restricted";
 import { CardGrid } from "@/components/templates/card-grid";
 import { Button } from "@/components/ui/button";
 import { fetchData } from "@/lib/data-fetching";
-import { TDeploymentDetails } from "@/lib/type";
+import { TDeployment } from "@/lib/type";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
@@ -33,8 +33,9 @@ const tabs = [
 ];
 
 export default async function Deployment({ params }: DeploymentProps) {
-  const { data: deploymentData }: { data: TDeploymentDetails[] } =
-    await fetchData(`/project/${params.projectId}/phase?type=all`);
+  const { data: deploymentData }: { data: TDeployment[] } = await fetchData(
+    `/project/${params.projectId}/phase?type=all`,
+  );
   const activeDeployment = deploymentData.filter(
     (deployment) => deployment.isActive === true,
   );

@@ -4,6 +4,7 @@ export type TProject = {
   owner: string;
   location: string;
   startedAt: string;
+  endedAt?: string;
 };
 
 export type TUser = {
@@ -39,6 +40,7 @@ export type TProjectDetails = {
   name: string;
   ownerName: string;
   startedAt: string;
+  endedAt?: string;
   isArchived: boolean;
   activePhaseId: string | null;
   description: string;
@@ -53,13 +55,23 @@ export type TUserAccountDetails = {
   role: "admin" | "user";
 };
 
-export type TDeploymentDetails = {
+export type TDeployment = {
   id: string;
   name: string;
   owner: string;
+  isActive: boolean;
+  startedAt: string;
+  endedAt?: string;
+};
+
+export type TDeploymentDetails = {
+  id: string;
+  name: string;
+  ownerName: string;
   startedAt: string;
   endedAt?: string;
   permission: TUserPermission;
+  description?: string;
   isActive: boolean;
   isProjectArchived: boolean;
 };

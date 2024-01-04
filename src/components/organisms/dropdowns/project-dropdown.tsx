@@ -34,7 +34,6 @@ export function ProjectDropdown({
   projectId,
   projectData,
 }: ProjectMoreDropdownProps) {
-  // deal with radix ui's bug
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -42,7 +41,7 @@ export function ProjectDropdown({
           <MoreHorizontal className="h-5 w-5" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-60" align="end">
+      <DropdownMenuContent align="end">
         <DialogWithContent
           title={projectData.name}
           content={
@@ -63,7 +62,13 @@ export function ProjectDropdown({
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar className="h-5 w-5" />
-                  <p>{formatDate(projectData.startedAt)}</p>
+                  <p>
+                    {projectData.endedAt
+                      ? `${formatDate(projectData.startedAt)} - ${formatDate(
+                          projectData.endedAt,
+                        )}`
+                      : `${formatDate(projectData.startedAt)}`}
+                  </p>
                 </div>
               </div>
             </div>
@@ -89,7 +94,7 @@ export function ProjectDropdown({
             variant="warning"
             icon={<Archive />}
             title="Archive this project"
-            description="You will no longer be able to make any changes to this project."
+            description="This action can't be undone. You will no longer be able to make any changes to this project."
             action="archiveProject"
             id={projectId}
             onOpenChange={onDialogOpenChange}
