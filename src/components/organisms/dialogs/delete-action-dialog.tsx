@@ -19,7 +19,8 @@ type DeleteActionDialogProps = {
     | "deleteApiField"
     | "deleteDevice"
     | "deleteFirmware"
-    | "deleteFirmwareVersion";
+    | "deleteFirmwareVersion"
+    | "removeDeploymentDevice";
   id: string;
   onOpenChange?: (open: boolean) => void;
   redirectTo?: string;
@@ -152,8 +153,24 @@ export function DeleteActionDialog({
     },
   });
 
+  const removeDeploymentDevice = useMutation({
+    mutationFn: () => deleteData(`/devicePhase/${id}`),
+    onError: (error: THttpError) => {
+      toast.error("Unable to remove this device", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      router.refresh();
+      toast.success("Device removed successfully", {
+        description:
+          "This device will be returned to the pool of available devices",
+      });
+    },
+  });
+
   let submitLabel;
-  if (action === "removeCollaborator") {
+  if (action === "removeCollaborator" || action === "removeDeploymentDevice") {
     submitLabel = "Remove";
   } else {
     submitLabel = "Delete";
@@ -185,6 +202,9 @@ export function DeleteActionDialog({
         break;
       case "deleteFirmwareVersion":
         deleteFirmwareVersion.mutate();
+        break;
+      case "removeDeploymentDevice":
+        removeDeploymentDevice.mutate();
         break;
       default:
         break;

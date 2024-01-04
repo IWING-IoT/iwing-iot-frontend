@@ -12,7 +12,13 @@ type PatchActionDialogProps = {
   icon: React.ReactNode;
   title: string;
   description: string;
-  action: "archiveProject" | "disableDevice" | "enableDevice";
+  action:
+    | "archiveProject"
+    | "enableDevice"
+    | "disableDevice"
+    | "enableDeploymentDevice"
+    | "disableDeploymentDevice"
+    | "transferOwnership";
   id: string;
   onOpenChange?: (open: boolean) => void;
 };
@@ -75,6 +81,51 @@ export function PatchActionDialog({
     },
   });
 
+  const enableDeploymentDevice = useMutation({
+    mutationFn: () =>
+      patchData(`/devicePhase/${id}/status`, {
+        isActive: true,
+      }),
+    onError: (error: THttpError) => {
+      toast.error("Unable to start receiving", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      router.refresh();
+      toast.success("Start receiving data from this device");
+    },
+  });
+
+  const disableDeploymentDevice = useMutation({
+    mutationFn: () =>
+      patchData(`/devicePhase/${id}/status`, {
+        isActive: false,
+      }),
+    onError: (error: THttpError) => {
+      toast.error("Unable to stop receiving", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      router.refresh();
+      toast.success("Stop receiving data from this device");
+    },
+  });
+
+  const transferOwnership = useMutation({
+    mutationFn: () => patchData(`/collaborator/${id}/transferOwner`),
+    onError: (error: THttpError) => {
+      toast.error("Unable to transfer ownership", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      router.refresh();
+      toast.success("Ownership transferred successfully");
+    },
+  });
+
   let submitLabel;
   if (action === "archiveProject") {
     submitLabel = "Archive";
@@ -82,6 +133,12 @@ export function PatchActionDialog({
     submitLabel = "Mark as unavailable";
   } else if (action === "enableDevice") {
     submitLabel = "Mark as available";
+  } else if (action === "enableDeploymentDevice") {
+    submitLabel = "Start receiving";
+  } else if (action === "disableDeploymentDevice") {
+    submitLabel = "Stop receiving";
+  } else if (action === "transferOwnership") {
+    submitLabel = "Transfer";
   } else {
     submitLabel = "Save changes";
   }
@@ -97,6 +154,15 @@ export function PatchActionDialog({
         break;
       case "enableDevice":
         enableDevice.mutate();
+        break;
+      case "enableDeploymentDevice":
+        enableDeploymentDevice.mutate();
+        break;
+      case "disableDeploymentDevice":
+        disableDeploymentDevice.mutate();
+        break;
+      case "transferOwnership":
+        transferOwnership.mutate();
         break;
       default:
         break;

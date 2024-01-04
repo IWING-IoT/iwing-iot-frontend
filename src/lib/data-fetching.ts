@@ -106,7 +106,7 @@ export async function getFile(path: string) {
   }
 }
 
-export async function patchData(path: string, body: unknown) {
+export async function patchData(path: string, body?: unknown) {
   try {
     const { data } = await clientAxios.patch(path, body);
     // console.log("data => ", data);
