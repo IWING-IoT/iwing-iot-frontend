@@ -16,9 +16,14 @@ export default async function EditFirmwareVersionDocument({
     await fetchData(`/firmwareVersion/${params.versionId}`);
   return (
     <MarkdownEditorForm
-      firmwareId={params.firmwareId}
-      versionId={params.versionId}
-      markdownData={firmwareVersionData.markdown ?? ""}
+      id={params.versionId}
+      type="firmwareDocument"
+      redirectTo={`/firmware/${params.firmwareId}/version/${params.versionId}/document`}
+      markdownData={
+        firmwareVersionData.markdown
+          ? firmwareVersionData.markdown
+          : "# Start editing here"
+      }
       title={`${firmwareVersionData.name} document`}
     />
   );

@@ -17,21 +17,23 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { THttpError } from "@/lib/type";
-import { patchFormData } from "@/lib/data-fetching";
+import { patchData, patchFormData } from "@/lib/data-fetching";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 type MarkdownEditorFormProps = {
-  firmwareId: string;
-  versionId: string;
+  id: string;
+  type: "firmwareDocument" | "projectDocument" | "deploymentDocument";
+  redirectTo: string;
   markdownData: string;
   title: string;
 };
 
 export function MarkdownEditorForm({
-  firmwareId,
-  versionId,
+  id,
+  type,
+  redirectTo,
   markdownData,
   title,
 }: MarkdownEditorFormProps) {
@@ -48,29 +50,67 @@ export function MarkdownEditorForm({
     mode: "onChange",
   });
 
-  const editDocument = useMutation({
-    mutationFn: (data: FormData) =>
-      patchFormData(`/firmwareVersion/${versionId}`, data),
+  const editFirmwareMarkdown = useMutation({
+    mutationFn: (data: z.infer<typeof formSchema>) => {
+      const formData = new FormData();
+      for (const [key, value] of Object.entries(data)) {
+        formData.append(key, value);
+      }
+      return patchFormData(`firmwareVersion/${id}`, formData);
+    },
     onError: (error: THttpError) => {
       toast.error("Unable to save changes", {
         description: error.response.data.message,
       });
     },
-
     onSuccess: () => {
       toast.success("Changes saved successfully");
-      router.push(`/firmware/${firmwareId}/version/${versionId}/document`);
+      router.push(redirectTo);
+      router.refresh();
+    },
+  });
+
+  const editProjectMarkdown = useMutation({
+    mutationFn: (data: z.infer<typeof formSchema>) =>
+      patchData(`project/${id}`, { description: data.markdown }),
+
+    onError: (error: THttpError) => {
+      toast.error("Unable to save changes", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      toast.success("Changes saved successfully");
+      router.push(redirectTo);
+      router.refresh();
+    },
+  });
+
+  const editDeploymentMarkdown = useMutation({
+    mutationFn: (data: z.infer<typeof formSchema>) =>
+      patchData(`phase/${id}`, { description: data.markdown }),
+
+    onError: (error: THttpError) => {
+      toast.error("Unable to save changes", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      toast.success("Changes saved successfully");
+      router.push(redirectTo);
       router.refresh();
     },
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    const formData = new FormData();
-    console.log(data);
-    for (const [key, value] of Object.entries(data)) {
-      formData.append(key, value);
+    switch (type) {
+      case "firmwareDocument":
+        return editFirmwareMarkdown.mutate(data);
+      case "projectDocument":
+        return editProjectMarkdown.mutate(data);
+      case "deploymentDocument":
+        return editDeploymentMarkdown.mutate(data);
     }
-    editDocument.mutate(formData);
   }
   return (
     <Form {...form}>
@@ -91,11 +131,7 @@ export function MarkdownEditorForm({
                 description="This action can't be undone. You'll lose all the changes you've made."
                 submitButton={
                   <Button className="flex-1" asChild>
-                    <Link
-                      href={`/firmware/${firmwareId}/version/${versionId}/document`}
-                    >
-                      Discard
-                    </Link>
+                    <Link href={redirectTo}>Discard</Link>
                   </Button>
                 }
               >
