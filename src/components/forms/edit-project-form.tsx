@@ -16,11 +16,9 @@ import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { cn } from "@/lib/utils";
+import { cn, formatDate, generateEscEvent } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
-import { format, parseISO } from "date-fns";
-import { Textarea } from "../ui/textarea";
 import { useMutation } from "@tanstack/react-query";
 import { patchData } from "@/lib/data-fetching";
 import { useRouter } from "next/navigation";
@@ -34,7 +32,6 @@ const formSchema = z.object({
   name: z.string().min(1).max(100, { message: "Character limit exceeded" }),
   location: z.string().min(1),
   startedAt: z.date(),
-  description: z.string(),
 });
 
 export function EditProjectForm({
@@ -48,15 +45,15 @@ export function EditProjectForm({
     defaultValues: {
       name: projectData.name,
       location: projectData.location,
-      startedAt: parseISO(projectData.startedAt),
-      description: projectData.description,
+      startedAt: new Date(projectData.startedAt),
     },
     mode: "onChange",
   });
 
   const editProject = useMutation({
-    mutationFn: (data: Omit<TCreateProjectDetails, "template">) =>
-      patchData(`/project/${projectId}`, data),
+    mutationFn: (
+      data: Omit<TCreateProjectDetails, "template" | "description">,
+    ) => patchData(`/project/${projectId}`, data),
     onError: (error: THttpError) => {
       // console.log(error.response.data.message);
       toast.error("Unable to save changes", {
@@ -137,7 +134,7 @@ export function EditProjectForm({
                       )}
                     >
                       {field.value ? (
-                        format(field.value, "d MMMM yyyy")
+                        formatDate(field.value.toISOString())
                       ) : (
                         <span>Select start date</span>
                       )}
@@ -149,24 +146,14 @@ export function EditProjectForm({
                   <Calendar
                     mode="single"
                     selected={field.value}
-                    onSelect={field.onChange}
+                    onSelect={(e) => {
+                      field.onChange(e);
+                      generateEscEvent();
+                    }}
                     initialFocus
                   />
                 </PopoverContent>
               </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description (Optional)</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Enter project description" {...field} />
-              </FormControl>
               <FormMessage />
             </FormItem>
           )}

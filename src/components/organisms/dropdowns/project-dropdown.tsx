@@ -46,11 +46,6 @@ export function ProjectDropdown({
           title={projectData.name}
           content={
             <div className="flex flex-col gap-4">
-              {projectData.description && (
-                <p className="text-muted-foreground">
-                  {projectData.description}
-                </p>
-              )}
               <div className="flex flex-col gap-2 text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <User className="h-5 w-5" />
@@ -93,7 +88,7 @@ export function ProjectDropdown({
           <PatchActionDialog
             variant="warning"
             icon={<Archive />}
-            title="Archive this project"
+            title={`Archive ${projectData.name}`}
             description="This action can't be undone. You will no longer be able to make any changes to this project."
             action="archiveProject"
             id={projectId}
@@ -105,7 +100,7 @@ export function ProjectDropdown({
             </DropdownMenuItem>
           </PatchActionDialog>
           <DeleteActionDialog
-            title="Delete this project"
+            title={`Delete ${projectData.name}`}
             description="Are you sure you want to delete this project? This action is irreversible and will result in permanent loss of all associated data."
             action="deleteProject"
             id={projectId}

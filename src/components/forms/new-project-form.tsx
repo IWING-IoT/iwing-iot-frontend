@@ -24,11 +24,10 @@ import {
 import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { cn } from "@/lib/utils";
+import { cn, generateEscEvent } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
-import { Textarea } from "../ui/textarea";
 import { useMutation } from "@tanstack/react-query";
 import { postData } from "@/lib/data-fetching";
 import { useRouter } from "next/navigation";
@@ -42,7 +41,6 @@ const formSchema = z.object({
   name: z.string().min(1).max(100, { message: "Character limit exceeded" }),
   location: z.string().min(1),
   startedAt: z.date(),
-  description: z.string(),
 });
 
 export function NewProjectForm({ template }: NewProjectFormProps) {
@@ -53,15 +51,14 @@ export function NewProjectForm({ template }: NewProjectFormProps) {
     defaultValues: {
       name: "",
       location: "",
-      description: "",
     },
     mode: "onChange",
   });
 
   const createProject = useMutation({
-    mutationFn: (data: TCreateProjectDetails) => postData("/project", data),
+    mutationFn: (data: Omit<TCreateProjectDetails, "description">) =>
+      postData("/project", data),
     onError: (error: THttpError) => {
-      // console.log(error.response.data.message);
       toast.error("Unable to create project", {
         description: error.response.data.message,
       });
@@ -74,22 +71,12 @@ export function NewProjectForm({ template }: NewProjectFormProps) {
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    // toast({
-    //   title: "You submitted the following values:",
-    //   description: (
-    //     <pre className="mt-2 w-[340px] overflow-scroll rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   ),
-    // });
     const createProjectData = {
       ...data,
       startedAt: data.startedAt.toISOString(),
     };
     createProject.mutate(createProjectData);
   }
-  // const { data: session, status } = useSession();
-  // console.log(session);
   return (
     <Form {...form}>
       <form
@@ -183,24 +170,14 @@ export function NewProjectForm({ template }: NewProjectFormProps) {
                   <Calendar
                     mode="single"
                     selected={field.value}
-                    onSelect={field.onChange}
+                    onSelect={(e) => {
+                      field.onChange(e);
+                      generateEscEvent();
+                    }}
                     initialFocus
                   />
                 </PopoverContent>
               </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description (Optional)</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Enter project description" {...field} />
-              </FormControl>
               <FormMessage />
             </FormItem>
           )}
