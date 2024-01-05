@@ -20,7 +20,8 @@ type DeleteActionDialogProps = {
     | "deleteDevice"
     | "deleteFirmware"
     | "deleteFirmwareVersion"
-    | "removeDeploymentDevice";
+    | "removeDeploymentDevice"
+    | "deleteDeployment";
   id: string;
   onOpenChange?: (open: boolean) => void;
   redirectTo?: string;
@@ -169,6 +170,22 @@ export function DeleteActionDialog({
     },
   });
 
+  const deleteDeployment = useMutation({
+    mutationFn: () => deleteData(`/phase/${id}`),
+    onError: (error: THttpError) => {
+      toast.error("Unable to delete this deployment", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      if (redirectTo) {
+        router.push(redirectTo);
+      }
+      router.refresh();
+      toast.success("Deployment deleted successfully");
+    },
+  });
+
   let submitLabel;
   if (action === "removeCollaborator" || action === "removeDeploymentDevice") {
     submitLabel = "Remove";
@@ -205,6 +222,9 @@ export function DeleteActionDialog({
         break;
       case "removeDeploymentDevice":
         removeDeploymentDevice.mutate();
+        break;
+      case "deleteDeployment":
+        deleteDeployment.mutate();
         break;
       default:
         break;
