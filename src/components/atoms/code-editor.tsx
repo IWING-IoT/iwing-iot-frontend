@@ -29,6 +29,7 @@ export function CodeEditor({ value, setValue }: CodeEditorProps) {
           customStyle={{
             padding: 0,
             background: "none",
+            overflow: "hidden",
           }}
         >
           {code}
