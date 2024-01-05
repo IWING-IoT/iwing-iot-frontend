@@ -23,6 +23,7 @@ const tabs = [
   { label: "Map", href: "map" },
   { label: "Devices", href: "devices" },
   { label: "API settings", href: "api-settings" },
+  { label: "Document", href: "document" },
 ];
 
 type LayoutProps = {
@@ -65,7 +66,10 @@ export default async function Layout({ params, children }: LayoutProps) {
             <HeaderTitle>{deploymentData.name}</HeaderTitle>
           </HeaderTitleAndSupporting>
           <HeaderActions>
-            <DeploymentDropdown deploymentData={deploymentData} />
+            <DeploymentDropdown
+              projectId={params.projectId}
+              deploymentData={deploymentData}
+            />
           </HeaderActions>
         </HeaderContent>
         <NavTabs tabs={tabs} layoutId="deployment" />

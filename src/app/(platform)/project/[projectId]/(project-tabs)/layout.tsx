@@ -21,6 +21,7 @@ const tabs = [
   { label: "Deployments", href: "deployments" },
   { label: "Collaborators", href: "collaborators" },
   { label: "Attribute data", href: "attribute-data" },
+  { label: "Document", href: "document" },
 ];
 
 export default async function Layout({ params, children }: ProjectProps) {
