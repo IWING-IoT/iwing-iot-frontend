@@ -22,12 +22,16 @@ import { formatDate, onDialogOpenChange, onDropdownSelect } from "@/lib/utils";
 import { TDeploymentDetails } from "@/lib/type";
 import { PatchActionDialog } from "../dialogs/patch-action-dialog";
 import Restricted from "@/components/providers/permission-provider/restricted";
+import { DeleteActionDialog } from "../dialogs/delete-action-dialog";
+import { DeploymentForm } from "@/components/forms/deployment-form";
 
 type DeploymentDropdownProps = {
+  projectId: string;
   deploymentData: TDeploymentDetails;
 };
 
 export function DeploymentDropdown({
+  projectId,
   deploymentData,
 }: DeploymentDropdownProps) {
   return (
@@ -42,11 +46,6 @@ export function DeploymentDropdown({
           title={deploymentData.name}
           content={
             <div className="flex flex-col gap-4">
-              {deploymentData.description && (
-                <p className="text-muted-foreground">
-                  {deploymentData.description}
-                </p>
-              )}
               <div className="flex flex-col gap-2 text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <User className="h-5 w-5" />
@@ -73,10 +72,18 @@ export function DeploymentDropdown({
           </DropdownMenuItem>
         </DialogWithContent>
         <Restricted to="edit">
-          <DropdownMenuItem>
-            <Pen className="h-4 w-4 text-muted-foreground" />
-            Edit
-          </DropdownMenuItem>
+          <DialogWithContent
+            title={`Edit ${deploymentData.name}`}
+            content={
+              <DeploymentForm type="edit" deploymentData={deploymentData} />
+            }
+            onOpenChange={onDialogOpenChange}
+          >
+            <DropdownMenuItem onSelect={onDropdownSelect}>
+              <Pen className="h-4 w-4 text-muted-foreground" />
+              Edit
+            </DropdownMenuItem>
+          </DialogWithContent>
           <DropdownMenuSeparator />
           <PatchActionDialog
             variant="warning"
@@ -92,10 +99,22 @@ export function DeploymentDropdown({
               Mark as finished
             </DropdownMenuItem>
           </PatchActionDialog>
-          <DropdownMenuItem className="text-destructive data-[highlighted]:text-destructive">
-            <Trash2 className="h-4 w-4" />
-            Delete
-          </DropdownMenuItem>
+          <DeleteActionDialog
+            title={`Delete ${deploymentData.name}`}
+            description="This action can't be undone. This will result in permanent loss of all associated data."
+            action="deleteDeployment"
+            id={deploymentData.id}
+            onOpenChange={onDialogOpenChange}
+            redirectTo={`/project/${projectId}/deployments`}
+          >
+            <DropdownMenuItem
+              className="text-destructive data-[highlighted]:text-destructive"
+              onSelect={onDropdownSelect}
+            >
+              <Trash2 className="h-4 w-4" />
+              Delete
+            </DropdownMenuItem>
+          </DeleteActionDialog>
         </Restricted>
       </DropdownMenuContent>
     </DropdownMenu>
