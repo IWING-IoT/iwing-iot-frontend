@@ -89,12 +89,6 @@ export type TCollaborators = {
   permissionId: "655cf84bad42c1839d57648c" | "655cf8d3ad42c1839d576491";
 };
 
-export type TDeploymentForm = {
-  name: string;
-  startedAt: string;
-  description: string;
-};
-
 export type TUserPermission = "can_view" | "can_edit" | "owner";
 
 export type TPermission =

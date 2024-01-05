@@ -155,7 +155,7 @@ export function CategoryItemsDataTable({
           <Restricted to="edit">
             <div className="flex justify-end gap-1">
               <DialogWithContent
-                title={`Edit item`}
+                title={`Edit ${mainAttribute}`}
                 content={
                   <ItemForm
                     categoryId={categoryId}
