@@ -14,65 +14,90 @@ import {
 import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
+import { cn, generateEscEvent } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
-import { Textarea } from "../ui/textarea";
 import { useMutation } from "@tanstack/react-query";
-import { postData } from "@/lib/data-fetching";
+import { patchData, postData } from "@/lib/data-fetching";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { TDeploymentForm, THttpError } from "@/lib/type";
+import { TDeploymentDetails, THttpError } from "@/lib/type";
+import { DialogFooter } from "../ui/dialog";
 
-type DeploymentFormProps = {
-  projectId: string;
-  submitLabel: string;
-};
+type DeploymentFormProps =
+  | {
+      type: "create";
+      projectId: string;
+      deploymentData?: never;
+    }
+  | {
+      type: "edit";
+      projectId?: never;
+      deploymentData: TDeploymentDetails;
+    };
 
 const formSchema = z.object({
   name: z.string().min(1).max(100, { message: "Character limit exceeded" }),
   startedAt: z.date(),
-  description: z.string(),
 });
 
 export function DeploymentForm({
+  type,
   projectId,
-  submitLabel,
+  deploymentData,
 }: DeploymentFormProps) {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      description: "",
+      name: type === "edit" ? deploymentData.name : "",
+      startedAt:
+        type === "edit" ? new Date(deploymentData.startedAt) : undefined,
     },
     mode: "onChange",
   });
 
   const createDeployment = useMutation({
-    mutationFn: (data: TDeploymentForm) =>
+    mutationFn: (data: Pick<TDeploymentDetails, "name" | "startedAt">) =>
       postData(`/project/${projectId}/phase`, data),
     onError: (error: THttpError) => {
-      // console.log(error.response.data.message);
       toast.error("Unable to create deployment", {
         description: error.response.data.message,
       });
     },
     onSuccess: () => {
-      router.push(`/project/${projectId}/deployments`);
       router.refresh();
       toast.success("Deployment created successfully");
     },
   });
 
+  const editDeployment = useMutation({
+    mutationFn: (data: Pick<TDeploymentDetails, "name" | "startedAt">) =>
+      patchData(`/phase/${deploymentData?.id}`, data),
+    onError: (error: THttpError) => {
+      toast.error("Unable to save changes", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      router.refresh();
+      toast.success("Changes saved successfully");
+    },
+  });
+
   function onSubmit(data: z.infer<typeof formSchema>) {
-    const createDeploymentData = {
+    const deploymentData = {
       ...data,
       startedAt: data.startedAt.toISOString(),
     };
-    createDeployment.mutate(createDeploymentData);
+    generateEscEvent();
+    if (type === "edit") {
+      editDeployment.mutate(deploymentData);
+    } else {
+      createDeployment.mutate(deploymentData);
+    }
   }
 
   return (
@@ -128,7 +153,10 @@ export function DeploymentForm({
                   <Calendar
                     mode="single"
                     selected={field.value}
-                    onSelect={field.onChange}
+                    onSelect={(e) => {
+                      field.onChange(e);
+                      generateEscEvent();
+                    }}
                     initialFocus
                   />
                 </PopoverContent>
@@ -137,23 +165,11 @@ export function DeploymentForm({
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description (Optional)</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Enter deployment description"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">{submitLabel}</Button>
+        <DialogFooter>
+          <Button type="submit">
+            {type === "edit" ? "Save changes" : "Create"}
+          </Button>
+        </DialogFooter>
       </form>
     </Form>
   );

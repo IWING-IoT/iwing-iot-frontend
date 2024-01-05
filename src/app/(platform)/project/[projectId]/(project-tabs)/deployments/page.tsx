@@ -1,4 +1,5 @@
 import { ProjectIllustration } from "@/components/atoms/illustrations/project-illustration";
+import { DeploymentForm } from "@/components/forms/deployment-form";
 import {
   EmptyState,
   EmptyStateAction,
@@ -14,13 +15,13 @@ import {
   SectionHeaderTextContent,
   SectionHeaderTitle,
 } from "@/components/molecules/section-header";
+import { DialogWithContent } from "@/components/organisms/dialogs/dialog-with-content";
 import Restricted from "@/components/providers/permission-provider/restricted";
 import { CardGrid } from "@/components/templates/card-grid";
 import { Button } from "@/components/ui/button";
 import { fetchData } from "@/lib/data-fetching";
 import { TDeployment } from "@/lib/type";
 import { Plus } from "lucide-react";
-import Link from "next/link";
 
 type DeploymentProps = {
   params: { projectId: string };
@@ -66,12 +67,17 @@ export default async function Deployment({ params }: DeploymentProps) {
             </EmptyStateDescription>
           </EmptyStateTextContent>
           <EmptyStateAction>
-            <Button type="button" asChild>
-              <Link href={"deployment/new"}>
+            <DialogWithContent
+              title="Create new deployment"
+              content={
+                <DeploymentForm type="create" projectId={params.projectId} />
+              }
+            >
+              <Button type="button">
                 <Plus className="mr-1.5 h-5 w-5" />
                 New deployment
-              </Link>
-            </Button>
+              </Button>
+            </DialogWithContent>
           </EmptyStateAction>
         </Restricted>
       </EmptyState>
@@ -89,12 +95,20 @@ export default async function Deployment({ params }: DeploymentProps) {
               </SectionHeaderTextContent>
               <Restricted to="edit">
                 <SectionHeaderAction>
-                  <Button type="button" className="flex-1" asChild>
-                    <Link href={"deployment/new"}>
+                  <DialogWithContent
+                    title="Create new deployment"
+                    content={
+                      <DeploymentForm
+                        type="create"
+                        projectId={params.projectId}
+                      />
+                    }
+                  >
+                    <Button type="button" className="flex-1">
                       <Plus className="mr-2 h-5 w-5" />
                       New deployment
-                    </Link>
-                  </Button>
+                    </Button>
+                  </DialogWithContent>
                 </SectionHeaderAction>
               </Restricted>
             </SectionHeader>
@@ -126,12 +140,20 @@ export default async function Deployment({ params }: DeploymentProps) {
               <Restricted to="edit">
                 {activeDeployment.length === 0 && (
                   <SectionHeaderAction>
-                    <Button type="button" asChild>
-                      <Link href={"deployment/new"}>
+                    <DialogWithContent
+                      title="Create new deployment"
+                      content={
+                        <DeploymentForm
+                          type="create"
+                          projectId={params.projectId}
+                        />
+                      }
+                    >
+                      <Button type="button">
                         <Plus className="mr-2 h-5 w-5" />
                         New deployment
-                      </Link>
-                    </Button>
+                      </Button>
+                    </DialogWithContent>
                   </SectionHeaderAction>
                 )}
               </Restricted>
