@@ -6,8 +6,15 @@ import { NextAuthProvider } from "@/components/providers/nextauth-provider";
 import { JotaiProvider } from "@/components/providers/jotai-provider";
 import { QueryClientProvider } from "@/components/providers/query-client-provider";
 import { DrawerWrapper } from "@/components/atoms/drawer-wrapper";
-import { ShowDialog } from "@/components/organisms/dialogs/show-dialog";
 import { Toaster } from "@/components/ui/sonner";
+import dynamic from "next/dynamic";
+
+const ShowDialog = dynamic(
+  () => import("@/components/organisms/dialogs/show-dialog"),
+  {
+    ssr: false,
+  },
+);
 
 export const metadata: Metadata = {
   title: "IWING IoT",
