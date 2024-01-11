@@ -200,8 +200,17 @@ export type TDeploymentDeviceDetails = {
   associate: TEntry[];
   alias: string;
   status: "active" | "inactive";
-  battery: string;
-  temperature: string;
+  battery: number;
+  temperature: number;
   lastCommunuication: string;
   JWT: string;
+};
+
+export type TMessage = {
+  id: string;
+  createdAt: string;
+  latitude: number;
+  longitude: number;
+  temperature: number;
+  battery: number;
 };
