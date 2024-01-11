@@ -3,6 +3,7 @@ import {
   TCategoryDetails,
   TDeploymentDeviceDetails,
   TEntry,
+  TMessage,
 } from "./type";
 
 export const categoryData: TCategoryDetails = {
@@ -126,68 +127,21 @@ int main() {
     return 0;
 }`;
 
-export const deploymentDevicesData: TDeploymentDeviceDetails[] = [
+export const cardContent = [
   {
-    id: "100",
-    type: "standalone",
-    name: "device01",
-    associate: [
-      {
-        id: "1",
-        name: "Olivia Rhye",
-      },
-      {
-        id: "2",
-        name: "Dog A",
-      },
-    ],
-    alias: "alias_of_device",
-    status: "active",
-    battery: "100",
-    temperature: "53",
-    lastCommunuication: "2024-01-02T18:11:17.821Z",
-    JWT: "JWT",
+    heading: "Temperature",
+    metric: "35 °C",
   },
   {
-    id: "200",
-    type: "gateway",
-    name: "device02",
-    associate: [
-      {
-        id: "3",
-        name: "Olivia Rhye",
-      },
-      {
-        id: "4",
-        name: "Dog A",
-      },
-    ],
-    alias: "alias_of_device",
-    status: "active",
-    battery: "100",
-    temperature: "53",
-    lastCommunuication: "2023-10-05T14:48:00.000Z",
-    JWT: "JWT",
+    heading: "Temperature",
+    metric: "35",
   },
   {
-    id: "300",
-    type: "node",
-    name: "device03",
-    associate: [
-      {
-        id: "5",
-        name: "Olivia Rhye",
-      },
-      {
-        id: "6",
-        name: "Dog A",
-      },
-    ],
-    alias: "alias_of_device",
-    status: "active",
-    battery: "100",
-    temperature: "53",
-    lastCommunuication: "2023-10-05T14:48:00.000Z",
-    JWT: "testJWT",
+    heading: "Temperature",
+    metric: "35",
+  },
+  {
+    heading: "Temperature",
+    metric: "35",
   },
 ];
