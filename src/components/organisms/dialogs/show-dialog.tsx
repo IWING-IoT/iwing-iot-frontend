@@ -15,7 +15,7 @@ import { showDialogAtom } from "@/store/atoms";
 import useMediaQuery from "beautiful-react-hooks/useMediaQuery";
 import { useAtom } from "jotai";
 
-export function ShowDialog() {
+export default function ShowDialog() {
   const [showDialog, setShowDialog] = useAtom(showDialogAtom);
   const isMobile = useMediaQuery("(max-width: 640px)");
   if (isMobile) {
