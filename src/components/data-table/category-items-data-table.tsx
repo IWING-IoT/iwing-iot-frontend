@@ -70,6 +70,7 @@ export function CategoryItemsDataTable({
         <DataTableColumnHeader
           column={column}
           title={categoryData.mainAttribute}
+          enableToggleColumns
         />
       ),
       cell: ({ row }) => {
@@ -114,7 +115,11 @@ export function CategoryItemsDataTable({
       return {
         accessorKey: key.accessorKey,
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title={key.accessorKey} />
+          <DataTableColumnHeader
+            column={column}
+            title={key.accessorKey}
+            enableToggleColumns
+          />
         ),
         cell: ({ row }) => {
           let data = "";
@@ -133,7 +138,11 @@ export function CategoryItemsDataTable({
       return {
         accessorKey: key.accessorKey,
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title={key.accessorKey} />
+          <DataTableColumnHeader
+            column={column}
+            title={key.accessorKey}
+            enableToggleColumns
+          />
         ),
         cell: ({ row }) => {
           const data = row.getValue(key.accessorKey)
