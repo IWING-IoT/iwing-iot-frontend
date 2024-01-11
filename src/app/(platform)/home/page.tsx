@@ -39,7 +39,7 @@ export default async function Home({ searchParams }: HomeProps) {
       <Header>
         <HeaderContent>
           <HeaderTitleAndSupporting>
-            <HeaderTitle>Welcome back, {session?.user.name} 👋</HeaderTitle>
+            <HeaderTitle>Welcome back, {session?.user.name}</HeaderTitle>
           </HeaderTitleAndSupporting>
           <HeaderActions>
             <Button asChild>
