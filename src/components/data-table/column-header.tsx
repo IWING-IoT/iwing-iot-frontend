@@ -21,12 +21,14 @@ interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>;
   title: string;
+  enableToggleColumns?: boolean;
 }
 
 export function DataTableColumnHeader<TData, TValue>({
   column,
   title,
   className,
+  enableToggleColumns = false,
 }: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
     return <div className={cn(className)}>{title}</div>;
@@ -60,11 +62,15 @@ export function DataTableColumnHeader<TData, TValue>({
             <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground" />
             Desc
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
-            <EyeOffIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground" />
-            Hide
-          </DropdownMenuItem>
+          {enableToggleColumns && (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
+                <EyeOffIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground" />
+                Hide
+              </DropdownMenuItem>
+            </>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

@@ -19,7 +19,11 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
   {
     accessorKey: "alias",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Device name" />
+      <DataTableColumnHeader
+        column={column}
+        title="Device name"
+        enableToggleColumns
+      />
     ),
     cell: ({ row }) => {
       const alias = row.original.alias;
@@ -55,7 +59,11 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
   {
     accessorKey: "status",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
+      <DataTableColumnHeader
+        column={column}
+        title="Status"
+        enableToggleColumns
+      />
     ),
     cell: ({ row }) => {
       const status = row.original.status;
@@ -72,7 +80,11 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
   {
     accessorKey: "battery",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Battery" />
+      <DataTableColumnHeader
+        column={column}
+        title="Battery"
+        enableToggleColumns
+      />
     ),
     cell: ({ row }) => {
       const battery = row.original.battery;
@@ -92,7 +104,11 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
   {
     accessorKey: "temperature",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Temperature" />
+      <DataTableColumnHeader
+        column={column}
+        title="Temperature"
+        enableToggleColumns
+      />
     ),
     cell: ({ row }) => {
       const temperature = row.original.temperature;
@@ -112,7 +128,11 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
   {
     accessorKey: "lastCommunication",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Last communicate" />
+      <DataTableColumnHeader
+        column={column}
+        title="Last communicate"
+        enableToggleColumns
+      />
     ),
     cell: ({ row }) => {
       const lastCommunicate = row.original.lastCommunuication;
@@ -128,7 +148,11 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
   {
     accessorKey: "JWT",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="JWT token" />
+      <DataTableColumnHeader
+        column={column}
+        title="JWT token"
+        enableToggleColumns
+      />
     ),
     cell: ({ row }) => {
       const JWT = row.original.JWT;
