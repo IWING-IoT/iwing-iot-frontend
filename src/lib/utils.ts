@@ -62,14 +62,21 @@ function getRelativeTimeString(date: Date | number, locales = "en"): string {
 export function formatDate(
   dateString: string,
   formatType: "default" | "relative" = "default",
+  withTime = false,
 ) {
   const date = new Date(dateString);
+  const options: Intl.DateTimeFormatOptions = withTime
+    ? {
+        dateStyle: "long",
+        timeStyle: "medium",
+      }
+    : {
+        dateStyle: "long",
+      };
   if (formatType === "relative") {
     return getRelativeTimeString(date);
   }
-  return `${date.getDate()} ${date.toLocaleString("en-US", {
-    month: "long",
-  })} ${date.getFullYear()}`;
+  return date.toLocaleString("en-GB", options);
 }
 
 export function getValidChildren(children: React.ReactNode) {
