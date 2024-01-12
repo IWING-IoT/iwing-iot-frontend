@@ -34,7 +34,7 @@ export default function LeafletMap({
       />
       {markers?.map((marker, index) => (
         <Marker key={index} position={marker.position}>
-          <Tooltip className="bg-background">{marker.content}</Tooltip>
+          <Tooltip>{marker.content}</Tooltip>
         </Marker>
       ))}
     </MapContainer>
