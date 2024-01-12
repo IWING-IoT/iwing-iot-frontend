@@ -214,3 +214,11 @@ export type TMessage = {
   temperature: number;
   battery: number;
 };
+
+export type TMapPin = {
+  id: string;
+  name: string;
+  latitude: number;
+  longitude: number;
+  lastMessage: TMessage;
+};

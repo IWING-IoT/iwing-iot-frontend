@@ -3,6 +3,7 @@ import {
   TCategoryDetails,
   TDeploymentDeviceDetails,
   TEntry,
+  TMapPin,
   TMessage,
 } from "./type";
 
