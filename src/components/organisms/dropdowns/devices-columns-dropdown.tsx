@@ -15,7 +15,7 @@ import {
   PlayCircle,
   Trash2,
 } from "lucide-react";
-import { DialogWithContent } from "../dialogs/dialog-with-content";
+import DialogWithContent from "../dialogs/dialog-with-content";
 import { EditDeviceForm } from "@/components/forms/edit-device-form";
 import { TDevices, THttpError } from "@/lib/type";
 import { PatchActionDialog } from "../dialogs/patch-action-dialog";
@@ -66,7 +66,6 @@ export function DevicesColumnsDropdown({
             Edit
           </DropdownMenuItem>
         </DialogWithContent>
-        <DropdownMenuSeparator />
         {deviceData.status === "Available" ||
         deviceData.status === "Unavailable" ? (
           <>
@@ -109,6 +108,7 @@ export function DevicesColumnsDropdown({
             </DropdownMenuItem>
           </AlertDialog>
         )}
+        <DropdownMenuSeparator />
         <DeleteActionDialog
           title={`Delete ${deviceData.name}`}
           description={

@@ -15,7 +15,7 @@ import {
   SectionHeaderTextContent,
   SectionHeaderTitle,
 } from "@/components/molecules/section-header";
-import { DialogWithContent } from "@/components/organisms/dialogs/dialog-with-content";
+import DialogWithContent from "@/components/organisms/dialogs/dialog-with-content";
 import Restricted from "@/components/providers/permission-provider/restricted";
 import { CardGrid } from "@/components/templates/card-grid";
 import { Button } from "@/components/ui/button";

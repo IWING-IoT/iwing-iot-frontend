@@ -33,7 +33,7 @@ import {
 } from "../molecules/empty-state";
 import { NotFoundIllustration } from "../atoms/illustrations/not-found-illustration";
 import { DataTableGeneralToolbar } from "./general-toolbar";
-import { DialogWithContent } from "../organisms/dialogs/dialog-with-content";
+import DialogWithContent from "../organisms/dialogs/dialog-with-content";
 import { Button } from "../ui/button";
 import { Eye, Pen, Trash2 } from "lucide-react";
 import Restricted from "../providers/permission-provider/restricted";

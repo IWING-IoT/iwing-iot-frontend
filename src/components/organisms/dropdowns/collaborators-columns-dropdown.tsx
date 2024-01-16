@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ArrowLeftRight, MoreHorizontal, Pen, Trash2 } from "lucide-react";
-import { DialogWithContent } from "../dialogs/dialog-with-content";
+import DialogWithContent from "../dialogs/dialog-with-content";
 import { EditPermissionForm } from "@/components/forms/edit-permission-form";
 import { DeleteActionDialog } from "../dialogs/delete-action-dialog";
 import { TCollaborators } from "@/lib/type";

@@ -8,7 +8,7 @@ import {
   HeaderTitleAndSupporting,
 } from "@/components/molecules/header";
 import { NavTabs } from "@/components/molecules/nav-tabs";
-import { DialogWithContent } from "@/components/organisms/dialogs/dialog-with-content";
+import DialogWithContent from "@/components/organisms/dialogs/dialog-with-content";
 import { MainContainer } from "@/components/templates/main-container";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";

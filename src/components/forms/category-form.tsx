@@ -24,7 +24,7 @@ import {
   SectionHeaderTitle,
 } from "../molecules/section-header";
 import { Check, ChevronsUpDown, Plus } from "lucide-react";
-import { DialogWithContent } from "../organisms/dialogs/dialog-with-content";
+import DialogWithContent from "../organisms/dialogs/dialog-with-content";
 import { AttributeCard } from "../molecules/attribute-card";
 import { RadioGroup } from "../ui/radio-group";
 import {
