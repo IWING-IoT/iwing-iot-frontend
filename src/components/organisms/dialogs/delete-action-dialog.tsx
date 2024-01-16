@@ -162,6 +162,9 @@ export function DeleteActionDialog({
       });
     },
     onSuccess: () => {
+      if (redirectTo) {
+        router.push(redirectTo);
+      }
       router.refresh();
       toast.success("Device removed successfully", {
         description:
