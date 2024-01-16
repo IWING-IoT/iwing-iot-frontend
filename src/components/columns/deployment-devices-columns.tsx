@@ -13,7 +13,7 @@ import {
   Thermometer,
   ThermometerSun,
 } from "lucide-react";
-import { DeploymentDevicesColumnsDropdown } from "../organisms/dropdowns/deployment-devices-columns-dropdown";
+import { DeploymentDevicesDropdown } from "../organisms/dropdowns/deployment-devices-dropdown";
 
 export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
   {
@@ -44,7 +44,7 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
     cell: ({ row }) => {
       const associate = row.original.associate;
       return (
-        <div className="flex w-max gap-1">
+        <div className="flex w-max gap-1 text-foreground">
           {associate.length !== 0
             ? associate.map((item) => (
                 <Badge key={item.id} variant={"modern"}>
@@ -146,7 +146,7 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
     },
   },
   {
-    accessorKey: "JWT",
+    accessorKey: "jwt",
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
@@ -155,16 +155,24 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
       />
     ),
     cell: ({ row }) => {
-      const JWT = row.original.JWT;
-      if (!JWT) return <p>-</p>;
-      return <CopyableInput className="min-w-[10rem]" value={JWT} />;
+      const jwt = row.original.jwt;
+      if (!jwt) return <p>-</p>;
+      return <CopyableInput className="min-w-[10rem]" value={jwt} />;
+    },
+    meta: {
+      clickable: false,
     },
   },
   {
     id: "actions",
     cell: ({ row }) => {
       const data = row.original;
-      return <DeploymentDevicesColumnsDropdown deploymentDeviceData={data} />;
+      return (
+        <DeploymentDevicesDropdown type="inTable" deploymentDeviceData={data} />
+      );
+    },
+    meta: {
+      clickable: false,
     },
   },
 ];

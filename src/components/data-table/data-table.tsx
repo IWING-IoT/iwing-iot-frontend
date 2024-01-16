@@ -104,7 +104,10 @@ export function DataTable<TData extends WithId, TValue>({
                     key={cell.id}
                     className={clickableRows ? "cursor-pointer" : ""}
                     onClick={() => {
-                      if (clickableRows && cell.column.id !== "actions") {
+                      if (
+                        clickableRows &&
+                        cell.column.columnDef.meta?.clickable !== false
+                      ) {
                         router.push(
                           `${clickableRowsBaseURL}/${row.id}${
                             clickableRowsTrailURL ? clickableRowsTrailURL : ""
