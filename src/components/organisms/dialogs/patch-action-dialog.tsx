@@ -8,7 +8,7 @@ import { toast } from "sonner";
 
 type PatchActionDialogProps = {
   children: React.ReactNode;
-  variant: "brand" | "error" | "success" | "warning";
+  variant: "error" | "success" | "warning";
   icon: React.ReactNode;
   title: string;
   description: string;
@@ -19,7 +19,8 @@ type PatchActionDialogProps = {
     | "enableDeploymentDevice"
     | "disableDeploymentDevice"
     | "transferOwnership"
-    | "markDeploymentAsFinished";
+    | "markDeploymentAsFinished"
+    | "regenerateJwt";
   id: string;
   onOpenChange?: (open: boolean) => void;
 };
@@ -143,6 +144,19 @@ export function PatchActionDialog({
     },
   });
 
+  const regenerateJwt = useMutation({
+    mutationFn: () => patchData(`/devicePhase/${id}/jwt`),
+    onError: (error: THttpError) => {
+      toast.error("Unable to regenerate JWT token", {
+        description: error.response.data.message,
+      });
+    },
+    onSuccess: () => {
+      router.refresh();
+      toast.success("JWT token regenerated successfully");
+    },
+  });
+
   let submitLabel;
   if (action === "archiveProject") {
     submitLabel = "Archive";
@@ -158,6 +172,8 @@ export function PatchActionDialog({
     submitLabel = "Transfer";
   } else if (action === "markDeploymentAsFinished") {
     submitLabel = "Mark as finished";
+  } else if (action === "regenerateJwt") {
+    submitLabel = "Regenerate";
   } else {
     submitLabel = "Save changes";
   }
@@ -185,6 +201,9 @@ export function PatchActionDialog({
         break;
       case "markDeploymentAsFinished":
         markDeploymentAsFinished.mutate();
+        break;
+      case "regenerateJwt":
+        regenerateJwt.mutate();
         break;
       default:
         break;
