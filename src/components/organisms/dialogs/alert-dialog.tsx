@@ -26,7 +26,7 @@ import useMediaQuery from "beautiful-react-hooks/useMediaQuery";
 
 type AlertDialogProps = {
   children: React.ReactNode;
-  variant: "brand" | "error" | "success" | "warning";
+  variant: "error" | "success" | "warning";
   title: string;
   description: string;
   className?: string;
