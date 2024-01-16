@@ -203,7 +203,7 @@ export type TDeploymentDeviceDetails = {
   battery: number;
   temperature: number;
   lastCommunuication: string;
-  JWT: string;
+  jwt: string;
 };
 
 export type TMessage = {
@@ -211,8 +211,7 @@ export type TMessage = {
   createdAt: string;
   latitude: number;
   longitude: number;
-  temperature: number;
-  battery: number;
+  [x: string]: string | number | boolean;
 };
 
 export type TMapPin = {
@@ -221,4 +220,26 @@ export type TMapPin = {
   latitude: number;
   longitude: number;
   lastMessage: TMessage;
+};
+
+export type TAllEntryInProject = {
+  id: string;
+  name: string;
+  entry: TEntry[];
+};
+
+export type TDeviceFirmware = {
+  [T in TFirmwareType]?: TDeviceFirmwareDetails;
+};
+
+export type TDeviceFirmwareDetails = {
+  firmware: {
+    id: string;
+    name: string;
+  };
+  firmwareVersion: {
+    id: string;
+    name: string;
+  };
+  autoUpdate: boolean;
 };
