@@ -33,7 +33,7 @@ export function MetricCard({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm font-medium text-muted-foreground">
+        <CardTitle className="text-sm font-medium text-muted-foreground first-letter:uppercase">
           {heading}
         </CardTitle>
         <p className="text-3xl font-semibold leading-tight">{metric}</p>

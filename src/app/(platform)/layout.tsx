@@ -17,7 +17,7 @@ export default function Layout({ children }: LayoutProps) {
           <NavContent />
         </nav>
         {/* Content */}
-        <div className="flex flex-1 flex-col overflow-x-hidden xl:overflow-y-auto">
+        <div className="flex flex-1 flex-col overflow-x-clip overflow-y-visible xl:overflow-y-auto">
           {children}
         </div>
       </div>

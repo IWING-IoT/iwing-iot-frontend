@@ -162,7 +162,7 @@ export function InviteCollaboratorsForm({
                     setValue("email", newTags as Tag[]);
                   }}
                   textCase={"lowercase"}
-                  shape={"pill"}
+                  shape={"rounded"}
                   minTags={1}
                   delimiterList={[
                     Delimiter.Enter,

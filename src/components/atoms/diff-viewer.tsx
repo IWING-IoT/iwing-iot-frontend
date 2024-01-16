@@ -21,7 +21,7 @@ export function DiffViewer({ oldCode, newCode, language }: DiffViewerProps) {
     theme === "dark" || (theme === "system" && systemTheme === "dark");
   const isMobile = useMediaQuery("(max-width: 640px)");
   return (
-    <div className="overflow-hidden rounded-md border">
+    <div className="overflow-hidden rounded-lg border">
       <ScrollArea>
         <ReactDiffViewer
           oldValue={oldCode}
