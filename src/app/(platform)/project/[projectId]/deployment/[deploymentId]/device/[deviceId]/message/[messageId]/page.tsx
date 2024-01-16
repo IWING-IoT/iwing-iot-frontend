@@ -63,11 +63,19 @@ export default async function Message({ params }: MessageProps) {
         </HeaderTitleAndSupporting>
       </Header>
       <MainContainer className="flex flex-col-reverse sm:grid sm:grid-cols-2">
-        <CodeBlock
-          code={JSON.stringify(messageData, null, 2)}
-          language="json"
-          className="rounded-lg"
-        />
+        <div className="grid h-fit grid-cols-2 gap-3">
+          {Object.entries(messageData).map(([key, value]) => {
+            if (key === "createdAt") return null;
+            return (
+              <MetricCard
+                type="simple"
+                key={key}
+                heading={key}
+                metric={String(value)}
+              />
+            );
+          })}
+        </div>
         <LeafletMap
           className="rounded-lg"
           center={[messageData.latitude, messageData.longitude]}
