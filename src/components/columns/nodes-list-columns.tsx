@@ -5,17 +5,18 @@ import { DataTableColumnHeader } from "../data-table/column-header";
 import { TDeploymentDeviceDetails } from "@/lib/type";
 import { Badge } from "../ui/badge";
 import { formatDate } from "@/lib/utils";
-import { CopyableInput } from "../molecules/copyable-input";
 import {
   BatteryFull,
   BatteryLow,
+  ChevronRight,
   MessageSquare,
   Thermometer,
   ThermometerSun,
 } from "lucide-react";
-import { DeploymentDevicesDropdown } from "../organisms/dropdowns/deployment-devices-dropdown";
 
-export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
+export const nodesListColumns: ColumnDef<
+  Omit<TDeploymentDeviceDetails, "jwt">
+>[] = [
   {
     accessorKey: "alias",
     header: ({ column }) => (
@@ -146,33 +147,13 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
     },
   },
   {
-    accessorKey: "jwt",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="JWT token"
-        enableToggleColumns
-      />
-    ),
-    cell: ({ row }) => {
-      const jwt = row.original.jwt;
-      if (!jwt) return <p>-</p>;
-      return <CopyableInput className="min-w-[10rem]" value={jwt} />;
-    },
-    meta: {
-      clickable: false,
-    },
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      const data = row.original;
+    id: "drillIn",
+    cell: () => {
       return (
-        <DeploymentDevicesDropdown type="inTable" deploymentDeviceData={data} />
+        <div className="flex justify-end">
+          <ChevronRight className="text-muted-foreground" />
+        </div>
       );
-    },
-    meta: {
-      clickable: false,
     },
   },
 ];
