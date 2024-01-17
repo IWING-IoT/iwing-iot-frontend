@@ -233,6 +233,7 @@ export type TDeviceFirmware = {
 };
 
 export type TDeviceFirmwareDetails = {
+  id: string;
   firmware: {
     id: string;
     name: string;
