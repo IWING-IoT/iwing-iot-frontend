@@ -45,7 +45,7 @@ export default async function Layout({ children, params }: LayoutProps) {
     { label: "Overview", href: "overview" },
     { label: "Nodes", href: "nodes" },
     { label: "Messages", href: "messages" },
-    { label: "Gateway", href: "gateway" },
+    { label: "Firmware", href: "firmware" },
   ];
   const { data: projectData }: { data: TProjectDetails } = await fetchData(
     `/project/${params.projectId}`,
