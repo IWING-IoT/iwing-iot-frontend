@@ -70,6 +70,28 @@ export const fetchData = cache(
   },
 );
 
+export async function clientFetchData(
+  path: string,
+  params?: { key: string; value: string }[],
+) {
+  try {
+    let response;
+    if (params) {
+      response = await clientAxios.get(
+        path +
+          "?" +
+          params?.map((param) => `${param.key}=${param.value}`).join("&"),
+      );
+    } else {
+      response = await clientAxios.get(path);
+    }
+    const { data } = response;
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function postData(path: string, body?: unknown) {
   try {
     const { data } = await clientAxios.post(path, body);

@@ -20,7 +20,7 @@ const tagVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        default: "text-foreground hover:bg-secondary/80",
         primary:
           "bg-primary border-primary text-primary-foreground hover:bg-primary/90",
         destructive:
@@ -34,7 +34,7 @@ const tagVariants = cva(
       },
       shape: {
         default: "rounded-sm",
-        rounded: "rounded-lg",
+        rounded: "rounded-md",
         square: "rounded-none",
         pill: "rounded-full",
       },

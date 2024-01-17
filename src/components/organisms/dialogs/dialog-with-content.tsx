@@ -24,7 +24,7 @@ type DialogWithContentProps = {
   onOpenChange?: (open: boolean) => void;
 };
 
-export function DialogWithContent({
+export default function DialogWithContent({
   children,
   title,
   content,

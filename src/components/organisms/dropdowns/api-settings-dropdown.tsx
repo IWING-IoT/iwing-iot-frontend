@@ -1,5 +1,5 @@
 "use client";
-import { DialogWithContent } from "@/components/organisms/dialogs/dialog-with-content";
+import DialogWithContent from "@/components/organisms/dialogs/dialog-with-content";
 import { PostActionDialog } from "@/components/organisms/dialogs/post-action-dialog";
 import Restricted from "@/components/providers/permission-provider/restricted";
 import { CodeBlock } from "@/components/atoms/code-block";

@@ -34,11 +34,11 @@ export function MarkDownEditor({ value, setValue }: MarkDownEditorProps) {
   }
   return (
     <ResizablePanelGroup direction="horizontal">
-      <ResizablePanel className="rounded-l-md border p-4">
+      <ResizablePanel className="rounded-l-lg border p-4">
         <CodeEditor value={value} setValue={setValue} />
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel className="rounded-r-md border p-4">
+      <ResizablePanel className="rounded-r-lg border p-4">
         <MarkdownPreview value={value} />
       </ResizablePanel>
     </ResizablePanelGroup>

@@ -17,7 +17,7 @@ import {
   Trash2,
   User,
 } from "lucide-react";
-import { DialogWithContent } from "../dialogs/dialog-with-content";
+import DialogWithContent from "../dialogs/dialog-with-content";
 import { formatDate, onDialogOpenChange, onDropdownSelect } from "@/lib/utils";
 import { TDeploymentDetails } from "@/lib/type";
 import { PatchActionDialog } from "../dialogs/patch-action-dialog";

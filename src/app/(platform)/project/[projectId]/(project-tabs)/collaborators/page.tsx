@@ -8,7 +8,7 @@ import {
   CardHeaderTextContent,
   CardHeaderTitle,
 } from "@/components/molecules/card-header";
-import { DialogWithContent } from "@/components/organisms/dialogs/dialog-with-content";
+import DialogWithContent from "@/components/organisms/dialogs/dialog-with-content";
 import Restricted from "@/components/providers/permission-provider/restricted";
 import { TableWrapper } from "@/components/templates/table-wrapper";
 import { Button } from "@/components/ui/button";

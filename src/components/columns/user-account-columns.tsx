@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "../data-table/column-header";
 import { Button } from "../ui/button";
 import { Pen } from "lucide-react";
-import { DialogWithContent } from "../organisms/dialogs/dialog-with-content";
+import DialogWithContent from "../organisms/dialogs/dialog-with-content";
 import { EditUserAccountForm } from "../forms/edit-user-account-form";
 import { CustomAvatar } from "../atoms/custom-avatar";
 import { TUserAccountDetails } from "@/lib/type";

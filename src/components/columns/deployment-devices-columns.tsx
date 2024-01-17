@@ -13,13 +13,17 @@ import {
   Thermometer,
   ThermometerSun,
 } from "lucide-react";
-import { DeploymentDevicesColumnsDropdown } from "../organisms/dropdowns/deployment-devices-columns-dropdown";
+import { DeploymentDevicesDropdown } from "../organisms/dropdowns/deployment-devices-dropdown";
 
 export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
   {
     accessorKey: "alias",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Device name" />
+      <DataTableColumnHeader
+        column={column}
+        title="Device name"
+        enableToggleColumns
+      />
     ),
     cell: ({ row }) => {
       const alias = row.original.alias;
@@ -40,7 +44,7 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
     cell: ({ row }) => {
       const associate = row.original.associate;
       return (
-        <div className="flex w-max gap-1">
+        <div className="flex w-max gap-1 text-foreground">
           {associate.length !== 0
             ? associate.map((item) => (
                 <Badge key={item.id} variant={"modern"}>
@@ -55,7 +59,11 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
   {
     accessorKey: "status",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
+      <DataTableColumnHeader
+        column={column}
+        title="Status"
+        enableToggleColumns
+      />
     ),
     cell: ({ row }) => {
       const status = row.original.status;
@@ -72,7 +80,11 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
   {
     accessorKey: "battery",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Battery" />
+      <DataTableColumnHeader
+        column={column}
+        title="Battery"
+        enableToggleColumns
+      />
     ),
     cell: ({ row }) => {
       const battery = row.original.battery;
@@ -92,7 +104,11 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
   {
     accessorKey: "temperature",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Temperature" />
+      <DataTableColumnHeader
+        column={column}
+        title="Temperature"
+        enableToggleColumns
+      />
     ),
     cell: ({ row }) => {
       const temperature = row.original.temperature;
@@ -112,7 +128,11 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
   {
     accessorKey: "lastCommunication",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Last communicate" />
+      <DataTableColumnHeader
+        column={column}
+        title="Last communicate"
+        enableToggleColumns
+      />
     ),
     cell: ({ row }) => {
       const lastCommunicate = row.original.lastCommunuication;
@@ -126,21 +146,33 @@ export const deploymentDevicesColumns: ColumnDef<TDeploymentDeviceDetails>[] = [
     },
   },
   {
-    accessorKey: "JWT",
+    accessorKey: "jwt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="JWT token" />
+      <DataTableColumnHeader
+        column={column}
+        title="JWT token"
+        enableToggleColumns
+      />
     ),
     cell: ({ row }) => {
-      const JWT = row.original.JWT;
-      if (!JWT) return <p>-</p>;
-      return <CopyableInput className="min-w-[10rem]" value={JWT} />;
+      const jwt = row.original.jwt;
+      if (!jwt) return <p>-</p>;
+      return <CopyableInput className="min-w-[10rem]" value={jwt} />;
+    },
+    meta: {
+      clickable: false,
     },
   },
   {
     id: "actions",
     cell: ({ row }) => {
       const data = row.original;
-      return <DeploymentDevicesColumnsDropdown deploymentDeviceData={data} />;
+      return (
+        <DeploymentDevicesDropdown type="inTable" deploymentDeviceData={data} />
+      );
+    },
+    meta: {
+      clickable: false,
     },
   },
 ];

@@ -1,3 +1,5 @@
+import { InteractiveMap } from "@/components/organisms/interactive-map";
+
 export default function Map() {
-  return <div>Map</div>;
+  return <InteractiveMap />;
 }

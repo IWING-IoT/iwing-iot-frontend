@@ -5,7 +5,7 @@ import { DataTableColumnHeader } from "../data-table/column-header";
 import { TDeploymentApi } from "@/lib/type";
 import { Pen, Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
-import { DialogWithContent } from "../organisms/dialogs/dialog-with-content";
+import DialogWithContent from "../organisms/dialogs/dialog-with-content";
 import { EditApiFieldForm } from "../forms/edit-api-field-form";
 import { DeleteActionDialog } from "../organisms/dialogs/delete-action-dialog";
 import Restricted from "../providers/permission-provider/restricted";

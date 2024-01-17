@@ -19,7 +19,7 @@ export function VersionDescriptionCard({
   firmwareVersionData,
 }: VersionDescriptionCardProps) {
   return (
-    <div className="flex w-full flex-col overflow-hidden rounded-md border">
+    <div className="flex w-full flex-col overflow-hidden rounded-lg border">
       <CardHeader className="p-4">
         <CardHeaderTextContent>
           <CardHeaderTitle>

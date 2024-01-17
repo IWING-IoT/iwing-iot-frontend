@@ -7,7 +7,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, PlayCircle, StopCircle, Trash2 } from "lucide-react";
+import {
+  MoreHorizontal,
+  Pen,
+  PlayCircle,
+  StopCircle,
+  Trash2,
+} from "lucide-react";
 import { PatchActionDialog } from "../dialogs/patch-action-dialog";
 import { TDeploymentDeviceDetails, THttpError } from "@/lib/type";
 import { DeleteActionDialog } from "../dialogs/delete-action-dialog";
@@ -17,14 +23,31 @@ import { patchData } from "@/lib/data-fetching";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Restricted from "@/components/providers/permission-provider/restricted";
+import Link from "next/link";
 
-type DeploymentDevicesColumnsDropdownProps = {
-  deploymentDeviceData: TDeploymentDeviceDetails;
-};
+type DeploymentDevicesDropdownProps =
+  | {
+      type: "inTable";
+      deploymentDeviceData: TDeploymentDeviceDetails;
+      projectId?: never;
+      deploymentId?: never;
+      deviceId?: never;
+    }
+  | {
+      type: "inPage";
+      deploymentDeviceData: TDeploymentDeviceDetails;
+      projectId: string;
+      deploymentId: string;
+      deviceId: string;
+    };
 
-export function DeploymentDevicesColumnsDropdown({
+export function DeploymentDevicesDropdown({
   deploymentDeviceData,
-}: DeploymentDevicesColumnsDropdownProps) {
+  projectId,
+  deploymentId,
+  deviceId,
+  type,
+}: DeploymentDevicesDropdownProps) {
   const router = useRouter();
 
   const enableDeploymentDevice = useMutation({
@@ -47,11 +70,24 @@ export function DeploymentDevicesColumnsDropdown({
     <Restricted to="edit">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant={"ghost"} size={"icon"}>
+          <Button
+            variant={type === "inTable" ? "ghost" : "outline"}
+            size={"icon"}
+          >
             <MoreHorizontal className="h-5 w-5" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          {type === "inPage" && (
+            <DropdownMenuItem asChild>
+              <Link
+                href={`/project/${projectId}/deployment/${deploymentId}/device/${deviceId}/edit`}
+              >
+                <Pen className="h-4 w-4 text-muted-foreground" />
+                Edit
+              </Link>
+            </DropdownMenuItem>
+          )}
           {deploymentDeviceData.status === "active" ? (
             <PatchActionDialog
               variant="warning"
@@ -63,13 +99,13 @@ export function DeploymentDevicesColumnsDropdown({
               onOpenChange={onDialogOpenChange}
             >
               <DropdownMenuItem onSelect={onDropdownSelect}>
-                <StopCircle className="h-4 w-4" />
+                <StopCircle className="h-4 w-4 text-muted-foreground" />
                 Stop receiving
               </DropdownMenuItem>
             </PatchActionDialog>
           ) : (
             <DropdownMenuItem onSelect={() => enableDeploymentDevice.mutate()}>
-              <PlayCircle className="h-4 w-4" />
+              <PlayCircle className="h-4 w-4 text-muted-foreground" />
               Start receiving
             </DropdownMenuItem>
           )}
@@ -80,6 +116,11 @@ export function DeploymentDevicesColumnsDropdown({
             action="removeDeploymentDevice"
             id={deploymentDeviceData.id}
             onOpenChange={onDialogOpenChange}
+            redirectTo={
+              type === "inTable"
+                ? undefined
+                : `/project/${projectId}/deployment/${deploymentId}/devices`
+            }
           >
             <DropdownMenuItem
               className="text-destructive data-[highlighted]:text-destructive"

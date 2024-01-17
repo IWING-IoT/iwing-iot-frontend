@@ -14,7 +14,7 @@ import {
   HeaderTitle,
   HeaderTitleAndSupporting,
 } from "@/components/molecules/header";
-import { DialogWithContent } from "@/components/organisms/dialogs/dialog-with-content";
+import DialogWithContent from "@/components/organisms/dialogs/dialog-with-content";
 import Restricted from "@/components/providers/permission-provider/restricted";
 import { MainContainer } from "@/components/templates/main-container";
 import { TableWrapper } from "@/components/templates/table-wrapper";

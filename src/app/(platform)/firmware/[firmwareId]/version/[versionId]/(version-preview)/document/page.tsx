@@ -47,7 +47,7 @@ export default async function Document({ params }: DocumentProps) {
     );
   }
   return (
-    <div className="relative flex-1 rounded-md border p-6">
+    <div className="relative flex-1 rounded-lg border p-6">
       <MarkdownPreview value={firmwareVersionData.markdown} />
       <Button variant={"outline"} className="absolute right-6 top-6" asChild>
         <Link

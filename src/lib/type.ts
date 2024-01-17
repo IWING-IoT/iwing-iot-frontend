@@ -200,8 +200,47 @@ export type TDeploymentDeviceDetails = {
   associate: TEntry[];
   alias: string;
   status: "active" | "inactive";
-  battery: string;
-  temperature: string;
+  battery: number;
+  temperature: number;
   lastCommunuication: string;
-  JWT: string;
+  jwt: string;
+};
+
+export type TMessage = {
+  id: string;
+  createdAt: string;
+  latitude: number;
+  longitude: number;
+  [x: string]: string | number | boolean;
+};
+
+export type TMapPin = {
+  id: string;
+  name: string;
+  latitude: number;
+  longitude: number;
+  lastMessage: TMessage;
+};
+
+export type TAllEntryInProject = {
+  id: string;
+  name: string;
+  entry: TEntry[];
+};
+
+export type TDeviceFirmware = {
+  [T in TFirmwareType]?: TDeviceFirmwareDetails;
+};
+
+export type TDeviceFirmwareDetails = {
+  id: string;
+  firmware: {
+    id: string;
+    name: string;
+  };
+  firmwareVersion: {
+    id: string;
+    name: string;
+  };
+  autoUpdate: boolean;
 };

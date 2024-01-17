@@ -41,6 +41,7 @@ interface DataTableProps<TData extends WithId, TValue> {
   clickableRowsBaseURL?: string;
   clickableRowsTrailURL?: string;
   searchByColumn?: string;
+  showToolbar?: boolean;
 }
 
 export function DataTable<TData extends WithId, TValue>({
@@ -51,6 +52,7 @@ export function DataTable<TData extends WithId, TValue>({
   clickableRowsBaseURL,
   clickableRowsTrailURL,
   searchByColumn = "name",
+  showToolbar = true,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
   const table = useReactTable({
@@ -64,11 +66,13 @@ export function DataTable<TData extends WithId, TValue>({
 
   return (
     <>
-      <DataTableGeneralToolbar
-        table={table}
-        enableToggleColumns={enableToggleColumns}
-        searchByColumn={searchByColumn}
-      />
+      {showToolbar && (
+        <DataTableGeneralToolbar
+          table={table}
+          enableToggleColumns={enableToggleColumns}
+          searchByColumn={searchByColumn}
+        />
+      )}
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -94,19 +98,24 @@ export function DataTable<TData extends WithId, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className={clickableRows ? "cursor-pointer" : ""}
-                onClick={() => {
-                  if (clickableRows) {
-                    router.push(
-                      `${clickableRowsBaseURL}/${row.id}${
-                        clickableRowsTrailURL ? clickableRowsTrailURL : ""
-                      }`,
-                    );
-                  }
-                }}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell
+                    key={cell.id}
+                    className={clickableRows ? "cursor-pointer" : ""}
+                    onClick={() => {
+                      if (
+                        clickableRows &&
+                        cell.column.columnDef.meta?.clickable !== false
+                      ) {
+                        router.push(
+                          `${clickableRowsBaseURL}/${row.id}${
+                            clickableRowsTrailURL ? clickableRowsTrailURL : ""
+                          }`,
+                        );
+                      }
+                    }}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}

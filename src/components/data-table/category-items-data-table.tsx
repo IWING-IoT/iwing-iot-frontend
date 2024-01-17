@@ -33,7 +33,7 @@ import {
 } from "../molecules/empty-state";
 import { NotFoundIllustration } from "../atoms/illustrations/not-found-illustration";
 import { DataTableGeneralToolbar } from "./general-toolbar";
-import { DialogWithContent } from "../organisms/dialogs/dialog-with-content";
+import DialogWithContent from "../organisms/dialogs/dialog-with-content";
 import { Button } from "../ui/button";
 import { Eye, Pen, Trash2 } from "lucide-react";
 import Restricted from "../providers/permission-provider/restricted";
@@ -70,6 +70,7 @@ export function CategoryItemsDataTable({
         <DataTableColumnHeader
           column={column}
           title={categoryData.mainAttribute}
+          enableToggleColumns
         />
       ),
       cell: ({ row }) => {
@@ -114,7 +115,11 @@ export function CategoryItemsDataTable({
       return {
         accessorKey: key.accessorKey,
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title={key.accessorKey} />
+          <DataTableColumnHeader
+            column={column}
+            title={key.accessorKey}
+            enableToggleColumns
+          />
         ),
         cell: ({ row }) => {
           let data = "";
@@ -133,7 +138,11 @@ export function CategoryItemsDataTable({
       return {
         accessorKey: key.accessorKey,
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title={key.accessorKey} />
+          <DataTableColumnHeader
+            column={column}
+            title={key.accessorKey}
+            enableToggleColumns
+          />
         ),
         cell: ({ row }) => {
           const data = row.getValue(key.accessorKey)

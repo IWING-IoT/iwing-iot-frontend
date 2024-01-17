@@ -1,6 +1,6 @@
 "use client";
 import { DeleteActionDialog } from "@/components/organisms/dialogs/delete-action-dialog";
-import { DialogWithContent } from "@/components/organisms/dialogs/dialog-with-content";
+import DialogWithContent from "@/components/organisms/dialogs/dialog-with-content";
 import { PatchActionDialog } from "@/components/organisms/dialogs/patch-action-dialog";
 import Restricted from "@/components/providers/permission-provider/restricted";
 import { Button } from "@/components/ui/button";
