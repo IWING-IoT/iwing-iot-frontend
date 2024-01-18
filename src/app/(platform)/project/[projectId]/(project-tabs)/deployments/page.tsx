@@ -15,13 +15,18 @@ import {
   SectionHeaderTextContent,
   SectionHeaderTitle,
 } from "@/components/molecules/section-header";
-import DialogWithContent from "@/components/organisms/dialogs/dialog-with-content";
 import Restricted from "@/components/providers/permission-provider/restricted";
 import { CardGrid } from "@/components/templates/card-grid";
 import { Button } from "@/components/ui/button";
 import { fetchData } from "@/lib/data-fetching";
 import { TDeployment } from "@/lib/type";
 import { Plus } from "lucide-react";
+import dynamic from "next/dynamic";
+
+const DialogWithContent = dynamic(
+  () => import("@/components/organisms/dialogs/dialog-with-content"),
+  { ssr: false },
+);
 
 type DeploymentProps = {
   params: { projectId: string };

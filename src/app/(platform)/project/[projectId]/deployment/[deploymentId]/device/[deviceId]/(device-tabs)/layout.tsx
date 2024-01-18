@@ -41,6 +41,12 @@ export default async function Layout({ children, params }: LayoutProps) {
     { label: "Messages", href: "messages" },
     { label: "Firmware", href: "firmware" },
   ];
+  const gatewayTabs = [
+    { label: "Overview", href: "overview" },
+    { label: "Nodes", href: "nodes" },
+    { label: "Messages", href: "messages" },
+    { label: "Firmware", href: "firmware" },
+  ];
   const { data: projectData }: { data: TProjectDetails } = await fetchData(
     `/project/${params.projectId}`,
   );
@@ -103,7 +109,10 @@ export default async function Layout({ children, params }: LayoutProps) {
             />
           </HeaderActions>
         </HeaderContent>
-        <NavTabs tabs={tabs} layoutId="deploymentDevice" />
+        <NavTabs
+          tabs={deviceData.type === "gateway" ? gatewayTabs : tabs}
+          layoutId="deploymentDevice"
+        />
       </Header>
       <MainContainer>{children}</MainContainer>
     </>

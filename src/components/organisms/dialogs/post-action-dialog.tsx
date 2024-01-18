@@ -8,7 +8,7 @@ import { toast } from "sonner";
 
 type PostActionDialogProps = {
   children: React.ReactNode;
-  variant: "brand" | "error" | "success" | "warning";
+  variant: "error" | "success" | "warning";
   icon: React.ReactNode;
   title: string;
   description: string;
