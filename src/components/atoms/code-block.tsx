@@ -16,7 +16,9 @@ export function CodeBlock({ code, language, className }: CodeBlockProps) {
       <SyntaxHighlighter
         language={language}
         style={a11yDark}
-        customStyle={{ height: "100%" }}
+        customStyle={{
+          height: "100%",
+        }}
         wrapLongLines
       >
         {code}
