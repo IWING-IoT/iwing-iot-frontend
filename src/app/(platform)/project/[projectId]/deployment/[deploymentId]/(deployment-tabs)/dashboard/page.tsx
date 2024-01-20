@@ -6,18 +6,16 @@ import { cardContent } from "@/lib/mock";
 
 export default function Dashboard() {
   return (
-    <MainContainer>
-      <CardGrid>
-        {cardContent.map((card, index) => (
-          <MetricCard
-            key={index}
-            type="chart"
-            heading={card.heading}
-            metric={card.metric}
-            chartType="tinyLineChart"
-          />
-        ))}
-      </CardGrid>
-    </MainContainer>
+    <CardGrid>
+      {cardContent.map((card, index) => (
+        <MetricCard
+          key={index}
+          type="chart"
+          heading={card.heading}
+          metric={card.metric}
+          chartType="tinyLineChart"
+        />
+      ))}
+    </CardGrid>
   );
 }

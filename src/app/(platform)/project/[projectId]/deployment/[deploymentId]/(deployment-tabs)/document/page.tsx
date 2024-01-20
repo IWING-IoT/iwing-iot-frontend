@@ -27,7 +27,6 @@ export default async function Document({ params }: DocumentProps) {
     await fetchData(`/phase/${params.deploymentId}`);
   if (!deploymentData.description) {
     return (
-      <MainContainer>
         <EmptyState>
           <EmptyStateImage>
             <DocumentIllustration />
@@ -48,11 +47,9 @@ export default async function Document({ params }: DocumentProps) {
             </EmptyStateAction>
           </Restricted>
         </EmptyState>
-      </MainContainer>
     );
   }
   return (
-    <MainContainer>
       <div className="relative flex-1 rounded-lg border p-6">
         <MarkdownPreview value={deploymentData.description} />
         <Restricted to="edit">
@@ -70,6 +67,5 @@ export default async function Document({ params }: DocumentProps) {
           </Button>
         </Restricted>
       </div>
-    </MainContainer>
   );
 }
