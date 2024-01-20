@@ -60,11 +60,11 @@ function getRelativeTimeString(date: Date | number, locales = "en"): string {
 }
 
 export function formatDate(
-  dateString: string,
+  dateInput: string | Date,
   formatType: "default" | "relative" = "default",
   withTime = false,
 ) {
-  const date = new Date(dateString);
+  const date = new Date(dateInput);
   const options: Intl.DateTimeFormatOptions = withTime
     ? {
         dateStyle: "long",
@@ -129,3 +129,7 @@ export const firmwareType: Record<TFirmwareType, string> = {
   config: "Config file",
   binary: "Binary file",
 };
+
+export function subtractDay(date: Date, day: number): Date {
+  return new Date(date.getTime() - day * 24 * 60 * 60 * 1000);
+}
