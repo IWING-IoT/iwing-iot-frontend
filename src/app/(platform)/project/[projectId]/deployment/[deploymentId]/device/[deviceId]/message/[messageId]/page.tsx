@@ -12,8 +12,7 @@ import {
 import { MetricCard } from "@/components/molecules/metric-card";
 import { MainContainer } from "@/components/templates/main-container";
 import { fetchData } from "@/lib/data-fetching";
-import { cardContent } from "@/lib/mock";
-import { TDeploymentDetails, TMessage, TProjectDetails } from "@/lib/type";
+import { TMessage } from "@/lib/type";
 import { formatDate } from "@/lib/utils";
 import dynamic from "next/dynamic";
 
@@ -62,10 +61,10 @@ export default async function Message({ params }: MessageProps) {
           </HeaderTitle>
         </HeaderTitleAndSupporting>
       </Header>
-      <MainContainer className="flex flex-col-reverse sm:grid sm:grid-cols-2">
-        <div className="grid h-fit grid-cols-2 gap-3">
+      <MainContainer className="grid grid-cols-1 sm:grid-cols-2">
+        {/* <div className="grid h-fit grid-cols-2 gap-3">
           {Object.entries(messageData).map(([key, value]) => {
-            if (key === "createdAt") return null;
+            if (key === "createdAt" || key === "receivedAt") return null;
             return (
               <MetricCard
                 type="simple"
@@ -75,14 +74,19 @@ export default async function Message({ params }: MessageProps) {
               />
             );
           })}
-        </div>
-        <LeafletMap
+        </div> */}
+        <CodeBlock
           className="rounded-lg"
-          center={[messageData.latitude, messageData.longitude]}
-          zoom={13}
-          scrollWheelZoom={true}
+          language="json"
+          code={JSON.stringify(messageData, null, 2)}
+        />
+        <LeafletMap
+          type="default"
+          className="rounded-lg"
+          scrollWheelZoom
           markers={[
             {
+              id: messageData.id,
               position: [messageData.latitude, messageData.longitude],
               content: (
                 <div className="flex flex-col">
