@@ -99,7 +99,9 @@ export default async function Layout({ children, params }: LayoutProps) {
             {/* <HeaderDescription>{deviceData.name}</HeaderDescription> */}
           </HeaderTitleAndSupporting>
           <HeaderActions>
-            <JWTDropdown jwt={deviceData.jwt} deviceId={params.deviceId} />
+            {deviceData.jwt && (
+              <JWTDropdown jwt={deviceData.jwt} deviceId={params.deviceId} />
+            )}
             <DeploymentDevicesDropdown
               type="inPage"
               deploymentDeviceData={deviceData}
