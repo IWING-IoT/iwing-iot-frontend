@@ -209,6 +209,7 @@ export type TDeploymentDeviceDetails = {
 export type TMessage = {
   id: string;
   createdAt: string;
+  receivedAt: string;
   latitude: number;
   longitude: number;
   [x: string]: string | number | boolean;
@@ -243,4 +244,37 @@ export type TDeviceFirmwareDetails = {
     name: string;
   };
   autoUpdate: boolean;
+};
+
+export type TDevicePosition = {
+  devicePhaseId: string;
+  name: string;
+  alias: string;
+  latitude: number;
+  longitude: number;
+  battery: number;
+  temperature: number;
+  lastConnection: string;
+  type: "standalone" | "gateway" | "node";
+};
+
+export type TArea = {
+  id: string;
+  name: string;
+  description: string;
+  isActive: boolean;
+  coordinates: [number, number][];
+  alert: number;
+};
+
+export type TPath = {
+  devicePhaseId: string;
+  name: string;
+  alias: string;
+  path: {
+    id: string;
+    createdAt: string;
+    latitude: number;
+    longitude: number;
+  }[];
 };
