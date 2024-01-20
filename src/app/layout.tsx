@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono, Inter, Anuphan } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { NextAuthProvider } from "@/components/providers/nextauth-provider";
@@ -28,6 +28,20 @@ const jetbrains_mono = JetBrains_Mono({
   display: "swap",
 });
 
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const anuphan = Anuphan({
+  subsets: ["thai"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-anuphan",
+  display: "swap",
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -36,7 +50,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${jetbrains_mono.variable}`}
+      className={`${jetbrains_mono.variable} ${inter.variable} ${anuphan.variable}`}
       suppressHydrationWarning
     >
       <body className="font-sans">
