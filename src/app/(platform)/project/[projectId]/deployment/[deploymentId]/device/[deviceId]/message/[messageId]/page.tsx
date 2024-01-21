@@ -84,6 +84,7 @@ export default async function Message({ params }: MessageProps) {
           type="default"
           className="rounded-lg"
           scrollWheelZoom
+          bounds={[[messageData.latitude, messageData.longitude]]}
           markers={[
             {
               id: messageData.id,

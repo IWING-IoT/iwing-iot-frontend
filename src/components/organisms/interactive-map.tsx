@@ -23,6 +23,7 @@ import {
 import { EmptyIllustration } from "../atoms/illustrations/empty-illustration";
 import { useAtom } from "jotai";
 import { deviceVisibilityAtom } from "@/store/atoms";
+import { LatLngBoundsExpression, LatLngExpression, LatLngTuple } from "leaflet";
 
 const LeafletMap = dynamic(() => import("@/components/organisms/leaflet-map"), {
   ssr: false,
@@ -134,6 +135,10 @@ export function InteractiveMap({
         ) : (
           <LeafletMap
             type="withLayerControl"
+            bounds={
+              results[0].data?.map((item) => [item.latitude, item.longitude]) ??
+              []
+            }
             layers={[
               {
                 name: "Device marker",
@@ -204,6 +209,13 @@ export function InteractiveMap({
       ) : (
         <LeafletMap
           type="withLayerControl"
+          bounds={
+            results[2].data?.flatMap((item) =>
+              item.path.map(
+                (path) => [path.latitude, path.longitude] as LatLngTuple,
+              ),
+            ) ?? []
+          }
           layers={[
             {
               name: "Path",

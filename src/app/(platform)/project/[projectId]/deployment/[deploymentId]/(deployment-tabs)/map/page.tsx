@@ -13,7 +13,6 @@ type MapProps = {
     startAt?: string;
     endAt?: string;
     id?: string;
-    searchQuery?: string;
   };
 };
 
@@ -22,7 +21,6 @@ export default function Map({ params, searchParams }: MapProps) {
   const startAt = searchParams?.startAt;
   const endAt = searchParams?.endAt;
   const id = searchParams?.id;
-  const searchQuery = searchParams?.searchQuery;
 
   if (!mode) {
     redirect(
@@ -55,7 +53,6 @@ export default function Map({ params, searchParams }: MapProps) {
         startAt={startAt}
         endAt={endAt}
         id={id}
-        searchQuery={searchQuery}
       />
     </div>
   );

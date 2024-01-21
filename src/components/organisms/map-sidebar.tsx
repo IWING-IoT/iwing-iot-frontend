@@ -21,8 +21,9 @@ import { ChevronLeft } from "lucide-react";
 import { Button } from "../ui/button";
 import { Search } from "../atoms/search";
 import { Skeleton } from "../ui/skeleton";
-import { CustomizeDeviceVisibilityDialog } from "./dialogs/customize-device-visibility-dialog";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { DataTable } from "../data-table/data-table";
+import { customizeDeviceVisibilityColumns } from "../columns/customize-device-visibility-columns";
 
 type MapSidebarProps = {
   deploymentId: string;
@@ -30,7 +31,6 @@ type MapSidebarProps = {
   startAt: string | undefined;
   endAt: string | undefined;
   id: string | undefined;
-  searchQuery: string | undefined;
 };
 
 export function MapSidebar({
@@ -39,10 +39,24 @@ export function MapSidebar({
   startAt,
   endAt,
   id,
-  searchQuery,
 }: MapSidebarProps) {
   const [position, setPosition] = useAtom(mapActionAtom);
   const [deviceVisibility, setDeviceVisibility] = useAtom(deviceVisibilityAtom);
+  const initialRowSelection = deviceVisibility.reduce(
+    (acc, curr) => ({ ...acc, [curr]: true }),
+    {},
+  );
+  const [rowSelection, setRowSelection] = useState<{ [key: string]: boolean }>(
+    initialRowSelection,
+  );
+  useEffect(() => {
+    // console.log(rowSelection);
+    const selectedDevices = Object.keys(rowSelection).filter(
+      (key) => rowSelection[key],
+    );
+    setDeviceVisibility(selectedDevices);
+  }, [rowSelection]);
+
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
@@ -137,47 +151,25 @@ export function MapSidebar({
           <CardHeaderTextContent>
             <CardHeaderTitle>Devices</CardHeaderTitle>
           </CardHeaderTextContent>
-          <CardHeaderActions>
-            <CustomizeDeviceVisibilityDialog data={results[0].data} />
-          </CardHeaderActions>
         </CardHeader>
-        <div className="p-4">
-          <Search placeholder="Search by device alias" />
-        </div>
-        <ScrollArea>
-          {results[0].data
-            ?.filter((item) => {
-              if (!deviceVisibility.includes(item.id)) {
-                return false;
-              } else if (searchQuery) {
-                return item.alias
-                  .toLowerCase()
-                  .includes(searchQuery.toLowerCase());
-              } else {
-                return true;
-              }
-            })
-            .map((item) => (
-              <div
-                key={item.id}
-                className="flex cursor-pointer flex-col border-t p-6 hover:bg-accent"
-                onClick={() => {
-                  setPosition({
-                    type: "flyTo",
-                    position: [item.latitude, item.longitude],
-                  });
-                  handleClickDevice(item.id);
-                }}
-              >
-                <div className="flex justify-between">
-                  <p className="font-semibold">{item.alias}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {formatDate(item.lastConnection, "relative")}
-                  </p>
-                </div>
-              </div>
-            ))}
-        </ScrollArea>
+        <DataTable
+          columns={customizeDeviceVisibilityColumns}
+          data={results[0].data ?? []}
+          searchByColumn="alias"
+          rowSelection={rowSelection}
+          setRowSelection={setRowSelection}
+          clickableRows
+          onRowClick={(row) => {
+            if ("latitude" in row && "longitude" in row) {
+              setPosition({
+                type: "flyTo",
+                position: [row.latitude, row.longitude],
+              });
+              handleClickDevice(row.id);
+            }
+          }}
+          highlightOnSelected={false}
+        />
       </div>
     );
   } else {
@@ -190,41 +182,28 @@ export function MapSidebar({
           <CardHeaderTextContent>
             <CardHeaderTitle>Devices</CardHeaderTitle>
           </CardHeaderTextContent>
-          <CardHeaderActions>
-            <CustomizeDeviceVisibilityDialog data={results[1].data} />
-          </CardHeaderActions>
         </CardHeader>
-        <Search
-          className="rounded-none border-none"
-          placeholder="Search by device alias"
+        <DataTable
+          columns={customizeDeviceVisibilityColumns}
+          data={results[1].data ?? []}
+          searchByColumn="alias"
+          rowSelection={rowSelection}
+          setRowSelection={setRowSelection}
+          clickableRows
+          onRowClick={(row) => {
+            if ("path" in row) {
+              setPosition({
+                type: "flyToBounds",
+                position: row.path.map((item) => [
+                  item.latitude,
+                  item.longitude,
+                ]),
+              });
+            }
+            handleClickDevice(row.id);
+          }}
+          highlightOnSelected={false}
         />
-        <ScrollArea>
-          {results[1].data
-            ?.filter(
-              (item) =>
-                deviceVisibility.includes(item.alias) && item.path.length > 1,
-            )
-            .map((item) => (
-              <div
-                key={item.id}
-                className="flex cursor-pointer flex-col border-t p-6 hover:bg-accent"
-                onClick={() => {
-                  setPosition({
-                    type: "flyToBounds",
-                    position: item.path.map((item) => [
-                      item.latitude,
-                      item.longitude,
-                    ]),
-                  });
-                  handleClickDevice(item.id);
-                }}
-              >
-                <div className="flex justify-between">
-                  <p className="font-semibold">{item.alias}</p>
-                </div>
-              </div>
-            ))}
-        </ScrollArea>
       </div>
     );
   }

@@ -19,12 +19,14 @@ import { cn } from "@/lib/utils";
 import { useAtom } from "jotai";
 import { mapActionAtom } from "@/store/atoms";
 import { useEffect } from "react";
+import { LatLngBoundsExpression } from "leaflet";
 
 type LeafletMapProps =
   | {
       type: "default";
       scrollWheelZoom: boolean;
       className?: string;
+      bounds: LatLngBoundsExpression;
       markers: {
         id: string;
         position: [number, number];
@@ -36,6 +38,7 @@ type LeafletMapProps =
       type: "withLayerControl";
       scrollWheelZoom: boolean;
       className?: string;
+      bounds: LatLngBoundsExpression;
       markers?: never;
       layers: {
         name: string;
@@ -61,24 +64,14 @@ export default function LeafletMap({
   type,
   scrollWheelZoom,
   className,
+  bounds,
   markers,
   layers,
 }: LeafletMapProps) {
   return (
     <MapContainer
       className={cn("z-0 h-full min-h-[32rem] w-full", className)}
-      bounds={
-        type === "default"
-          ? markers?.map((marker) => marker.position)
-          : layers
-              .map((layer) =>
-                layer.markers
-                  ? layer.markers?.map((marker) => marker.position)
-                  : layer.vectors?.map((vector) => vector.position),
-              )
-              .flat()
-              .filter((item): item is [number, number] => item !== undefined)
-      }
+      bounds={bounds}
       scrollWheelZoom={scrollWheelZoom}
     >
       <TileLayer
