@@ -30,6 +30,7 @@ import { NotFoundIllustration } from "../atoms/illustrations/not-found-illustrat
 import { DataTableGeneralToolbar } from "./general-toolbar";
 import { useRouter } from "next/navigation";
 import { EmptyIllustration } from "../atoms/illustrations/empty-illustration";
+import { ScrollArea } from "../ui/scroll-area";
 
 interface WithId {
   id: string;
@@ -46,6 +47,8 @@ interface DataTableProps<TData extends WithId, TValue> {
   showToolbar?: boolean;
   rowSelection?: RowSelectionState;
   setRowSelection?: OnChangeFn<RowSelectionState>;
+  onRowClick?: (row: TData) => void;
+  highlightOnSelected?: boolean;
 }
 
 export function DataTable<TData extends WithId, TValue>({
@@ -59,6 +62,8 @@ export function DataTable<TData extends WithId, TValue>({
   showToolbar = true,
   rowSelection,
   setRowSelection,
+  onRowClick,
+  highlightOnSelected = true,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
   const table = useReactTable({
@@ -83,83 +88,102 @@ export function DataTable<TData extends WithId, TValue>({
           searchByColumn={searchByColumn}
         />
       )}
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell
-                    key={cell.id}
-                    className={clickableRows ? "cursor-pointer" : ""}
-                    onClick={() => {
-                      if (
+      <ScrollArea>
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={
+                    row.getIsSelected() && highlightOnSelected && "selected"
+                  }
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className={
                         clickableRows &&
                         cell.column.columnDef.meta?.clickable !== false
-                      ) {
-                        router.push(
-                          `${clickableRowsBaseURL}/${row.id}${
-                            clickableRowsTrailURL ? clickableRowsTrailURL : ""
-                          }`,
-                        );
+                          ? "cursor-pointer"
+                          : ""
                       }
-                    }}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+                      onClick={() => {
+                        if (
+                          clickableRows &&
+                          cell.column.columnDef.meta?.clickable !== false &&
+                          onRowClick
+                        ) {
+                          onRowClick(row.original);
+                        } else if (
+                          clickableRows &&
+                          cell.column.columnDef.meta?.clickable !== false &&
+                          clickableRowsBaseURL
+                        ) {
+                          router.push(
+                            `${clickableRowsBaseURL}/${row.id}${
+                              clickableRowsTrailURL ? clickableRowsTrailURL : ""
+                            }`,
+                          );
+                        }
+                      }}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length}>
+                  <EmptyState>
+                    <EmptyStateImage>
+                      {data.length > 0 ? (
+                        <NotFoundIllustration />
+                      ) : (
+                        <EmptyIllustration />
+                      )}
+                    </EmptyStateImage>
+                    <EmptyStateTextContent>
+                      <EmptyStateTitle>
+                        {data.length > 0
+                          ? "No results were found"
+                          : "This table is empty"}
+                      </EmptyStateTitle>
+                      <EmptyStateDescription>
+                        {data.length > 0
+                          ? "Try different keywords or remove search filters."
+                          : "Try adding a new item and it will appear here."}
+                      </EmptyStateDescription>
+                    </EmptyStateTextContent>
+                  </EmptyState>
+                </TableCell>
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length}>
-                <EmptyState>
-                  <EmptyStateImage>
-                    {data.length > 0 ? (
-                      <NotFoundIllustration />
-                    ) : (
-                      <EmptyIllustration />
-                    )}
-                  </EmptyStateImage>
-                  <EmptyStateTextContent>
-                    <EmptyStateTitle>
-                      {data.length > 0
-                        ? "No results were found"
-                        : "This table is empty"}
-                    </EmptyStateTitle>
-                    <EmptyStateDescription>
-                      {data.length > 0
-                        ? "Try different keywords or remove search filters."
-                        : "Try adding a new item and it will appear here."}
-                    </EmptyStateDescription>
-                  </EmptyStateTextContent>
-                </EmptyState>
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            )}
+          </TableBody>
+        </Table>
+      </ScrollArea>
     </>
   );
 }

@@ -30,6 +30,9 @@ export const customizeDeviceVisibilityColumns: ColumnDef<
     ),
     enableSorting: false,
     enableHiding: false,
+    meta: {
+      clickable: false,
+    },
   },
   {
     accessorKey: "alias",
