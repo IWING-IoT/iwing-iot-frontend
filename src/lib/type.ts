@@ -247,7 +247,7 @@ export type TDeviceFirmwareDetails = {
 };
 
 export type TDevicePosition = {
-  devicePhaseId: string;
+  id: string;
   name: string;
   alias: string;
   latitude: number;
@@ -267,8 +267,8 @@ export type TArea = {
   alert: number;
 };
 
-export type TPath = {
-  devicePhaseId: string;
+export type TDevicePath = {
+  id: string;
   name: string;
   alias: string;
   path: {
