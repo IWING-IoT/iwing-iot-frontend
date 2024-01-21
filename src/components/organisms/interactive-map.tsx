@@ -10,11 +10,10 @@ import {
   TArea,
   TDeploymentDeviceDetails,
   TDevicePosition,
-  TPath,
+  TDevicePath,
 } from "@/lib/type";
 import { Skeleton } from "../ui/skeleton";
 import { DateTimePickerDropdown } from "./dropdowns/date-time-picker-dropdown";
-import { MapSidebar } from "./map-sidebar";
 import {
   EmptyState,
   EmptyStateImage,
@@ -22,6 +21,8 @@ import {
   EmptyStateTitle,
 } from "../molecules/empty-state";
 import { EmptyIllustration } from "../atoms/illustrations/empty-illustration";
+import { useAtom } from "jotai";
+import { deviceVisibilityAtom } from "@/store/atoms";
 
 const LeafletMap = dynamic(() => import("@/components/organisms/leaflet-map"), {
   ssr: false,
@@ -29,19 +30,27 @@ const LeafletMap = dynamic(() => import("@/components/organisms/leaflet-map"), {
 
 type InteractiveMapProps = {
   deploymentId: string;
+  mode: "realtime" | "trace";
+  startAt: string | undefined;
+  endAt: string | undefined;
 };
 
-export function InteractiveMap({ deploymentId }: InteractiveMapProps) {
+export function InteractiveMap({
+  deploymentId,
+  mode,
+  startAt,
+  endAt,
+}: InteractiveMapProps) {
   const modes = [
     { label: "Realtime", value: "realtime" },
     { label: "Trace", value: "trace" },
   ];
+
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
-  const mode = searchParams.get("mode") || "realtime";
-  const startAt = searchParams.get("startAt");
-  const endAt = searchParams.get("endAt");
+  const [deviceVisibility, setDeviceVisibility] = useAtom(deviceVisibilityAtom);
+
   function handleChangeDate(key: "startAt" | "endAt", date: Date) {
     const params = new URLSearchParams(searchParams);
     if (key === "startAt" && endAt) {
@@ -81,9 +90,8 @@ export function InteractiveMap({ deploymentId }: InteractiveMapProps) {
       {
         queryKey: [deploymentId, "path", startAt, endAt],
         queryFn: async () => {
-          const { data }: { data: TPath[] | undefined } = await clientFetchData(
-            `/phase/${deploymentId}/map/path`,
-            [
+          const { data }: { data: TDevicePath[] | undefined } =
+            await clientFetchData(`/phase/${deploymentId}/map/path`, [
               {
                 key: "startAt",
                 value: startAt ?? subtractDay(new Date(), 7).toISOString(),
@@ -92,8 +100,7 @@ export function InteractiveMap({ deploymentId }: InteractiveMapProps) {
                 key: "endAt",
                 value: endAt ?? new Date().toISOString(),
               },
-            ],
-          );
+            ]);
           // console.log(data);
           if (data) {
             return data;
@@ -104,6 +111,11 @@ export function InteractiveMap({ deploymentId }: InteractiveMapProps) {
       },
     ],
   });
+  function onClickDevice(id: string) {
+    const params = new URLSearchParams(searchParams);
+    params.set("id", id);
+    replace(`${pathname}?${params.toString()}`);
+  }
 
   return (
     <div className="relative h-full min-h-[32rem] overflow-hidden rounded-lg lg:col-span-2">
@@ -127,9 +139,14 @@ export function InteractiveMap({ deploymentId }: InteractiveMapProps) {
                 name: "Device marker",
                 checked: true,
                 markers: results[0].data
-                  ?.filter((item) => item.latitude && item.longitude)
+                  ?.filter(
+                    (item) =>
+                      deviceVisibility.includes(item.id) &&
+                      item.latitude &&
+                      item.longitude,
+                  )
                   .map((item) => ({
-                    id: item.devicePhaseId,
+                    id: item.id,
                     position: [item.latitude, item.longitude] as [
                       number,
                       number,
@@ -150,6 +167,7 @@ export function InteractiveMap({ deploymentId }: InteractiveMapProps) {
                         </p>
                       </div>
                     ),
+                    onClick: () => onClickDevice(item.id),
                   })),
               },
               {
@@ -190,19 +208,22 @@ export function InteractiveMap({ deploymentId }: InteractiveMapProps) {
             {
               name: "Path",
               checked: true,
-              vectors: results[2].data?.map((item) => ({
-                id: item.devicePhaseId,
-                position: item.path
-                  .filter((item) => item.latitude && item.longitude)
-                  .map((item) => [item.latitude, item.longitude]),
-                color: "blue",
-                type: "polyline",
-                content: (
-                  <div className="flex flex-col font-sans">
-                    <p className="text-base font-medium">{item.name}</p>
-                  </div>
-                ),
-              })),
+              vectors: results[2].data
+                ?.filter((item) => deviceVisibility.includes(item.id))
+                .map((item) => ({
+                  id: item.id,
+                  position: item.path
+                    .filter((item) => item.latitude && item.longitude)
+                    .map((item) => [item.latitude, item.longitude]),
+                  color: "blue",
+                  type: "polyline",
+                  content: (
+                    <div className="flex flex-col font-sans">
+                      <p className="text-base font-medium">{item.name}</p>
+                    </div>
+                  ),
+                  onClick: () => onClickDevice(item.id),
+                })),
             },
             {
               name: "Area",

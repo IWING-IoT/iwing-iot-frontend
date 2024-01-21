@@ -17,3 +17,5 @@ export const mapActionAtom = atom<
   | { type: "flyToBounds"; position: LatLngBoundsExpression }
   | null
 >(null);
+
+export const deviceVisibilityAtom = atom<string[]>([]);

@@ -9,9 +9,11 @@ type MapProps = {
     deploymentId: string;
   };
   searchParams: {
-    mode?: string;
+    mode?: "realtime" | "trace";
     startAt?: string;
     endAt?: string;
+    id?: string;
+    searchQuery?: string;
   };
 };
 
@@ -19,6 +21,8 @@ export default function Map({ params, searchParams }: MapProps) {
   const mode = searchParams?.mode;
   const startAt = searchParams?.startAt;
   const endAt = searchParams?.endAt;
+  const id = searchParams?.id;
+  const searchQuery = searchParams?.searchQuery;
 
   if (!mode) {
     redirect(
@@ -39,8 +43,20 @@ export default function Map({ params, searchParams }: MapProps) {
   }
   return (
     <div className="grid h-full grid-cols-1 gap-6 lg:grid-cols-3">
-      <InteractiveMap deploymentId={params.deploymentId} />
-      <MapSidebar deploymentId={params.deploymentId} />
+      <InteractiveMap
+        deploymentId={params.deploymentId}
+        mode={mode}
+        startAt={startAt}
+        endAt={endAt}
+      />
+      <MapSidebar
+        deploymentId={params.deploymentId}
+        mode={mode}
+        startAt={startAt}
+        endAt={endAt}
+        id={id}
+        searchQuery={searchQuery}
+      />
     </div>
   );
 }

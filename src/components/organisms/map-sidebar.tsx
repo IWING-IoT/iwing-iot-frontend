@@ -2,37 +2,51 @@
 import { cn, formatDate, subtractDay } from "@/lib/utils";
 import {
   CardHeader,
+  CardHeaderActions,
   CardHeaderTextContent,
   CardHeaderTitle,
 } from "../molecules/card-header";
 import { useAtom } from "jotai";
-import { mapActionAtom } from "@/store/atoms";
-import { TDeploymentDeviceDetails, TDevicePosition, TPath } from "@/lib/type";
+import { deviceVisibilityAtom, mapActionAtom } from "@/store/atoms";
+import {
+  TDeploymentDeviceDetails,
+  TDevicePosition,
+  TDevicePath,
+} from "@/lib/type";
 import { ScrollArea } from "../ui/scroll-area";
 import { useQueries } from "@tanstack/react-query";
 import { clientFetchData } from "@/lib/data-fetching";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
-import { useState } from "react";
 import { Button } from "../ui/button";
 import { Search } from "../atoms/search";
 import { Skeleton } from "../ui/skeleton";
+import { CustomizeDeviceVisibilityDialog } from "./dialogs/customize-device-visibility-dialog";
+import { useEffect } from "react";
 
 type MapSidebarProps = {
   deploymentId: string;
+  mode: "realtime" | "trace";
+  startAt: string | undefined;
+  endAt: string | undefined;
+  id: string | undefined;
+  searchQuery: string | undefined;
 };
 
-export function MapSidebar({ deploymentId }: MapSidebarProps) {
+export function MapSidebar({
+  deploymentId,
+  mode,
+  startAt,
+  endAt,
+  id,
+  searchQuery,
+}: MapSidebarProps) {
   const [position, setPosition] = useAtom(mapActionAtom);
-  const router = useRouter();
+  const [deviceVisibility, setDeviceVisibility] = useAtom(deviceVisibilityAtom);
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
-  const mode = searchParams.get("mode") || "realtime";
-  const startAt = searchParams.get("startAt");
-  const endAt = searchParams.get("endAt");
-  const id = searchParams.get("id");
-  const searchQuery = searchParams.get("searchQuery");
+
   const results = useQueries({
     queries: [
       {
@@ -50,9 +64,8 @@ export function MapSidebar({ deploymentId }: MapSidebarProps) {
       {
         queryKey: [deploymentId, "path", startAt, endAt],
         queryFn: async () => {
-          const { data }: { data: TPath[] | undefined } = await clientFetchData(
-            `/phase/${deploymentId}/map/path`,
-            [
+          const { data }: { data: TDevicePath[] | undefined } =
+            await clientFetchData(`/phase/${deploymentId}/map/path`, [
               {
                 key: "startAt",
                 value: startAt ?? subtractDay(new Date(), 7).toISOString(),
@@ -61,8 +74,7 @@ export function MapSidebar({ deploymentId }: MapSidebarProps) {
                 key: "endAt",
                 value: endAt ?? new Date().toISOString(),
               },
-            ],
-          );
+            ]);
           // console.log(data);
           if (data) {
             return data;
@@ -123,17 +135,21 @@ export function MapSidebar({ deploymentId }: MapSidebarProps) {
       <div className="flex h-full flex-col rounded-lg border bg-background">
         <CardHeader className="flex-grow-0">
           <CardHeaderTextContent>
-            <CardHeaderTitle>All devices</CardHeaderTitle>
+            <CardHeaderTitle>Devices</CardHeaderTitle>
           </CardHeaderTextContent>
+          <CardHeaderActions>
+            <CustomizeDeviceVisibilityDialog data={results[0].data} />
+          </CardHeaderActions>
         </CardHeader>
-        <Search
-          className="rounded-none border-none"
-          placeholder="Search by device alias"
-        />
+        <div className="p-4">
+          <Search placeholder="Search by device alias" />
+        </div>
         <ScrollArea>
           {results[0].data
             ?.filter((item) => {
-              if (searchQuery) {
+              if (!deviceVisibility.includes(item.id)) {
+                return false;
+              } else if (searchQuery) {
                 return item.alias
                   .toLowerCase()
                   .includes(searchQuery.toLowerCase());
@@ -143,14 +159,14 @@ export function MapSidebar({ deploymentId }: MapSidebarProps) {
             })
             .map((item) => (
               <div
-                key={item.devicePhaseId}
+                key={item.id}
                 className="flex cursor-pointer flex-col border-t p-6 hover:bg-accent"
                 onClick={() => {
                   setPosition({
                     type: "flyTo",
                     position: [item.latitude, item.longitude],
                   });
-                  handleClickDevice(item.devicePhaseId);
+                  handleClickDevice(item.id);
                 }}
               >
                 <div className="flex justify-between">
@@ -172,8 +188,11 @@ export function MapSidebar({ deploymentId }: MapSidebarProps) {
       <div className="flex h-full flex-col rounded-lg border bg-background">
         <CardHeader className="flex-grow-0">
           <CardHeaderTextContent>
-            <CardHeaderTitle>All devices</CardHeaderTitle>
+            <CardHeaderTitle>Devices</CardHeaderTitle>
           </CardHeaderTextContent>
+          <CardHeaderActions>
+            <CustomizeDeviceVisibilityDialog data={results[1].data} />
+          </CardHeaderActions>
         </CardHeader>
         <Search
           className="rounded-none border-none"
@@ -181,10 +200,13 @@ export function MapSidebar({ deploymentId }: MapSidebarProps) {
         />
         <ScrollArea>
           {results[1].data
-            ?.filter((item) => item.path.length > 1)
+            ?.filter(
+              (item) =>
+                deviceVisibility.includes(item.alias) && item.path.length > 1,
+            )
             .map((item) => (
               <div
-                key={item.devicePhaseId}
+                key={item.id}
                 className="flex cursor-pointer flex-col border-t p-6 hover:bg-accent"
                 onClick={() => {
                   setPosition({
@@ -194,7 +216,7 @@ export function MapSidebar({ deploymentId }: MapSidebarProps) {
                       item.longitude,
                     ]),
                   });
-                  handleClickDevice(item.devicePhaseId);
+                  handleClickDevice(item.id);
                 }}
               >
                 <div className="flex justify-between">

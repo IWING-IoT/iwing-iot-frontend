@@ -2,6 +2,8 @@
 
 import {
   ColumnDef,
+  OnChangeFn,
+  RowSelectionState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -42,6 +44,8 @@ interface DataTableProps<TData extends WithId, TValue> {
   clickableRowsTrailURL?: string;
   searchByColumn?: string;
   showToolbar?: boolean;
+  rowSelection?: RowSelectionState;
+  setRowSelection?: OnChangeFn<RowSelectionState>;
 }
 
 export function DataTable<TData extends WithId, TValue>({
@@ -53,6 +57,8 @@ export function DataTable<TData extends WithId, TValue>({
   clickableRowsTrailURL,
   searchByColumn = "name",
   showToolbar = true,
+  rowSelection,
+  setRowSelection,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
   const table = useReactTable({
@@ -62,6 +68,10 @@ export function DataTable<TData extends WithId, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getRowId: (row) => row.id,
+    onRowSelectionChange: setRowSelection || (() => {}),
+    state: {
+      rowSelection: rowSelection || {},
+    },
   });
 
   return (

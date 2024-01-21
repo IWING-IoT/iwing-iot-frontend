@@ -44,6 +44,7 @@ type LeafletMapProps =
           id: string;
           position: [number, number];
           content: React.ReactNode;
+          onClick?: () => void;
         }[];
         vectors?: {
           id: string;
@@ -51,6 +52,7 @@ type LeafletMapProps =
           color: string;
           type: "polyline" | "polygon";
           content: React.ReactNode;
+          onClick?: () => void;
         }[];
       }[];
     };
@@ -104,6 +106,9 @@ export default function LeafletMap({
                   <Marker
                     key={`${marker.id}-${index}`}
                     position={marker.position}
+                    {...(marker.onClick
+                      ? { eventHandlers: { click: marker.onClick } }
+                      : {})}
                   >
                     <Tooltip>{marker.content}</Tooltip>
                   </Marker>
@@ -114,6 +119,9 @@ export default function LeafletMap({
                       key={`${vector.id}-${index}`}
                       pathOptions={{ color: vector.color }}
                       positions={vector.position}
+                      {...(vector.onClick
+                        ? { eventHandlers: { click: vector.onClick } }
+                        : {})}
                     >
                       <Tooltip>{vector.content}</Tooltip>
                     </Polygon>
@@ -122,6 +130,9 @@ export default function LeafletMap({
                       key={`${vector.id}-${index}`}
                       pathOptions={{ color: vector.color }}
                       positions={vector.position}
+                      {...(vector.onClick
+                        ? { eventHandlers: { click: vector.onClick } }
+                        : {})}
                     >
                       <Tooltip>{vector.content}</Tooltip>
                     </Polyline>

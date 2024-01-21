@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Inter, Anuphan } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { NextAuthProvider } from "@/components/providers/nextauth-provider";
@@ -21,38 +20,13 @@ export const metadata: Metadata = {
   description: "IoT Tracking Platform for IWING Lab",
 };
 
-const jetbrains_mono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-jetbrains-mono",
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const anuphan = Anuphan({
-  subsets: ["thai"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-anuphan",
-  display: "swap",
-});
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${jetbrains_mono.variable} ${inter.variable} ${anuphan.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="en" suppressHydrationWarning>
       <body className="font-sans">
         <ThemeProvider
           attribute="class"
