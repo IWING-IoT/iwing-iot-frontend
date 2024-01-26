@@ -1,28 +1,41 @@
 "use client";
-import { Button } from "@/components/ui/button";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-type SearchParamsDropdownProps = {
-  options: {
-    label: string;
-    value: string;
-  }[];
-  name: string;
-  icon?: React.ReactNode;
-};
+type SearchParamsDropdownProps =
+  | {
+      options: {
+        label: string;
+        value: string;
+      }[];
+      paramsName: string;
+      triggerButton?: React.ReactNode;
+      type: "radio";
+    }
+  | {
+      options: {
+        label: string;
+        value: string;
+        icon: React.ReactNode;
+      }[];
+      paramsName: string;
+      triggerButton: React.ReactNode;
+      type: "default";
+    };
 
 export function SearchParamsDropdown({
   options,
-  name,
-  icon,
+  paramsName,
+  triggerButton,
+  type,
 }: SearchParamsDropdownProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -30,34 +43,36 @@ export function SearchParamsDropdown({
 
   const handleChange = (option: string) => {
     const params = new URLSearchParams(searchParams);
-    params.set(name, option);
+    params.set(paramsName, option);
     replace(`${pathname}?${params.toString()}`);
   };
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button className="gap-2" variant="outline">
-          {icon}
-          {
-            options.find(
-              (option) => option.value === searchParams.get(name)?.toString(),
-            )?.label
-          }
-          <ChevronDown className="h-5 w-5" />
-        </Button>
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>{triggerButton}</DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuRadioGroup
-          value={searchParams.get(name)?.toString()}
-          onValueChange={handleChange}
-        >
-          {options.map((option) => (
-            <DropdownMenuRadioItem key={option.value} value={option.value}>
+        {type === "radio" ? (
+          <DropdownMenuRadioGroup
+            value={searchParams.get(paramsName)?.toString()}
+            onValueChange={handleChange}
+          >
+            {options.map((option) => (
+              <DropdownMenuRadioItem key={option.value} value={option.value}>
+                {option.label}
+              </DropdownMenuRadioItem>
+            ))}
+          </DropdownMenuRadioGroup>
+        ) : (
+          options.map((option) => (
+            <DropdownMenuItem
+              key={option.value}
+              onSelect={() => handleChange(option.value)}
+            >
+              {option.icon}
               {option.label}
-            </DropdownMenuRadioItem>
-          ))}
-        </DropdownMenuRadioGroup>
+            </DropdownMenuItem>
+          ))
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
