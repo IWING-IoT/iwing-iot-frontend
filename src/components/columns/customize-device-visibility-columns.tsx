@@ -12,21 +12,25 @@ export const customizeDeviceVisibilityColumns: ColumnDef<
   {
     id: "select",
     header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
+      <div className="flex items-center">
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      </div>
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <div className="flex items-center">
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      </div>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -37,12 +41,22 @@ export const customizeDeviceVisibilityColumns: ColumnDef<
   {
     accessorKey: "alias",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Alias" />
+      <DataTableColumnHeader column={column} title="Device alias" />
     ),
     cell: ({ row }) => {
       const alias = row.original.alias;
       return (
         <p className="w-max text-base font-medium text-foreground">{alias}</p>
+      );
+    },
+  },
+  {
+    id: "drillIn",
+    cell: () => {
+      return (
+        <div className="flex justify-end">
+          <ChevronRight className="text-muted-foreground" />
+        </div>
       );
     },
   },

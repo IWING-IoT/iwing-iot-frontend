@@ -74,7 +74,7 @@ export default async function Layout({ params, children }: LayoutProps) {
         </HeaderContent>
         <NavTabs tabs={tabs} layoutId="deployment" />
       </Header>
-      <MainContainer>{children}</MainContainer>
+      {children}
     </PermissionProvider>
   );
 }

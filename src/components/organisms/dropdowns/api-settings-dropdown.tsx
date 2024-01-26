@@ -41,7 +41,7 @@ export function ApiSettingsDropdown({
           content={
             <Tabs defaultValue="default" className="overflow-hidden">
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="default">Default</TabsTrigger>
+                <TabsTrigger value="default">Standalone</TabsTrigger>
                 <TabsTrigger value="gateway">Gateway</TabsTrigger>
               </TabsList>
               <TabsContent value="default">

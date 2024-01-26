@@ -1,17 +1,18 @@
 "use client";
 import dynamic from "next/dynamic";
-import { MapPin, Route } from "lucide-react";
+import {
+  ChevronDown,
+  LandPlot,
+  MapPin,
+  MoreHorizontal,
+  Route,
+} from "lucide-react";
 import { formatDate, subtractDay } from "@/lib/utils";
 import { SearchParamsDropdown } from "./dropdowns/search-params-dropdown";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQueries } from "@tanstack/react-query";
 import { clientFetchData } from "@/lib/data-fetching";
-import {
-  TArea,
-  TDeploymentDeviceDetails,
-  TDevicePosition,
-  TDevicePath,
-} from "@/lib/type";
+import { TArea, TDevicePosition, TDevicePath, TCustomMarker } from "@/lib/type";
 import { Skeleton } from "../ui/skeleton";
 import { DateTimePickerDropdown } from "./dropdowns/date-time-picker-dropdown";
 import {
@@ -22,8 +23,14 @@ import {
 } from "../molecules/empty-state";
 import { EmptyIllustration } from "../atoms/illustrations/empty-illustration";
 import { useAtom } from "jotai";
-import { deviceVisibilityAtom } from "@/store/atoms";
-import { LatLngBoundsExpression, LatLngExpression, LatLngTuple } from "leaflet";
+import {
+  deviceVisibilityAtom,
+  mapStateAtom,
+  showDialogAtom,
+} from "@/store/atoms";
+import { LatLngTuple } from "leaflet";
+import { Button } from "../ui/button";
+import { useState } from "react";
 
 const LeafletMap = dynamic(() => import("@/components/organisms/leaflet-map"), {
   ssr: false,
@@ -31,26 +38,45 @@ const LeafletMap = dynamic(() => import("@/components/organisms/leaflet-map"), {
 
 type InteractiveMapProps = {
   deploymentId: string;
-  mode: "realtime" | "trace";
+  type: "realtime" | "trace";
   startAt: string | undefined;
   endAt: string | undefined;
+  mode: "view" | "editMarker" | "editGeofencing" | undefined;
 };
 
 export function InteractiveMap({
   deploymentId,
-  mode,
+  type,
   startAt,
   endAt,
+  mode,
 }: InteractiveMapProps) {
-  const modes = [
+  const types = [
     { label: "Realtime", value: "realtime" },
     { label: "Trace", value: "trace" },
   ];
+  const editOptions = [
+    {
+      label: "Edit custom marker",
+      value: "editMarker",
+      icon: <MapPin className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      label: "Edit geofencing",
+      value: "editGeofencing",
+      icon: <LandPlot className="h-4 w-4 text-muted-foreground" />,
+    },
+  ];
+  const [showDialog, setShowDialog] = useAtom(showDialogAtom);
+  const [formData, setFormData] = useState<{
+    name: string;
+    description: string;
+  }>({ name: "", description: "" });
 
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
-  const [deviceVisibility, setDeviceVisibility] = useAtom(deviceVisibilityAtom);
+  const [visibleDevice, setVisibleDevice] = useAtom(deviceVisibilityAtom);
 
   function handleChangeDate(key: "startAt" | "endAt", date: Date) {
     const params = new URLSearchParams(searchParams);
@@ -67,19 +93,20 @@ export function InteractiveMap({
       {
         queryKey: [deploymentId, "realtime"],
         queryFn: async () => {
-          const { data }: { data: TDevicePosition[] | undefined } =
-            await clientFetchData(`/phase/${deploymentId}/map/position`);
+          const { data }: { data: TDevicePosition[] } = await clientFetchData(
+            `/phase/${deploymentId}/map/position`,
+          );
           if (data) {
             return data;
           }
         },
         refetchInterval: 5000,
-        enabled: mode === "realtime",
+        enabled: type === "realtime",
       },
       {
         queryKey: [deploymentId, "area"],
         queryFn: async () => {
-          const { data }: { data: TArea[] | undefined } = await clientFetchData(
+          const { data }: { data: TArea[] } = await clientFetchData(
             `/phase/${deploymentId}/area`,
           );
           // console.log(data);
@@ -91,8 +118,9 @@ export function InteractiveMap({
       {
         queryKey: [deploymentId, "path", startAt, endAt],
         queryFn: async () => {
-          const { data }: { data: TDevicePath[] | undefined } =
-            await clientFetchData(`/phase/${deploymentId}/map/path`, [
+          const { data }: { data: TDevicePath[] } = await clientFetchData(
+            `/phase/${deploymentId}/map/path`,
+            [
               {
                 key: "startAt",
                 value: startAt ?? subtractDay(new Date(), 7).toISOString(),
@@ -101,14 +129,26 @@ export function InteractiveMap({
                 key: "endAt",
                 value: endAt ?? new Date().toISOString(),
               },
-            ]);
+            ],
+          );
           // console.log(data);
           if (data) {
             return data;
           }
         },
         refetchInterval: 5000,
-        enabled: mode === "trace",
+        enabled: type === "trace",
+      },
+      {
+        queryKey: ["customMarker", deploymentId],
+        queryFn: async () => {
+          const { data }: { data: TCustomMarker[] } = await clientFetchData(
+            `/phase/${deploymentId}/map/mark`,
+          );
+          if (data) {
+            return data;
+          }
+        },
       },
     ],
   });
@@ -118,11 +158,120 @@ export function InteractiveMap({
     replace(`${pathname}?${params.toString()}`);
   }
 
+  function onClickExit() {
+    const params = new URLSearchParams(searchParams);
+    params.set("mode", "view");
+    replace(`${pathname}?${params.toString()}`);
+  }
+
+  if (
+    results[0].isLoading ||
+    results[1].isLoading ||
+    results[2].isLoading ||
+    results[3].isLoading
+  ) {
+    return (
+      <div className="relative h-full min-h-[32rem] overflow-hidden rounded-lg lg:col-span-2">
+        <Skeleton className="h-full w-full rounded-none" />
+      </div>
+    );
+  }
+
+  if (mode === "editGeofencing" && results[1].data) {
+    return (
+      <div className="relative h-full min-h-[32rem] overflow-hidden rounded-lg lg:col-span-2">
+        <LeafletMap
+          type="withLayerControl"
+          action="editGeofencing"
+          bounds={
+            results[1].data?.filter((item) =>
+              item.coordinates.every((item) => item[0] && item[1]),
+            )
+              ? results[1].data
+                  ?.filter((item) =>
+                    item.coordinates.every((item) => item[0] && item[1]),
+                  )
+                  .flatMap((item) => item.coordinates)
+              : results[0].data
+                  ?.filter((item) => item.latitude && item.longitude)
+                  .map((item) => [item.latitude, item.longitude]) ?? [[0, 0]]
+          }
+          editableLayer={{
+            name: "Geofencing",
+            checked: true,
+            areas: results[1].data?.map((item) => ({
+              id: item.id,
+              position: item.coordinates,
+              color: "green",
+              type: "polygon",
+              content: (
+                <div className="flex max-w-40 flex-col font-sans">
+                  <p className="text-base font-medium">{item.name}</p>
+                  <p className="text-sm">{item.description}</p>
+                </div>
+              ),
+            })),
+          }}
+          scrollWheelZoom
+          deploymentId={deploymentId}
+        />
+        <Button
+          variant={"outline"}
+          className="absolute right-6 top-5"
+          onClick={onClickExit}
+        >
+          Exit
+        </Button>
+      </div>
+    );
+  }
+
+  if (mode === "editMarker" && results[3].data) {
+    return (
+      <div className="relative h-full min-h-[32rem] overflow-hidden rounded-lg lg:col-span-2">
+        <LeafletMap
+          type="withLayerControl"
+          action="editMarker"
+          bounds={
+            results[3].data?.filter((item) => item.latitude && item.longitude)
+              ? results[3].data
+                  ?.filter((item) => item.latitude && item.longitude)
+                  .map((item) => [item.latitude, item.longitude])
+              : results[0].data
+                  ?.filter((item) => item.latitude && item.longitude)
+                  .map((item) => [item.latitude, item.longitude]) ?? [[0, 0]]
+          }
+          editableLayer={{
+            name: "Custom marker",
+            checked: true,
+            markers: results[3].data?.map((item) => ({
+              id: item.id,
+              position: [item.latitude, item.longitude] as [number, number],
+              content: (
+                <div className="flex flex-col font-sans">
+                  <p className="text-base font-medium">{item.name}</p>
+                  <p className="text-sm">{item.description}</p>
+                </div>
+              ),
+            })),
+          }}
+          scrollWheelZoom
+          deploymentId={deploymentId}
+        />
+        <Button
+          variant={"outline"}
+          className="absolute right-6 top-5"
+          onClick={onClickExit}
+        >
+          Exit
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="relative h-full min-h-[32rem] overflow-hidden rounded-lg lg:col-span-2">
-      {results[0].isLoading || results[1].isLoading ? (
-        <Skeleton className="h-full w-full rounded-none" />
-      ) : mode === "realtime" ? (
+      {type === "realtime" ? (
         results[0].data?.length === 0 ? (
           <EmptyState>
             <EmptyStateImage>
@@ -135,9 +284,11 @@ export function InteractiveMap({
         ) : (
           <LeafletMap
             type="withLayerControl"
+            action="view"
             bounds={
-              results[0].data?.map((item) => [item.latitude, item.longitude]) ??
-              []
+              results[0].data
+                ?.filter((item) => item.latitude && item.longitude)
+                .map((item) => [item.latitude, item.longitude]) ?? [[0, 0]]
             }
             layers={[
               {
@@ -146,9 +297,7 @@ export function InteractiveMap({
                 markers: results[0].data
                   ?.filter(
                     (item) =>
-                      deviceVisibility.includes(item.id) &&
-                      item.latitude &&
-                      item.longitude,
+                      visibleDevice[item.id] && item.latitude && item.longitude,
                   )
                   .map((item) => ({
                     id: item.id,
@@ -178,7 +327,7 @@ export function InteractiveMap({
               {
                 name: "Area",
                 checked: true,
-                vectors: results[1].data?.map((item) => ({
+                areas: results[1].data?.map((item) => ({
                   id: item.id,
                   position: item.coordinates,
                   color: "green",
@@ -191,12 +340,24 @@ export function InteractiveMap({
                   ),
                 })),
               },
+              {
+                name: "Custom marker",
+                checked: true,
+                markers: results[3].data?.map((item) => ({
+                  id: item.id,
+                  position: [item.latitude, item.longitude] as [number, number],
+                  content: (
+                    <div className="flex flex-col font-sans">
+                      <p className="text-base font-medium">{item.name}</p>
+                      <p className="text-sm">{item.description}</p>
+                    </div>
+                  ),
+                })),
+              },
             ]}
             scrollWheelZoom
           />
         )
-      ) : results[2].isLoading ? (
-        <Skeleton className="h-full w-full rounded-none" />
       ) : results[2].data?.length === 0 ? (
         <EmptyState>
           <EmptyStateImage>
@@ -209,19 +370,28 @@ export function InteractiveMap({
       ) : (
         <LeafletMap
           type="withLayerControl"
+          action="view"
           bounds={
-            results[2].data?.flatMap((item) =>
-              item.path.map(
-                (path) => [path.latitude, path.longitude] as LatLngTuple,
-              ),
-            ) ?? []
+            results[2].data
+              ?.filter((item) =>
+                item.path.every((path) => path.latitude && path.longitude),
+              )
+              .flatMap((item) =>
+                item.path.map(
+                  (path) => [path.latitude, path.longitude] as LatLngTuple,
+                ),
+              ) ?? [[0, 0]]
           }
           layers={[
             {
               name: "Path",
               checked: true,
               vectors: results[2].data
-                ?.filter((item) => deviceVisibility.includes(item.id))
+                ?.filter(
+                  (item) =>
+                    visibleDevice[item.id] &&
+                    item.path.every((path) => path.latitude && path.longitude),
+                )
                 .map((item) => ({
                   id: item.id,
                   position: item.path
@@ -236,11 +406,7 @@ export function InteractiveMap({
                   ),
                   onClick: () => onClickDevice(item.id),
                 })),
-            },
-            {
-              name: "Area",
-              checked: true,
-              vectors: results[1].data?.map((item) => ({
+              areas: results[1].data?.map((item) => ({
                 id: item.id,
                 position: item.coordinates,
                 color: "green",
@@ -257,33 +423,50 @@ export function InteractiveMap({
           scrollWheelZoom
         />
       )}
-      <div className="absolute right-6 top-5 flex gap-3">
-        <SearchParamsDropdown
-          options={modes}
-          name="mode"
-          icon={
-            mode === "realtime" ? (
-              <MapPin className="h-5 w-5" />
-            ) : (
-              <Route className="h-5 w-5" />
-            )
-          }
-        />
-        {mode === "trace" && (
-          <div className="flex">
-            <DateTimePickerDropdown
-              className="rounded-r-none border-r-0"
-              date={startAt ? new Date(startAt) : subtractDay(new Date(), 7)}
-              setDate={(value) => handleChangeDate("startAt", value)}
-            />
-            <DateTimePickerDropdown
-              className="rounded-l-none"
-              date={endAt ? new Date(endAt) : new Date()}
-              setDate={(value) => handleChangeDate("endAt", value)}
-            />
-          </div>
-        )}
-      </div>
+      {mode === "view" && (
+        <div className="absolute right-6 top-5 flex gap-3">
+          <SearchParamsDropdown
+            options={types}
+            paramsName="type"
+            type="radio"
+            triggerButton={
+              <Button variant={"outline"} className="gap-2">
+                {type === "realtime" ? (
+                  <MapPin className="h-5 w-5" />
+                ) : (
+                  <Route className="h-5 w-5" />
+                )}
+                {types.find((option) => option.value === type)?.label}
+                <ChevronDown className="h-5 w-5" />
+              </Button>
+            }
+          />
+          {type === "trace" && (
+            <div className="flex">
+              <DateTimePickerDropdown
+                className="rounded-r-none border-r-0"
+                date={startAt ? new Date(startAt) : subtractDay(new Date(), 7)}
+                setDate={(value) => handleChangeDate("startAt", value)}
+              />
+              <DateTimePickerDropdown
+                className="rounded-l-none"
+                date={endAt ? new Date(endAt) : new Date()}
+                setDate={(value) => handleChangeDate("endAt", value)}
+              />
+            </div>
+          )}
+          <SearchParamsDropdown
+            options={editOptions}
+            paramsName="mode"
+            type="default"
+            triggerButton={
+              <Button variant={"outline"} size={"icon"} className="gap-2">
+                <MoreHorizontal className="h-5 w-5" />
+              </Button>
+            }
+          />
+        </div>
+      )}
     </div>
   );
 }

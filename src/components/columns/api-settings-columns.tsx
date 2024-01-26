@@ -49,6 +49,9 @@ export const apiSettingsColumns: ColumnDef<TDeploymentApi>[] = [
     id: "actions",
     cell: ({ row }) => {
       const data = row.original;
+      if (data.lock) {
+        return null;
+      }
       return (
         <Restricted to="edit">
           <div className="flex justify-end gap-1">

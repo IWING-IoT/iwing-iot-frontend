@@ -1,3 +1,4 @@
+// import { DownloadMessagesButton } from "@/components/atoms/download-messages-button";
 import { messagesColumns } from "@/components/columns/messages-columns";
 import { DataTable } from "@/components/data-table/data-table";
 import {
@@ -7,10 +8,15 @@ import {
   CardHeaderTitle,
 } from "@/components/molecules/card-header";
 import { TableWrapper } from "@/components/templates/table-wrapper";
-import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { fetchData } from "@/lib/data-fetching";
 import { TMessage } from "@/lib/type";
-import { DownloadCloud } from "lucide-react";
+import dynamic from "next/dynamic";
+
+const DownloadMessagesButton = dynamic(
+  () => import("@/components/atoms/download-messages-button"),
+  { ssr: false },
+);
 
 type MessagesProps = {
   params: {
@@ -31,10 +37,10 @@ export default async function Messages({ params }: MessagesProps) {
           <CardHeaderTitle>Messages</CardHeaderTitle>
         </CardHeaderTextContent>
         <CardHeaderActions>
-          <Button>
-            <DownloadCloud className="mr-2 h-5 w-5" />
-            Download as CSV
-          </Button>
+          <DownloadMessagesButton
+            deploymentId={params.deploymentId}
+            deviceId={params.deviceId}
+          />
         </CardHeaderActions>
       </CardHeader>
       <DataTable

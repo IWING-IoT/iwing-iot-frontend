@@ -144,6 +144,7 @@ export type TDeploymentApi = {
   name: string;
   dataType: "String" | "Number" | "Boolean" | "Date";
   description?: string;
+  lock: boolean;
 };
 
 export type TDeploymentApiExample = {
@@ -277,4 +278,16 @@ export type TDevicePath = {
     latitude: number;
     longitude: number;
   }[];
+};
+
+export type TCustomMarker = {
+  id: string;
+  name: string;
+  description: string;
+  latitude: number;
+  longitude: number;
+  devicePhaseId?: string;
+  devicePhaseName?: string;
+  deviceName?: string;
+  deviceType?: "standalone" | "gateway" | "node";
 };

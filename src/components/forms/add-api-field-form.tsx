@@ -55,7 +55,7 @@ export function AddApiFieldForm({ deploymentId }: AddApiFieldFormProps) {
   });
 
   const addApiField = useMutation({
-    mutationFn: (data: Omit<TDeploymentApi, "id">) =>
+    mutationFn: (data: Omit<TDeploymentApi, "id" | "lock">) =>
       postData(`/phase/${deploymentId}/phaseApi`, data),
     onError: (error: THttpError) => {
       toast.error("Unable to create new field", {

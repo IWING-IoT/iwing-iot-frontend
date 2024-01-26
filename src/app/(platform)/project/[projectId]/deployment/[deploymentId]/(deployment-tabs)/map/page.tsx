@@ -1,7 +1,12 @@
-import { InteractiveMap } from "@/components/organisms/interactive-map";
-import { MapSidebar } from "@/components/organisms/map-sidebar";
+import { MainContainer } from "@/components/templates/main-container";
 import { subtractDay } from "@/lib/utils";
+import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
+
+const DeviceTrackingMap = dynamic(
+  () => import("@/components/organisms/device-tracking-map"),
+  { ssr: false },
+);
 
 type MapProps = {
   params: {
@@ -9,51 +14,40 @@ type MapProps = {
     deploymentId: string;
   };
   searchParams: {
-    mode?: "realtime" | "trace";
+    type?: "realtime" | "trace";
     startAt?: string;
     endAt?: string;
     id?: string;
+    mode?: "view" | "editMarker" | "editGeofencing";
   };
 };
 
 export default function Map({ params, searchParams }: MapProps) {
-  const mode = searchParams?.mode;
+  const type = searchParams?.type;
   const startAt = searchParams?.startAt;
   const endAt = searchParams?.endAt;
-  const id = searchParams?.id;
 
-  if (!mode) {
+  if (!type) {
     redirect(
-      `/project/${params.projectId}/deployment/${params.deploymentId}/map?mode=realtime`,
+      `/project/${params.projectId}/deployment/${params.deploymentId}/map?type=realtime&mode=view`,
     );
   }
 
-  if (mode === "trace" && !startAt && !endAt) {
+  if (type === "trace" && !startAt && !endAt) {
     redirect(
-      `/project/${params.projectId}/deployment/${params.deploymentId}/map?mode=trace&startAt=${subtractDay(new Date(), 7).toISOString()}&endAt=${new Date().toISOString()}`,
+      `/project/${params.projectId}/deployment/${params.deploymentId}/map?type=trace&mode=view&startAt=${subtractDay(new Date(), 7).toISOString()}&endAt=${new Date().toISOString()}`,
     );
   }
 
-  if (mode === "realtime" && (startAt || endAt)) {
+  if (type === "realtime" && (startAt || endAt)) {
     redirect(
-      `/project/${params.projectId}/deployment/${params.deploymentId}/map?mode=realtime`,
+      `/project/${params.projectId}/deployment/${params.deploymentId}/map?type=realtime&mode=view`,
     );
   }
+
   return (
-    <div className="grid h-full grid-cols-1 gap-6 lg:grid-cols-3">
-      <InteractiveMap
-        deploymentId={params.deploymentId}
-        mode={mode}
-        startAt={startAt}
-        endAt={endAt}
-      />
-      <MapSidebar
-        deploymentId={params.deploymentId}
-        mode={mode}
-        startAt={startAt}
-        endAt={endAt}
-        id={id}
-      />
-    </div>
+    <MainContainer className="h-full overflow-hidden">
+      <DeviceTrackingMap params={params} searchParams={searchParams} />
+    </MainContainer>
   );
 }

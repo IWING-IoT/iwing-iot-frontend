@@ -35,7 +35,7 @@ export const messagesColumns: ColumnDef<TMessage>[] = [
     ),
     cell: ({ row }) => {
       const latitude = row.original.latitude;
-      return <p className="min-w-max">{latitude}</p>;
+      return <p className="min-w-max">{latitude.toFixed(5)}</p>;
     },
   },
   {
@@ -45,7 +45,7 @@ export const messagesColumns: ColumnDef<TMessage>[] = [
     ),
     cell: ({ row }) => {
       const longitude = row.original.longitude;
-      return <p className="min-w-max">{longitude}</p>;
+      return <p className="min-w-max">{longitude.toFixed(5)}</p>;
     },
   },
   {
@@ -67,7 +67,7 @@ export const messagesColumns: ColumnDef<TMessage>[] = [
           ) : (
             <BatteryLow className="mr-1 h-3 w-3" />
           )}
-          <p>{battery}%</p>
+          <p>{Number(battery).toFixed(2)}%</p>
         </Badge>
       );
     },
@@ -91,7 +91,7 @@ export const messagesColumns: ColumnDef<TMessage>[] = [
           ) : (
             <ThermometerSun className="mr-1 h-3 w-3" />
           )}
-          <p>{temperature} °C</p>
+          <p>{Number(temperature).toFixed(2)} °C</p>
         </Badge>
       );
     },
