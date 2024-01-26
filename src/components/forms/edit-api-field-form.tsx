@@ -41,7 +41,7 @@ export function EditApiFieldForm({ fieldData }: EditApiFieldFormProps) {
   });
 
   const editApiField = useMutation({
-    mutationFn: (data: Omit<TDeploymentApi, "id" | "dataType">) =>
+    mutationFn: (data: Omit<TDeploymentApi, "id" | "dataType" | "lock">) =>
       patchData(`/phaseApi/${fieldData.id}`, data),
     onError: (error: THttpError) => {
       toast.error("Unable to save changes", {
