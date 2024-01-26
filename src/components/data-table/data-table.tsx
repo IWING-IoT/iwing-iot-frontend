@@ -7,6 +7,7 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -31,6 +32,7 @@ import { DataTableGeneralToolbar } from "./general-toolbar";
 import { useRouter } from "next/navigation";
 import { EmptyIllustration } from "../atoms/illustrations/empty-illustration";
 import { ScrollArea } from "../ui/scroll-area";
+import { DataTablePagination } from "./pagination";
 
 interface WithId {
   id: string;
@@ -49,6 +51,7 @@ interface DataTableProps<TData extends WithId, TValue> {
   setRowSelection?: OnChangeFn<RowSelectionState>;
   onRowClick?: (row: TData) => void;
   highlightOnSelected?: boolean;
+  usePagination?: boolean;
 }
 
 export function DataTable<TData extends WithId, TValue>({
@@ -64,6 +67,7 @@ export function DataTable<TData extends WithId, TValue>({
   setRowSelection,
   onRowClick,
   highlightOnSelected = true,
+  usePagination = true,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
   const table = useReactTable({
@@ -72,6 +76,7 @@ export function DataTable<TData extends WithId, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: usePagination ? getPaginationRowModel() : undefined,
     getRowId: (row) => row.id,
     onRowSelectionChange: setRowSelection || (() => {}),
     state: {
@@ -184,6 +189,9 @@ export function DataTable<TData extends WithId, TValue>({
           </TableBody>
         </Table>
       </ScrollArea>
+      {data.length > 0 && usePagination && (
+        <DataTablePagination table={table} />
+      )}
     </>
   );
 }
