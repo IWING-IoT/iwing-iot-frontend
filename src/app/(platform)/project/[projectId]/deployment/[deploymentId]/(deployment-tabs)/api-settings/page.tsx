@@ -28,33 +28,35 @@ export default async function ApiSettings({ params }: ApiSettingsProps) {
   const { data: apiExampleData }: { data: TDeploymentApiExample } =
     await fetchData(`/phase/${params.deploymentId}/phaseApi/example`);
   return (
-    <TableWrapper>
-      <CardHeader>
-        <CardHeaderTextContent>
-          <CardHeaderTitle>API settings</CardHeaderTitle>
-          <CardHeaderDescription>
-            Configure your device's API fields here.
-          </CardHeaderDescription>
-        </CardHeaderTextContent>
-        <CardHeaderActions>
-          <Restricted to="edit">
-            <DialogWithContent
-              title="Create new field"
-              content={<AddApiFieldForm deploymentId={params.deploymentId} />}
-            >
-              <Button>
-                <Plus className="mr-2 h-5 w-5" />
-                New field
-              </Button>
-            </DialogWithContent>
-          </Restricted>
-          <ApiSettingsDropdown
-            deploymentId={params.deploymentId}
-            apiExampleData={apiExampleData}
-          />
-        </CardHeaderActions>
-      </CardHeader>
-      <DataTable columns={apiSettingsColumns} data={deploymentApiData} />
-    </TableWrapper>
+    <MainContainer>
+      <TableWrapper>
+        <CardHeader>
+          <CardHeaderTextContent>
+            <CardHeaderTitle>API settings</CardHeaderTitle>
+            <CardHeaderDescription>
+              Configure your device's API fields here.
+            </CardHeaderDescription>
+          </CardHeaderTextContent>
+          <CardHeaderActions>
+            <Restricted to="edit">
+              <DialogWithContent
+                title="Create new field"
+                content={<AddApiFieldForm deploymentId={params.deploymentId} />}
+              >
+                <Button>
+                  <Plus className="mr-2 h-5 w-5" />
+                  New field
+                </Button>
+              </DialogWithContent>
+            </Restricted>
+            <ApiSettingsDropdown
+              deploymentId={params.deploymentId}
+              apiExampleData={apiExampleData}
+            />
+          </CardHeaderActions>
+        </CardHeader>
+        <DataTable columns={apiSettingsColumns} data={deploymentApiData} />
+      </TableWrapper>
+    </MainContainer>
   );
 }
