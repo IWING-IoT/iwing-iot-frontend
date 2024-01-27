@@ -30,7 +30,7 @@ import {
 } from "@/store/atoms";
 import { LatLngTuple } from "leaflet";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const LeafletMap = dynamic(() => import("@/components/organisms/leaflet-map"), {
   ssr: false,
@@ -67,11 +67,6 @@ export function InteractiveMap({
       icon: <LandPlot className="h-4 w-4 text-muted-foreground" />,
     },
   ];
-  const [showDialog, setShowDialog] = useAtom(showDialogAtom);
-  const [formData, setFormData] = useState<{
-    name: string;
-    description: string;
-  }>({ name: "", description: "" });
 
   const searchParams = useSearchParams();
   const { replace } = useRouter();
@@ -104,7 +99,7 @@ export function InteractiveMap({
         enabled: type === "realtime",
       },
       {
-        queryKey: [deploymentId, "area"],
+        queryKey: ["area", deploymentId],
         queryFn: async () => {
           const { data }: { data: TArea[] } = await clientFetchData(
             `/phase/${deploymentId}/area`,
@@ -152,6 +147,7 @@ export function InteractiveMap({
       },
     ],
   });
+
   function onClickDevice(id: string) {
     const params = new URLSearchParams(searchParams);
     params.set("id", id);
@@ -163,6 +159,16 @@ export function InteractiveMap({
     params.set("mode", "view");
     replace(`${pathname}?${params.toString()}`);
   }
+
+  useEffect(
+    () =>
+      console.log(
+        results[1].data?.filter((item) =>
+          item.coordinates.every((item) => item[0] && item[1]),
+        ),
+      ),
+    [results[1].data],
+  );
 
   if (
     results[0].isLoading ||
@@ -186,7 +192,7 @@ export function InteractiveMap({
           bounds={
             results[1].data?.filter((item) =>
               item.coordinates.every((item) => item[0] && item[1]),
-            )
+            ).length > 0
               ? results[1].data
                   ?.filter((item) =>
                     item.coordinates.every((item) => item[0] && item[1]),
@@ -201,6 +207,8 @@ export function InteractiveMap({
             checked: true,
             areas: results[1].data?.map((item) => ({
               id: item.id,
+              name: item.name,
+              description: item.description,
               position: item.coordinates,
               color: "green",
               type: "polygon",
@@ -234,6 +242,7 @@ export function InteractiveMap({
           action="editMarker"
           bounds={
             results[3].data?.filter((item) => item.latitude && item.longitude)
+              .length > 0
               ? results[3].data
                   ?.filter((item) => item.latitude && item.longitude)
                   .map((item) => [item.latitude, item.longitude])
@@ -246,6 +255,8 @@ export function InteractiveMap({
             checked: true,
             markers: results[3].data?.map((item) => ({
               id: item.id,
+              name: item.name,
+              description: item.description,
               position: [item.latitude, item.longitude] as [number, number],
               content: (
                 <div className="flex flex-col font-sans">
