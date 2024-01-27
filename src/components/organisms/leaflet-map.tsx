@@ -86,6 +86,8 @@ type LeafletMapProps =
         checked: boolean;
         markers: {
           id: string;
+          name: string;
+          description: string;
           position: [number, number];
           content: React.ReactNode;
           onClick?: () => void;
@@ -108,6 +110,8 @@ type LeafletMapProps =
         markers?: never;
         areas: {
           id: string;
+          name: string;
+          description: string;
           position: [number, number][];
           color: string;
           content: React.ReactNode;
@@ -142,7 +146,8 @@ export default function LeafletMap({
           type: "Feature",
           properties: {
             id: area.id,
-            name: area.id,
+            name: area.name,
+            description: area.description,
             color: area.color,
           },
           geometry: {
@@ -160,7 +165,8 @@ export default function LeafletMap({
           type: "Feature",
           properties: {
             id: marker.id,
-            name: marker.id,
+            name: marker.name,
+            description: marker.description,
           },
           geometry: {
             type: "Point",
