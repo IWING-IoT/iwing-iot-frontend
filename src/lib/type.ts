@@ -291,3 +291,8 @@ export type TCustomMarker = {
   deviceName?: string;
   deviceType?: "standalone" | "gateway" | "node";
 };
+
+export type TDeviceStats = {
+  x: string[];
+  y: number[];
+};

@@ -4,7 +4,7 @@ import { TableWrapper } from "@/components/templates/table-wrapper";
 export default function Loading() {
   return (
     <TableWrapper>
-      <TableSkeleton columnCount={3} rowCount={5} />
+      <TableSkeleton columnCount={2} rowCount={5} />
     </TableWrapper>
   );
 }

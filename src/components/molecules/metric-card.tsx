@@ -1,4 +1,6 @@
+import { cn } from "@/lib/utils";
 import { Chart } from "../atoms/chart";
+import { FeatureIcon } from "../atoms/feature-icon";
 import {
   Card,
   CardContent,
@@ -11,14 +13,18 @@ type MetricCardProps =
   | {
       type: "simple";
       heading: string;
-      metric: string;
+      metric: string | number;
+      unit: string;
+      icon?: React.ReactNode;
       chartType?: never;
       button?: React.ReactNode;
     }
   | {
       type: "chart";
       heading: string;
-      metric: string;
+      metric: string | number;
+      unit?: string;
+      icon?: React.ReactNode;
       chartType: "tinyLineChart";
       button?: React.ReactNode;
     };
@@ -27,22 +33,45 @@ export function MetricCard({
   type,
   heading,
   metric,
+  unit,
+  icon,
   chartType,
   button,
 }: MetricCardProps) {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-sm font-medium text-muted-foreground first-letter:uppercase">
-          {heading}
-        </CardTitle>
-        <p className="text-3xl font-semibold leading-tight">{metric}</p>
-      </CardHeader>
-      {type === "chart" && (
+      {icon ? (
+        <CardHeader>
+          <FeatureIcon className="mb-4" variant="modern" icon={icon} />
+          <CardTitle className="text-sm font-medium text-muted-foreground first-letter:uppercase">
+            {heading}
+          </CardTitle>
+          <div
+            className={cn(
+              "text-3xl font-semibold leading-tight",
+              typeof metric === "number" ? "tabular-nums" : "",
+            )}
+          >
+            {metric}
+            {unit}
+          </div>
+        </CardHeader>
+      ) : (
+        <CardHeader>
+          <CardTitle className="text-sm font-medium text-muted-foreground first-letter:uppercase">
+            {heading}
+          </CardTitle>
+          <div className="text-3xl font-semibold leading-tight">
+            {metric}
+            {unit}
+          </div>
+        </CardHeader>
+      )}
+      {/* {type === "chart" && (
         <CardContent>
           <Chart type={chartType} />
         </CardContent>
-      )}
+      )} */}
       {button && (
         <CardFooter className="justify-end border-t px-4 py-3">
           {button}

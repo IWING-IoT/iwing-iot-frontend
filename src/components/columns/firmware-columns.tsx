@@ -27,8 +27,12 @@ export const firmwareColumns: ColumnDef<TFirmware>[] = [
       <DataTableColumnHeader column={column} title="Last update" />
     ),
     cell: ({ row }) => {
-      const lastUpdate = String(row.getValue("lastUpdate"));
-      return <p className="min-w-max">{formatDate(lastUpdate, "relative")}</p>;
+      const lastUpdate = row.original.lastUpdate;
+      return (
+        <p className="min-w-max">
+          {lastUpdate ? formatDate(lastUpdate, "relative") : "-"}
+        </p>
+      );
     },
   },
   {

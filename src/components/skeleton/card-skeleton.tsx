@@ -1,12 +1,49 @@
+import {
+  SectionHeader,
+  SectionHeaderAction,
+  SectionHeaderTextContent,
+  SectionHeaderTitle,
+} from "../molecules/section-header";
 import { CardGrid } from "../templates/card-grid";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { Skeleton } from "../ui/skeleton";
 
 type CardSkeletonProps = {
-  variant: "project" | "deployment";
+  variant: "project" | "deployment" | "metric" | "chart";
 };
 
 export function CardSkeleton({ variant }: CardSkeletonProps) {
+  if (variant === "metric") {
+    return (
+      <Card>
+        <CardHeader>
+          <Skeleton className="mb-4 h-12 w-12 rounded-lg" />
+          <Skeleton className="mb-2 h-5 w-32 rounded-full" />
+          <Skeleton className="h-9 w-32 rounded-full" />
+        </CardHeader>
+      </Card>
+    );
+  } else if (variant === "chart") {
+    return (
+      <Card>
+        <CardHeader>
+          <SectionHeader>
+            <SectionHeaderTextContent>
+              <SectionHeaderTitle>
+                <Skeleton className="h-7 w-64" />
+              </SectionHeaderTitle>
+            </SectionHeaderTextContent>
+            <SectionHeaderAction>
+              <Skeleton className="h-8 w-32" />
+            </SectionHeaderAction>
+          </SectionHeader>
+        </CardHeader>
+        <CardContent>
+          <Skeleton className="h-60 w-full rounded-lg" />
+        </CardContent>
+      </Card>
+    );
+  }
   return (
     <Card>
       <CardHeader>
