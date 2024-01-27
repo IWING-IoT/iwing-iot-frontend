@@ -197,7 +197,7 @@ export function LeafletDrawControl({ type, deploymentId }: Props) {
   };
   const debouncedHandleEdit = useDebouncedCallback(handleEdit, 500);
   const handleDelete = (e: any) => {
-    console.log("delete event triggered");
+    // console.log("delete event triggered");
     console.log(e.layers.getLayers());
     if (type === "polygon") {
       // console.log(e.layers.getLayers());
