@@ -1,3 +1,4 @@
+"use client";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -17,39 +18,58 @@ import {
   SelectValue,
 } from "../ui/select";
 
-interface DataTablePaginationProps<TData> {
-  table: Table<TData>;
-  showSelectedRow?: boolean;
-  manualPagination?: boolean;
-  currentPage?: number;
-  pageCount?: number;
-  pageSize?: number;
-  setPageSize?: (pageSize: number) => void;
-}
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
+
+type DataTablePaginationProps<TData> =
+  | {
+      table: Table<TData>;
+      manualPagination?: never;
+      currentPage?: never;
+      pageCount?: never;
+      pageSize?: never;
+    }
+  | {
+      table?: never;
+      manualPagination: boolean;
+      currentPage: number;
+      pageCount: number;
+      pageSize: number;
+    };
 
 export function DataTablePagination<TData>({
   table,
-  showSelectedRow = false,
+  manualPagination = false,
+  currentPage = 1,
+  pageCount = 1,
+  pageSize = 10,
 }: DataTablePaginationProps<TData>) {
-  return (
-    <div className="flex items-center justify-between border-t p-4">
-      {showSelectedRow && (
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-      )}
-      <div className="flex items-center space-x-6 lg:space-x-8">
-        <div className="flex items-center space-x-2">
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams],
+  );
+
+  if (manualPagination) {
+    return (
+      <div className="flex items-center justify-between border-t p-4">
+        <div className="flex items-center gap-2">
           <p className="text-sm font-medium">Rows per page</p>
           <Select
-            value={`${table.getState().pagination.pageSize}`}
-            onValueChange={(value) => {
-              table.setPageSize(Number(value));
-            }}
+            value={`${pageSize}`}
+            onValueChange={(value) =>
+              router.push(pathname + "?" + createQueryString("pageSize", value))
+            }
           >
             <SelectTrigger className="w-20">
-              <SelectValue placeholder={table.getState().pagination.pageSize} />
+              <SelectValue placeholder={pageSize} />
             </SelectTrigger>
             <SelectContent side="top">
               {[10, 20, 30, 40, 50].map((pageSize) => (
@@ -60,11 +80,103 @@ export function DataTablePagination<TData>({
             </SelectContent>
           </Select>
         </div>
+        <div className="flex gap-2">
+          <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+            Page {currentPage} of {pageCount}
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant={"outline"}
+              size={"icon"}
+              className="hidden lg:flex"
+              onClick={() =>
+                router.push(
+                  pathname + "?" + createQueryString("currentPage", "1"),
+                )
+              }
+              disabled={currentPage <= 1}
+            >
+              <ChevronsLeftIcon className="h-5 w-5" />
+            </Button>
+            <Button
+              variant="outline"
+              size={"icon"}
+              onClick={() =>
+                router.push(
+                  pathname +
+                    "?" +
+                    createQueryString("currentPage", String(currentPage - 1)),
+                )
+              }
+              disabled={currentPage <= 1}
+            >
+              <ChevronLeftIcon className="h-5 w-5" />
+            </Button>
+            <Button
+              variant="outline"
+              size={"icon"}
+              onClick={() =>
+                router.push(
+                  pathname +
+                    "?" +
+                    createQueryString("currentPage", String(currentPage + 1)),
+                )
+              }
+              disabled={currentPage >= pageCount}
+            >
+              <ChevronRightIcon className="h-5 w-5" />
+            </Button>
+            <Button
+              variant="outline"
+              size={"icon"}
+              className="hidden lg:flex"
+              onClick={() =>
+                router.push(
+                  pathname +
+                    "?" +
+                    createQueryString("currentPage", String(pageCount)),
+                )
+              }
+              disabled={currentPage >= pageCount}
+            >
+              <ChevronsRightIcon className="h-5 w-5" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (!table) {
+    return null;
+  }
+  return (
+    <div className="flex items-center justify-between border-t p-4">
+      <div className="flex items-center gap-2">
+        <p className="text-sm font-medium">Rows per page</p>
+        <Select
+          value={`${table.getState().pagination.pageSize}`}
+          onValueChange={(value) => {
+            table.setPageSize(Number(value));
+          }}
+        >
+          <SelectTrigger className="w-20">
+            <SelectValue placeholder={table.getState().pagination.pageSize} />
+          </SelectTrigger>
+          <SelectContent side="top">
+            {[10, 20, 30, 40, 50].map((pageSize) => (
+              <SelectItem key={pageSize} value={`${pageSize}`}>
+                {pageSize}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="flex gap-2">
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
           Page {table.getState().pagination.pageIndex + 1} of{" "}
           {table.getPageCount()}
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2">
           <Button
             variant={"outline"}
             size={"icon"}

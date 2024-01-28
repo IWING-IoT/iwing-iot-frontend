@@ -31,6 +31,7 @@ import {
 import { LatLngTuple } from "leaflet";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
+import { stringToColor } from "@/lib/utils";
 
 const LeafletMap = dynamic(() => import("@/components/organisms/leaflet-map"), {
   ssr: false,
@@ -210,7 +211,7 @@ export function InteractiveMap({
               name: item.name,
               description: item.description,
               position: item.coordinates,
-              color: "green",
+              color: stringToColor(item.id),
               type: "polygon",
               content: (
                 <div className="flex max-w-40 flex-col font-sans">
@@ -341,7 +342,7 @@ export function InteractiveMap({
                 areas: results[1].data?.map((item) => ({
                   id: item.id,
                   position: item.coordinates,
-                  color: "green",
+                  color: stringToColor(item.id),
                   type: "polygon",
                   content: (
                     <div className="flex max-w-40 flex-col font-sans">
@@ -408,22 +409,40 @@ export function InteractiveMap({
                   position: item.path
                     .filter((item) => item.latitude && item.longitude)
                     .map((item) => [item.latitude, item.longitude]),
-                  color: "blue",
+                  color: stringToColor(item.id),
                   type: "polyline",
                   content: (
                     <div className="flex flex-col font-sans">
-                      <p className="text-base font-medium">{item.name}</p>
+                      <p className="text-base font-medium">{item.alias}</p>
                     </div>
                   ),
                   onClick: () => onClickDevice(item.id),
                 })),
+            },
+            {
+              name: "Area",
+              checked: true,
               areas: results[1].data?.map((item) => ({
                 id: item.id,
                 position: item.coordinates,
-                color: "green",
+                color: stringToColor(item.id),
                 type: "polygon",
                 content: (
                   <div className="flex max-w-40 flex-col font-sans">
+                    <p className="text-base font-medium">{item.name}</p>
+                    <p className="text-sm">{item.description}</p>
+                  </div>
+                ),
+              })),
+            },
+            {
+              name: "Custom marker",
+              checked: true,
+              markers: results[3].data?.map((item) => ({
+                id: item.id,
+                position: [item.latitude, item.longitude] as [number, number],
+                content: (
+                  <div className="flex flex-col font-sans">
                     <p className="text-base font-medium">{item.name}</p>
                     <p className="text-sm">{item.description}</p>
                   </div>

@@ -15,6 +15,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import useMediaQuery from "beautiful-react-hooks/useMediaQuery";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type DialogWithContentProps = {
   children: React.ReactNode;
@@ -48,11 +49,13 @@ export default function DialogWithContent({
   return (
     <Dialog onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className={cn(className)}>
-        <DialogHeader>
+      <DialogContent className={cn("p-0", className)}>
+        <DialogHeader className="p-6 pb-0">
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
-        {content}
+        <ScrollArea className="max-h-[80vh]">
+          <div className="p-6 pt-0">{content}</div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

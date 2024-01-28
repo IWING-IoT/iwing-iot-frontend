@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import { LatLngBoundsExpression } from "leaflet";
 import { LeafletDrawControl } from "../molecules/leaflet-draw-control";
 import { FeatureCollection } from "geojson";
+import { ArrowheadsPolyline } from "../atoms/arrowheads-polyline";
 
 type LeafletMapProps =
   | {
@@ -219,7 +220,8 @@ export default function LeafletMap({
                       </Marker>
                     ))}
                     {layer.vectors?.map((vector, index) => (
-                      <Polyline
+                      <ArrowheadsPolyline
+                        arrowheads={{ yawn: 40, fill: true }}
                         key={`${vector.id}-${index}`}
                         pathOptions={{ color: vector.color }}
                         positions={vector.position}
@@ -228,7 +230,7 @@ export default function LeafletMap({
                           : {})}
                       >
                         <Tooltip>{vector.content}</Tooltip>
-                      </Polyline>
+                      </ArrowheadsPolyline>
                     ))}
                     {layer.areas?.map((vector, index) => (
                       <Polygon
