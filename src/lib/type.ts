@@ -136,7 +136,10 @@ export type TDevices = {
   id: string;
   name: string;
   type: "standalone" | "gateway" | "node";
-  status: "Available" | "Unavailable" | `In use by ${string}`;
+  status: "Available" | "Unavailable" | "In use" | `In use by ${string}`;
+  projectId?: string;
+  phaseId?: string;
+  canAccess?: boolean;
 };
 
 export type TDeploymentApi = {
