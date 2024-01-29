@@ -14,7 +14,6 @@ type MetricCardProps =
       type: "simple";
       heading: string;
       metric: string | number;
-      unit: string;
       icon?: React.ReactNode;
       chartType?: never;
       button?: React.ReactNode;
@@ -23,7 +22,6 @@ type MetricCardProps =
       type: "chart";
       heading: string;
       metric: string | number;
-      unit?: string;
       icon?: React.ReactNode;
       chartType: "tinyLineChart";
       button?: React.ReactNode;
@@ -33,7 +31,6 @@ export function MetricCard({
   type,
   heading,
   metric,
-  unit,
   icon,
   chartType,
   button,
@@ -53,7 +50,6 @@ export function MetricCard({
             )}
           >
             {metric}
-            {unit}
           </div>
         </CardHeader>
       ) : (
@@ -61,10 +57,7 @@ export function MetricCard({
           <CardTitle className="text-sm font-medium text-muted-foreground first-letter:uppercase">
             {heading}
           </CardTitle>
-          <div className="text-3xl font-semibold leading-tight">
-            {metric}
-            {unit}
-          </div>
+          <div className="text-3xl font-semibold leading-tight">{metric}</div>
         </CardHeader>
       )}
       {/* {type === "chart" && (

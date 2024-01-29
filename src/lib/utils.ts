@@ -134,11 +134,25 @@ export function subtractDay(date: Date, day: number): Date {
   return new Date(date.getTime() - day * 24 * 60 * 60 * 1000);
 }
 
-export function stringToColor(value: string) {
+export function stringToColor(str: string) {
   let hash = 0;
-  for (let i = 0; i < value.length; i++) {
-    hash = value.charCodeAt(i) + ((hash << 5) - hash);
+  str.split("").forEach((char) => {
+    hash = char.charCodeAt(0) + ((hash << 5) - hash);
+  });
+  let colour = "#";
+  for (let i = 0; i < 3; i++) {
+    const value = (hash >> (i * 8)) & 0xff;
+    colour += value.toString(16).padStart(2, "0");
   }
+  return colour;
+}
 
-  return `hsl(${hash % 360}, 80%, 35%)`;
+export function numberToStatusColor(value: string, type: "battery" | "signal") {
+  if (value === "0") {
+    return "bg-red-500";
+  }
+  if (value === "1") {
+    return "bg-green-500";
+  }
+  return "bg-gray-500";
 }

@@ -257,6 +257,7 @@ export type TDevicePosition = {
   temperature: number;
   lastConnection: string;
   type: "standalone" | "gateway" | "node";
+  associate: TEntry[];
 };
 
 export type TArea = {
@@ -292,7 +293,48 @@ export type TCustomMarker = {
   deviceType?: "standalone" | "gateway" | "node";
 };
 
-export type TDeviceStats = {
-  x: string[];
-  y: number[];
+export type TDeviceStats =
+  | {
+      isEnough: false;
+      x?: never;
+      y?: never;
+      change?: never;
+      sign?: never;
+      current?: number;
+    }
+  | {
+      isEnough: true;
+      x: string[];
+      y: number[];
+      change: number;
+      sign: "positive" | "negative";
+      current: number;
+    };
+
+export type TDashboardStats = {
+  gateway: {
+    active: number;
+    total: number;
+  };
+  standalone: {
+    active: number;
+    total: number;
+  };
+  node: {
+    active: number;
+    total: number;
+  };
+  messagePerMinute: number;
+};
+
+export type TDashboardBattery = {
+  id: string;
+  alias: string;
+  battery: number;
+};
+
+export type TDashboardLastConnection = {
+  id: string;
+  alias: string;
+  lastConnection: string;
 };

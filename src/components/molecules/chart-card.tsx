@@ -18,7 +18,7 @@ type ChartCardProps = {
   xAxisDataKey: string;
   yAxisDataKey: string;
   yDomain?: [number, number];
-  data: { [x: string]: number | string }[];
+  data: { [x: string]: number | string }[] | undefined;
 };
 
 export function ChartCard({
@@ -58,13 +58,19 @@ export function ChartCard({
         </SectionHeader>
       </CardHeader>
       <CardContent>
-        <Chart
-          type="simpleLineChart"
-          data={data}
-          xAxisDataKey={xAxisDataKey}
-          yAxisDataKey={yAxisDataKey}
-          yDomain={yDomain}
-        />
+        {data ? (
+          <Chart
+            type="simpleLineChart"
+            data={data}
+            xAxisDataKey={xAxisDataKey}
+            yAxisDataKey={yAxisDataKey}
+            yDomain={yDomain}
+          />
+        ) : (
+          <div className="flex min-h-60 flex-1 items-center justify-center">
+            <p className="text-muted-foreground">Data is not enough</p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

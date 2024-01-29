@@ -313,6 +313,7 @@ export function InteractiveMap({
                   )
                   .map((item) => ({
                     id: item.id,
+                    name: item.alias,
                     position: [item.latitude, item.longitude] as [
                       number,
                       number,
@@ -325,11 +326,17 @@ export function InteractiveMap({
                         <p className="text-sm text-muted-foreground">
                           {formatDate(item.lastConnection, "relative")}
                         </p>
-                        <p className="text-sm">latitude : {item.latitude}</p>
-                        <p className="text-sm">longitude : {item.longitude}</p>
-                        <p className="text-sm">battery : {item.battery}</p>
                         <p className="text-sm">
-                          temperature : {item.temperature}
+                          latitude : {item.latitude.toFixed(5)}
+                        </p>
+                        <p className="text-sm">
+                          longitude : {item.longitude.toFixed(5)}
+                        </p>
+                        <p className="text-sm">
+                          battery : {item.battery.toFixed(2)}%
+                        </p>
+                        <p className="text-sm">
+                          temperature : {item.temperature.toFixed(2)}°C
                         </p>
                       </div>
                     ),
@@ -357,6 +364,7 @@ export function InteractiveMap({
                 checked: true,
                 markers: results[3].data?.map((item) => ({
                   id: item.id,
+                  name: item.name,
                   position: [item.latitude, item.longitude] as [number, number],
                   content: (
                     <div className="flex flex-col font-sans">
@@ -440,6 +448,7 @@ export function InteractiveMap({
               checked: true,
               markers: results[3].data?.map((item) => ({
                 id: item.id,
+                name: item.name,
                 position: [item.latitude, item.longitude] as [number, number],
                 content: (
                   <div className="flex flex-col font-sans">

@@ -24,6 +24,7 @@ import { Skeleton } from "../ui/skeleton";
 import { DataTable } from "../data-table/data-table";
 import { customizeDeviceVisibilityColumns } from "../columns/customize-device-visibility-columns";
 import { FeatureIcon } from "../atoms/feature-icon";
+import { Badge } from "../ui/badge";
 
 type MapSidebarProps = {
   deploymentId: string;
@@ -83,18 +84,18 @@ export function MapSidebar({
         refetchInterval: 5000,
         enabled: type === "trace",
       },
-      {
-        queryKey: ["deviceId", id],
-        queryFn: async () => {
-          const { data }: { data: TDeploymentDeviceDetails | undefined } =
-            await clientFetchData(`/devicePhase/${id}`);
-          if (data) {
-            return data;
-          }
-        },
-        refetchInterval: 5000,
-        enabled: Boolean(id),
-      },
+      // {
+      //   queryKey: ["deviceId", id],
+      //   queryFn: async () => {
+      //     const { data }: { data: TDeploymentDeviceDetails | undefined } =
+      //       await clientFetchData(`/devicePhase/${id}`);
+      //     if (data) {
+      //       return data;
+      //     }
+      //   },
+      //   refetchInterval: 5000,
+      //   enabled: Boolean(id),
+      // },
     ],
   });
 
@@ -113,9 +114,9 @@ export function MapSidebar({
   }
 
   if (id) {
-    if (results[2].isLoading) {
-      return <Skeleton className="rounded-lg" />;
-    }
+    // if (results[2].isLoading) {
+    //   return <Skeleton className="rounded-lg" />;
+    // }
     return (
       <div className="flex h-full flex-col overflow-hidden rounded-lg border bg-background">
         <CardHeader className="flex-grow-0 pl-3">
@@ -124,8 +125,15 @@ export function MapSidebar({
               <Button variant={"ghost"} size={"icon"} onClick={handleClickBack}>
                 <ChevronLeft />
               </Button>
-              {results[2].data?.alias}
+              {results[0].data?.find((item) => item.id === id)?.alias}
             </CardHeaderTitle>
+            <div className="flex flex-wrap gap-2">
+              {results[0].data
+                ?.find((item) => item.id === id)
+                ?.associate.map((item) => (
+                  <Badge variant={"modern"}>{item.name}</Badge>
+                ))}
+            </div>
           </CardHeaderTextContent>
         </CardHeader>
         <ScrollArea>
@@ -133,21 +141,47 @@ export function MapSidebar({
             <div className="flex justify-between">
               <p className="text-muted-foreground">Last communicate</p>
               <p className="font-medium tabular-nums">
-                {results[2].data?.lastCommunuication
-                  ? formatDate(results[2].data?.lastCommunuication, "relative")
+                {results[0].data?.find((item) => item.id === id)?.lastConnection
+                  ? formatDate(
+                      results[0].data?.find((item) => item.id === id)
+                        ?.lastConnection ?? "",
+                      "relative",
+                    )
                   : ""}
+              </p>
+            </div>
+            <div className="flex justify-between">
+              <p className="text-muted-foreground">Latitude</p>
+              <p className="font-medium tabular-nums">
+                {results[0].data
+                  ?.find((item) => item.id === id)
+                  ?.latitude.toFixed(5)}
+              </p>
+            </div>
+            <div className="flex justify-between">
+              <p className="text-muted-foreground">Longitude</p>
+              <p className="font-medium tabular-nums">
+                {results[0].data
+                  ?.find((item) => item.id === id)
+                  ?.longitude.toFixed(5)}
               </p>
             </div>
             <div className="flex justify-between">
               <p className="text-muted-foreground">Battery</p>
               <p className="font-medium tabular-nums">
-                {results[2].data?.battery.toFixed(2)} %
+                {results[0].data
+                  ?.find((item) => item.id === id)
+                  ?.battery.toFixed(2)}
+                %
               </p>
             </div>
             <div className="flex justify-between">
               <p className="text-muted-foreground">Temperature</p>
               <p className="font-medium tabular-nums">
-                {results[2].data?.temperature.toFixed(2)} °C
+                {results[0].data
+                  ?.find((item) => item.id === id)
+                  ?.temperature.toFixed(2)}
+                °C
               </p>
             </div>
           </div>
