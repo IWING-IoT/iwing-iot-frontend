@@ -75,6 +75,7 @@ export default function Overview({ params, searchParams }: OverviewProps) {
     );
   }
   const options = [
+    { label: " Last minute", value: "minute" },
     { label: "Last hour", value: "hour" },
     { label: "Last 24 hours", value: "day" },
     { label: "Last 7 days", value: "week" },
