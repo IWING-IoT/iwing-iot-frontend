@@ -136,7 +136,10 @@ export type TDevices = {
   id: string;
   name: string;
   type: "standalone" | "gateway" | "node";
-  status: "Available" | "Unavailable" | `In use by ${string}`;
+  status: "Available" | "Unavailable" | "In use" | `In use by ${string}`;
+  projectId?: string;
+  phaseId?: string;
+  canAccess?: boolean;
 };
 
 export type TDeploymentApi = {
@@ -305,7 +308,7 @@ export type TDeviceStats =
   | {
       isEnough: true;
       x: string[];
-      y: number[];
+      y: (number | null)[];
       change: number;
       sign: "positive" | "negative";
       current: number;

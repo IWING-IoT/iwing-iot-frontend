@@ -75,7 +75,7 @@ export default function Overview({ params, searchParams }: OverviewProps) {
     );
   }
   const options = [
-    { label: " Last minute", value: "minute" },
+    { label: "Last minute", value: "minute" },
     { label: "Last hour", value: "hour" },
     { label: "Last 24 hours", value: "day" },
     { label: "Last 7 days", value: "week" },
@@ -83,10 +83,16 @@ export default function Overview({ params, searchParams }: OverviewProps) {
   ];
   function formatDate(
     dateString: string,
-    range: "hour" | "day" | "week" | "month",
+    range: "minute" | "hour" | "day" | "week" | "month",
   ) {
     const date = new Date(dateString);
-    if (range === "hour") {
+    if (range === "minute") {
+      return date.toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+    } else if (range === "hour") {
       return date.toLocaleTimeString("en-GB", {
         hour: "2-digit",
         minute: "2-digit",
@@ -133,10 +139,16 @@ export default function Overview({ params, searchParams }: OverviewProps) {
           yDomain={[0, 100]}
           data={results[0].data?.x
             ?.map((item, index) => {
-              return {
-                x: formatDate(item, searchParams.batteryRange),
-                Battery: Number(results[0].data?.y?.[index]).toFixed(2),
-              };
+              if (results[0].data?.y?.[index]) {
+                return {
+                  x: formatDate(item, searchParams.batteryRange),
+                  Battery: Number(results[0].data?.y?.[index]).toFixed(2),
+                };
+              } else {
+                return {
+                  x: formatDate(item, searchParams.batteryRange),
+                };
+              }
             })
             .reverse()}
         />
@@ -161,10 +173,16 @@ export default function Overview({ params, searchParams }: OverviewProps) {
           yAxisDataKey="Temperature"
           data={results[1].data?.x
             ?.map((item, index) => {
-              return {
-                x: formatDate(item, searchParams.temperatureRange),
-                Temperature: Number(results[1].data?.y?.[index]).toFixed(2),
-              };
+              if (results[1].data?.y?.[index]) {
+                return {
+                  x: formatDate(item, searchParams.temperatureRange),
+                  Temperature: Number(results[1].data?.y?.[index]).toFixed(2),
+                };
+              } else {
+                return {
+                  x: formatDate(item, searchParams.temperatureRange),
+                };
+              }
             })
             .reverse()}
         />

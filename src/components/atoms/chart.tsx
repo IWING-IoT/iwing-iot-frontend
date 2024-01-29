@@ -15,7 +15,7 @@ type ChartProps = {
   xAxisDataKey: string;
   yAxisDataKey: string;
   yDomain?: [number, number];
-  data: { [x: string]: number | string }[];
+  data: { [x: string]: number | string | undefined }[];
 };
 
 export function Chart({

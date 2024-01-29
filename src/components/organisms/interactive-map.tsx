@@ -32,6 +32,9 @@ import { LatLngTuple } from "leaflet";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import { stringToColor } from "@/lib/utils";
+import Restricted from "../providers/permission-provider/restricted";
+import { UnauthorizedIllustration } from "../atoms/illustrations/unauthorized-illustration";
+import { DeniedEmptyState } from "../molecules/denied-empty-state";
 
 const LeafletMap = dynamic(() => import("@/components/organisms/leaflet-map"), {
   ssr: false,
@@ -186,98 +189,102 @@ export function InteractiveMap({
 
   if (mode === "editGeofencing" && results[1].data) {
     return (
-      <div className="relative h-full min-h-[32rem] overflow-hidden rounded-lg lg:col-span-2">
-        <LeafletMap
-          type="withLayerControl"
-          action="editGeofencing"
-          bounds={
-            results[1].data?.filter((item) =>
-              item.coordinates.every((item) => item[0] && item[1]),
-            ).length > 0
-              ? results[1].data
-                  ?.filter((item) =>
-                    item.coordinates.every((item) => item[0] && item[1]),
-                  )
-                  .flatMap((item) => item.coordinates)
-              : results[0].data
-                  ?.filter((item) => item.latitude && item.longitude)
-                  .map((item) => [item.latitude, item.longitude]) ?? [[0, 0]]
-          }
-          editableLayer={{
-            name: "Geofencing",
-            checked: true,
-            areas: results[1].data?.map((item) => ({
-              id: item.id,
-              name: item.name,
-              description: item.description,
-              position: item.coordinates,
-              color: stringToColor(item.id),
-              type: "polygon",
-              content: (
-                <div className="flex max-w-40 flex-col font-sans">
-                  <p className="text-base font-medium">{item.name}</p>
-                  <p className="text-sm">{item.description}</p>
-                </div>
-              ),
-            })),
-          }}
-          scrollWheelZoom
-          deploymentId={deploymentId}
-        />
-        <Button
-          variant={"outline"}
-          className="absolute right-6 top-5"
-          onClick={onClickExit}
-        >
-          Exit
-        </Button>
-      </div>
+      <Restricted to="edit" fallback={<DeniedEmptyState />}>
+        <div className="relative h-full min-h-[32rem] overflow-hidden rounded-lg lg:col-span-2">
+          <LeafletMap
+            type="withLayerControl"
+            action="editGeofencing"
+            bounds={
+              results[1].data?.filter((item) =>
+                item.coordinates.every((item) => item[0] && item[1]),
+              ).length > 0
+                ? results[1].data
+                    ?.filter((item) =>
+                      item.coordinates.every((item) => item[0] && item[1]),
+                    )
+                    .flatMap((item) => item.coordinates)
+                : results[0].data
+                    ?.filter((item) => item.latitude && item.longitude)
+                    .map((item) => [item.latitude, item.longitude]) ?? [[0, 0]]
+            }
+            editableLayer={{
+              name: "Geofencing",
+              checked: true,
+              areas: results[1].data?.map((item) => ({
+                id: item.id,
+                name: item.name,
+                description: item.description,
+                position: item.coordinates,
+                color: stringToColor(item.id),
+                type: "polygon",
+                content: (
+                  <div className="flex max-w-40 flex-col font-sans">
+                    <p className="text-base font-medium">{item.name}</p>
+                    <p className="text-sm">{item.description}</p>
+                  </div>
+                ),
+              })),
+            }}
+            scrollWheelZoom
+            deploymentId={deploymentId}
+          />
+          <Button
+            variant={"outline"}
+            className="absolute right-6 top-5"
+            onClick={onClickExit}
+          >
+            Exit
+          </Button>
+        </div>
+      </Restricted>
     );
   }
 
   if (mode === "editMarker" && results[3].data) {
     return (
-      <div className="relative h-full min-h-[32rem] overflow-hidden rounded-lg lg:col-span-2">
-        <LeafletMap
-          type="withLayerControl"
-          action="editMarker"
-          bounds={
-            results[3].data?.filter((item) => item.latitude && item.longitude)
-              .length > 0
-              ? results[3].data
-                  ?.filter((item) => item.latitude && item.longitude)
-                  .map((item) => [item.latitude, item.longitude])
-              : results[0].data
-                  ?.filter((item) => item.latitude && item.longitude)
-                  .map((item) => [item.latitude, item.longitude]) ?? [[0, 0]]
-          }
-          editableLayer={{
-            name: "Custom marker",
-            checked: true,
-            markers: results[3].data?.map((item) => ({
-              id: item.id,
-              name: item.name,
-              description: item.description,
-              position: [item.latitude, item.longitude] as [number, number],
-              content: (
-                <div className="flex flex-col font-sans">
-                  <p className="text-base font-medium">{item.name}</p>
-                  <p className="text-sm">{item.description}</p>
-                </div>
-              ),
-            })),
-          }}
-          scrollWheelZoom
-          deploymentId={deploymentId}
-        />
-        <Button
-          variant={"outline"}
-          className="absolute right-6 top-5"
-          onClick={onClickExit}
-        >
-          Exit
-        </Button>
-      </div>
+      <Restricted to="edit" fallback={<DeniedEmptyState />}>
+        <div className="relative h-full min-h-[32rem] overflow-hidden rounded-lg lg:col-span-2">
+          <LeafletMap
+            type="withLayerControl"
+            action="editMarker"
+            bounds={
+              results[3].data?.filter((item) => item.latitude && item.longitude)
+                .length > 0
+                ? results[3].data
+                    ?.filter((item) => item.latitude && item.longitude)
+                    .map((item) => [item.latitude, item.longitude])
+                : results[0].data
+                    ?.filter((item) => item.latitude && item.longitude)
+                    .map((item) => [item.latitude, item.longitude]) ?? [[0, 0]]
+            }
+            editableLayer={{
+              name: "Custom marker",
+              checked: true,
+              markers: results[3].data?.map((item) => ({
+                id: item.id,
+                name: item.name,
+                description: item.description,
+                position: [item.latitude, item.longitude] as [number, number],
+                content: (
+                  <div className="flex flex-col font-sans">
+                    <p className="text-base font-medium">{item.name}</p>
+                    <p className="text-sm">{item.description}</p>
+                  </div>
+                ),
+              })),
+            }}
+            scrollWheelZoom
+            deploymentId={deploymentId}
+          />
+          <Button
+            variant={"outline"}
+            className="absolute right-6 top-5"
+            onClick={onClickExit}
+          >
+            Exit
+          </Button>
+        </div>
+      </Restricted>
     );
   }
 
@@ -494,16 +501,18 @@ export function InteractiveMap({
               />
             </div>
           )}
-          <SearchParamsDropdown
-            options={editOptions}
-            paramsName="mode"
-            type="default"
-            triggerButton={
-              <Button variant={"outline"} size={"icon"} className="gap-2">
-                <MoreHorizontal className="h-5 w-5" />
-              </Button>
-            }
-          />
+          <Restricted to="edit">
+            <SearchParamsDropdown
+              options={editOptions}
+              paramsName="mode"
+              type="default"
+              triggerButton={
+                <Button variant={"outline"} size={"icon"} className="gap-2">
+                  <MoreHorizontal className="h-5 w-5" />
+                </Button>
+              }
+            />
+          </Restricted>
         </div>
       )}
     </div>
