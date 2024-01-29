@@ -205,7 +205,10 @@ export function AddDeploymentDevicesForm({
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-1 flex-col overflow-hidden"
+        >
           <Header>
             <HeaderContent>
               <HeaderTitleAndSupporting>
@@ -222,22 +225,30 @@ export function AddDeploymentDevicesForm({
               </HeaderActions>
             </HeaderContent>
           </Header>
-          <MainContainer className="grid grid-cols-2 gap-6">
-            <TableWrapper>
+          <MainContainer className="grid h-full grid-cols-1 gap-6 overflow-hidden md:grid-cols-2">
+            <TableWrapper className="order-last flex h-full max-h-screen flex-col md:order-first">
               <CardHeader>
                 <CardHeaderTextContent>
                   <CardHeaderTitle>Available devices</CardHeaderTitle>
                 </CardHeaderTextContent>
               </CardHeader>
-              <DataTable columns={allDevicesColumns} data={availableDevices} />
+              <DataTable
+                columns={allDevicesColumns}
+                data={availableDevices}
+                usePagination={false}
+              />
             </TableWrapper>
-            <TableWrapper>
+            <TableWrapper className="order-first flex h-full max-h-screen flex-col md:order-last">
               <CardHeader>
                 <CardHeaderTextContent>
                   <CardHeaderTitle>Devices to be added</CardHeaderTitle>
                 </CardHeaderTextContent>
               </CardHeader>
-              <DataTable columns={addedDevicesColumns} data={fields} />
+              <DataTable
+                columns={addedDevicesColumns}
+                data={fields}
+                usePagination={false}
+              />
             </TableWrapper>
           </MainContainer>
         </form>
