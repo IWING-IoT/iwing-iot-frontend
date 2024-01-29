@@ -18,7 +18,7 @@ type ChartCardProps = {
   xAxisDataKey: string;
   yAxisDataKey: string;
   yDomain?: [number, number];
-  data: { [x: string]: number | string }[] | undefined;
+  data: { [x: string]: number | string | undefined }[] | undefined;
 };
 
 export function ChartCard({

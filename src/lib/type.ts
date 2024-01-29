@@ -305,7 +305,7 @@ export type TDeviceStats =
   | {
       isEnough: true;
       x: string[];
-      y: number[];
+      y: (number | null)[];
       change: number;
       sign: "positive" | "negative";
       current: number;
