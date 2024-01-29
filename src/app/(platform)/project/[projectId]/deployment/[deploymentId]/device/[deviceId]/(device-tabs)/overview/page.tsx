@@ -7,7 +7,6 @@ import { TDeviceStats } from "@/lib/type";
 import { useQueries } from "@tanstack/react-query";
 import { Battery, Thermometer } from "lucide-react";
 import { redirect } from "next/navigation";
-import { useRouter } from "next/router";
 
 type OverviewProps = {
   params: {
@@ -63,12 +62,12 @@ export default function Overview({ params, searchParams }: OverviewProps) {
   });
   if (results.some((result) => result.isLoading)) {
     return (
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6">
           <CardSkeleton variant="metric" />
           <CardSkeleton variant="chart" />
         </div>
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 gap-6">
           <CardSkeleton variant="metric" />
           <CardSkeleton variant="chart" />
         </div>
@@ -81,24 +80,27 @@ export default function Overview({ params, searchParams }: OverviewProps) {
     { label: "Last 7 days", value: "week" },
     { label: "Last 4 weeks", value: "month" },
   ];
-  function formatDate(dateString: string) {
+  function formatDate(
+    dateString: string,
+    range: "hour" | "day" | "week" | "month",
+  ) {
     const date = new Date(dateString);
-    if (searchParams.batteryRange === "hour") {
+    if (range === "hour") {
       return date.toLocaleTimeString("en-GB", {
         hour: "2-digit",
         minute: "2-digit",
       });
-    } else if (searchParams.batteryRange === "day") {
+    } else if (range === "day") {
+      return date.toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    } else if (range === "week") {
       return date.toLocaleDateString("en-GB", {
         day: "2-digit",
         month: "2-digit",
       });
-    } else if (searchParams.batteryRange === "week") {
-      return date.toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "2-digit",
-      });
-    } else if (searchParams.batteryRange === "month") {
+    } else if (range === "month") {
       return date.toLocaleDateString("en-GB", {
         day: "2-digit",
         month: "2-digit",
@@ -108,14 +110,16 @@ export default function Overview({ params, searchParams }: OverviewProps) {
     }
   }
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <div className="grid grid-cols-1 gap-4">
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6">
         <MetricCard
           type="simple"
           heading="Current battery"
-          metric={Number(results[0].data?.y[0].toFixed(2) ?? 0)}
-          // metric={0}
-          unit="%"
+          metric={
+            results[0].data?.current
+              ? Number(results[0].data?.current?.toFixed(2)) + "%"
+              : "N/A"
+          }
           icon={<Battery />}
         />
         <ChartCard
@@ -126,24 +130,25 @@ export default function Overview({ params, searchParams }: OverviewProps) {
           xAxisDataKey="x"
           yAxisDataKey="Battery"
           yDomain={[0, 100]}
-          data={
-            results[0].data?.x
-              .map((item, index) => {
-                return {
-                  x: formatDate(item),
-                  Battery: Number(results[0].data?.y[index]).toFixed(2),
-                };
-              })
-              .reverse() ?? []
-          }
+          data={results[0].data?.x
+            ?.map((item, index) => {
+              return {
+                x: formatDate(item, searchParams.batteryRange),
+                Battery: Number(results[0].data?.y?.[index]).toFixed(2),
+              };
+            })
+            .reverse()}
         />
       </div>
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 gap-6">
         <MetricCard
           type="simple"
           heading="Current temperature"
-          metric={Number(results[1].data?.y[0].toFixed(2) ?? 0)}
-          unit="°C"
+          metric={
+            results[1]?.data?.current
+              ? Number(results[1]?.data?.current?.toFixed(2)) + "°C"
+              : "N/A"
+          }
           icon={<Thermometer />}
         />
         <ChartCard
@@ -153,16 +158,14 @@ export default function Overview({ params, searchParams }: OverviewProps) {
           searchParamsValue={searchParams.temperatureRange}
           xAxisDataKey="x"
           yAxisDataKey="Temperature"
-          data={
-            results[1].data?.x
-              .map((item, index) => {
-                return {
-                  x: formatDate(item),
-                  Temperature: Number(results[1].data?.y[index]).toFixed(2),
-                };
-              })
-              .reverse() ?? []
-          }
+          data={results[1].data?.x
+            ?.map((item, index) => {
+              return {
+                x: formatDate(item, searchParams.temperatureRange),
+                Temperature: Number(results[1].data?.y?.[index]).toFixed(2),
+              };
+            })
+            .reverse()}
         />
       </div>
     </div>
