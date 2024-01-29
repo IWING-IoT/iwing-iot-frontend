@@ -15,11 +15,11 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-draw/dist/leaflet.draw.css";
-import { cn } from "@/lib/utils";
+import { cn, stringToColor } from "@/lib/utils";
 import { useAtom } from "jotai";
 import { geoJsonAtom, mapActionAtom } from "@/store/atoms";
 import { useEffect, useState } from "react";
-import { LatLngBoundsExpression } from "leaflet";
+import { Icon, LatLngBoundsExpression } from "leaflet";
 import { LeafletDrawControl } from "../molecules/leaflet-draw-control";
 import { FeatureCollection } from "geojson";
 import { ArrowheadsPolyline } from "../atoms/arrowheads-polyline";
@@ -52,6 +52,7 @@ type LeafletMapProps =
         checked: boolean;
         markers?: {
           id: string;
+          name: string;
           position: [number, number];
           content: React.ReactNode;
           onClick?: () => void;
@@ -212,6 +213,12 @@ export default function LeafletMap({
                       <Marker
                         key={`${marker.id}-${index}`}
                         position={marker.position}
+                        icon={
+                          new Icon({
+                            iconUrl: `https://api.dicebear.com/7.x/initials/svg?seed=${marker.name}&radius=50&backgroundColor=${stringToColor(marker.id)}`,
+                            iconSize: [36, 36],
+                          })
+                        }
                         {...(marker.onClick
                           ? { eventHandlers: { click: marker.onClick } }
                           : {})}
