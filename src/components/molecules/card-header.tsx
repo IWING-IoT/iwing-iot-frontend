@@ -9,7 +9,7 @@ export function CardHeader({ children, className }: CardHeaderProps) {
   return (
     <div
       className={cn(
-        "flex flex-1 flex-col gap-4 border-b px-6 py-5 sm:flex-row",
+        "flex w-full flex-col gap-4 border-b px-6 py-5 sm:flex-row",
         className,
       )}
     >
