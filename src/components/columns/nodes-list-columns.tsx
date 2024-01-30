@@ -97,7 +97,7 @@ export const nodesListColumns: ColumnDef<
           ) : (
             <BatteryLow className="mr-1 h-3 w-3" />
           )}
-          <p>{battery}%</p>
+          <p>{battery.toFixed(2)}%</p>
         </Badge>
       );
     },
@@ -121,7 +121,7 @@ export const nodesListColumns: ColumnDef<
           ) : (
             <ThermometerSun className="mr-1 h-3 w-3" />
           )}
-          <p>{temperature} °C</p>
+          <p>{temperature.toFixed(2)} °C</p>
         </Badge>
       );
     },

@@ -63,6 +63,7 @@ export function NewFirmwareForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      description: "",
       versionName: "",
       gitUrl: "",
       versionDescription: "",

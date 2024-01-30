@@ -39,17 +39,8 @@ export default async function Layout({ params, children }: LayoutProps) {
   const { data: deploymentData }: { data: TDeploymentDetails } =
     await fetchData(`/phase/${params.deploymentId}`);
 
-  let permissions;
-  if (projectData.isArchived === true) {
-    permissions = permission.project_archived;
-  } else if (deploymentData.isActive === false) {
-    permissions = permission.deployment_finished;
-  } else {
-    permissions = permission[projectData.permission];
-  }
-
   return (
-    <PermissionProvider permissions={permissions}>
+    <>
       <Header className="pb-0 sm:pb-0">
         <Breadcrumb>
           <BreadcrumbItem>
@@ -75,6 +66,6 @@ export default async function Layout({ params, children }: LayoutProps) {
         <NavTabs tabs={tabs} layoutId="deployment" />
       </Header>
       {children}
-    </PermissionProvider>
+    </>
   );
 }

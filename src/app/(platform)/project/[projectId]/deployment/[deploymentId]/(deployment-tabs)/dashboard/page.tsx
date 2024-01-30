@@ -12,16 +12,14 @@ import {
   CardHeaderTitle,
 } from "@/components/molecules/card-header";
 import { MetricCard } from "@/components/molecules/metric-card";
+import { CardSkeleton } from "@/components/skeleton/card-skeleton";
+import { TableSkeleton } from "@/components/skeleton/table-skeleton";
 import { CardGrid } from "@/components/templates/card-grid";
 import { MainContainer } from "@/components/templates/main-container";
 import { TableWrapper } from "@/components/templates/table-wrapper";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Skeleton } from "@/components/ui/skeleton";
 import { clientFetchData } from "@/lib/data-fetching";
 import {
   TDashboardBattery,
@@ -110,6 +108,43 @@ export default function Dashboard({ params, searchParams }: DashboardProps) {
       },
     ],
   });
+  if (results.some((result) => result.isLoading)) {
+    return (
+      <MainContainer>
+        <CardGrid>
+          <CardSkeleton variant="metricNoIcon" />
+          <CardSkeleton variant="metricNoIcon" />
+          <CardSkeleton variant="metricNoIcon" />
+        </CardGrid>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <TableWrapper>
+            <CardHeader>
+              <CardHeaderTextContent>
+                <Skeleton className="h-[2.4rem] w-64" />
+                <Skeleton className="h-[1.6rem] w-full max-w-sm" />
+              </CardHeaderTextContent>
+              <CardHeaderActions>
+                <Skeleton className="h-10 w-10" />
+              </CardHeaderActions>
+            </CardHeader>
+            <TableSkeleton columnCount={2} rowCount={5} />
+          </TableWrapper>
+          <TableWrapper>
+            <CardHeader>
+              <CardHeaderTextContent>
+                <Skeleton className="h-[2.4rem] w-64" />
+                <Skeleton className="h-[1.6rem] w-full max-w-sm" />
+              </CardHeaderTextContent>
+              <CardHeaderActions>
+                <Skeleton className="h-10 w-10" />
+              </CardHeaderActions>
+            </CardHeader>
+            <TableSkeleton columnCount={2} rowCount={5} />
+          </TableWrapper>
+        </div>
+      </MainContainer>
+    );
+  }
   return (
     <MainContainer>
       <CardGrid>
