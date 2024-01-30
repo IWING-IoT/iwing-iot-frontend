@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader } from "../ui/card";
 import { Skeleton } from "../ui/skeleton";
 
 type CardSkeletonProps = {
-  variant: "project" | "deployment" | "metric" | "chart";
+  variant: "project" | "deployment" | "metric" | "chart" | "metricNoIcon";
 };
 
 export function CardSkeleton({ variant }: CardSkeletonProps) {
@@ -18,6 +18,15 @@ export function CardSkeleton({ variant }: CardSkeletonProps) {
       <Card>
         <CardHeader>
           <Skeleton className="mb-4 h-12 w-12 rounded-lg" />
+          <Skeleton className="mb-2 h-5 w-32 rounded-full" />
+          <Skeleton className="h-9 w-32 rounded-full" />
+        </CardHeader>
+      </Card>
+    );
+  } else if (variant === "metricNoIcon") {
+    return (
+      <Card>
+        <CardHeader>
           <Skeleton className="mb-2 h-5 w-32 rounded-full" />
           <Skeleton className="h-9 w-32 rounded-full" />
         </CardHeader>
