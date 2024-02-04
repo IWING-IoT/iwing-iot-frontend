@@ -1,0 +1,9 @@
+services:
+  frontend:
+    image: nat/iot-platform-frontend
+    build: .
+    ports:
+      - 8082:3000
+    env_file:
+      - .env.local
+    command: npx next start -H 0.0.0.0 -p 3000
