@@ -12,7 +12,7 @@ const signInCredentials = async ({
   password: string;
 }) => {
   const res = await axios.post(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/user/signin`,
+    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/user/signin`,
     {
       email: email,
       password: password,
