@@ -93,7 +93,7 @@ export function DataTable<TData extends WithId, TValue>({
           searchByColumn={searchByColumn}
         />
       )}
-      <ScrollArea>
+      <div className="overflow-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -188,7 +188,7 @@ export function DataTable<TData extends WithId, TValue>({
             )}
           </TableBody>
         </Table>
-      </ScrollArea>
+      </div>
       {data.length > 0 && usePagination && (
         <DataTablePagination table={table} />
       )}
