@@ -7,6 +7,25 @@ import { QueryClientProvider } from "@/components/providers/query-client-provide
 import { DrawerWrapper } from "@/components/atoms/drawer-wrapper";
 import { Toaster } from "@/components/ui/sonner";
 import dynamic from "next/dynamic";
+import { Inter, Noto_Sans_Thai, JetBrains_Mono } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const notoSansThai = Noto_Sans_Thai({
+  subsets: ["thai"],
+  variable: "--font-noto-sans-thai",
+  display: "swap",
+});
+
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+});
 
 const ShowDialog = dynamic(
   () => import("@/components/organisms/dialogs/show-dialog"),
@@ -26,7 +45,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${inter.variable} ${notoSansThai.variable} ${jetBrainsMono.variable}`}
+      suppressHydrationWarning
+    >
       <body className="font-sans">
         <ThemeProvider
           attribute="class"

@@ -32,6 +32,14 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: [
+          "var(--font-inter)",
+          "var(--font-noto-sans-thai)",
+          ...defaultTheme.fontFamily.sans,
+        ],
+        mono: ["var(--font-jetbrains-mono)", ...defaultTheme.fontFamily.mono],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
